@@ -1,0 +1,9 @@
+.border-color-custom {
+  border-color: #0e9f6e !important;
+}
+.gm-style-iw + div {
+  display: none;
+}
+button.gm-ui-hover-effect {
+  visibility: hidden;
+}

@@ -1,0 +1,11 @@
+.editor {
+  background-color: whitesmoke;
+  border: 1px solid black;
+  border-radius: 1rem;
+  min-height: 60vh;
+}
+
+.toolbar {
+  background-color: whitesmoke;
+  border: 1px solid black;
+}

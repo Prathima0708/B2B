@@ -1,0 +1,6 @@
+.gm-style-iw + div {
+  display: none;
+}
+button.gm-ui-hover-effect {
+  visibility: hidden;
+}

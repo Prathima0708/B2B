@@ -1,0 +1,120 @@
+{
+  "name": "dashtar-admin",
+  "version": "0.1.0",
+  "description": "BQ",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@hookform/resolvers": "^2.8.8",
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@mui/core": "^5.0.0-alpha.54",
+    "@mui/material": "^5.2.8",
+    "@pathofdev/react-tag-input": "^1.0.7",
+    "@reach/combobox": "^0.16.5",
+    "@react-google-maps/api": "^2.12.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "@windmill/react-ui": "^0.5.1",
+    "axios": "^0.24.0",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "chart.js": "2.9.4",
+    "classnames": "2.2.6",
+    "dayjs": "^1.10.7",
+    "draft-convert": "^2.1.12",
+    "draft-js": "^0.11.7",
+    "draft-js-export-html": "^1.4.1",
+    "fetch": "^1.1.0",
+    "firebase": "^8.3.1",
+    "js-cookie": "^3.0.1",
+    "leaflet": "^1.7.1",
+    "leaflet-draw": "^1.0.4",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "rc-drawer": "^4.4.2",
+    "react": "^17.0.2",
+    "react-chartjs-2": "2.9.0",
+    "react-collapse": "^5.1.1",
+    "react-custom-scrollbars": "^4.2.1",
+    "react-datepicker": "^4.7.0",
+    "react-dom": "^17.0.2",
+    "react-draft-wysiwyg": "^1.14.7",
+    "react-dropzone": "^11.4.2",
+    "react-google-autocomplete": "^2.6.1",
+    "react-google-maps": "^9.4.5",
+    "react-hook-form": "^7.18.0",
+    "react-icons": "^4.3.1",
+    "react-json-editor-ajrm": "^2.5.13",
+    "react-leaflet": "^3.2.5",
+    "react-leaflet-draw": "^0.19.8",
+    "react-multi-select-component": "^4.1.14",
+    "react-redux": "^7.2.6",
+    "react-router": "^6.3.0",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "4.0.3",
+    "react-select": "^5.3.0",
+    "react-spinners": "^0.11.0",
+    "react-step-progress-bar": "^1.0.3",
+    "react-switch": "^6.0.0",
+    "react-to-print": "^2.14.1",
+    "react-toastify": "^8.0.3",
+    "react-tooltip": "^4.2.21",
+    "react-transition-group": "^4.4.2",
+    "recompose": "^0.26.0",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1",
+    "socket.io-client": "^4.4.0",
+    "use-places-autocomplete": "^1.11.0",
+    "uuid": "^8.3.2",
+    "web-vitals": "^1.1.2",
+    "yup": "^0.32.11"
+  },
+  "scripts": {
+    "tailwind:dev": "tailwindcss build src/assets/css/tailwind.css -o src/assets/css/tailwind.output.css",
+    "tailwind:build": "cross-env NODE_ENV=production postcss src/assets/css/tailwind.css -o src/assets/css/tailwind.output.css",
+    "prestart": "npm run tailwind:dev",
+    "start": "react-scripts start",
+    "prebuild": "npm run tailwind:build",
+    "build": "react-scripts build",
+    "cz": "git-cz",
+    "release": "release-it",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "autoprefixer": "9.8.0",
+    "cross-env": "7.0.2",
+    "cssnano": "4.1.10",
+    "postcss-cli": "7.1.1",
+    "release-it": "13.6.4",
+    "tailwindcss": "^1.9.6"
+  },
+  "release-it": {
+    "github": {
+      "release": true
+    },
+    "npm": {
+      "publish": false
+    }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.3%",
+      "not ie 11",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      ">0.3%",
+      "not ie 11",
+      "not dead",
+      "not op_mini all"
+    ]
+  }
+}
