@@ -13,9 +13,14 @@ import {
   TableHeader,
   TableRow,
 } from "@windmill/react-ui";
-import { GET_PRODUCT_LIST_OF_STORE_URL, GET_PRODUCT_LIST_URL } from "./constants";
+import {
+  GET_PRODUCT_LIST_OF_STORE_URL,
+  GET_PRODUCT_LIST_URL,
+} from "./constants";
 import React, { useEffect, useState } from "react";
-import hasPermission, { PAGE_ADD_PRODUCT_TO_STORE } from "../../components/login/hasPermission";
+import hasPermission, {
+  PAGE_ADD_PRODUCT_TO_STORE,
+} from "../../components/login/hasPermission";
 import { notifyError, notifySuccess } from "../../utils/toast";
 
 import Backdrop from "@mui/material/Backdrop";
@@ -73,7 +78,7 @@ function AddProductStore(props) {
         );
         setNumberOfProducts(data.totalElements);
       })
-      .catch((err) => setIsLoading(false));
+      .catch(() => setIsLoading(false));
     setIsLoading(false);
   }, [props.storeSelected, update, currentPage]);
   const addProductToStore = async (productId, variantId, price) => {
@@ -108,7 +113,10 @@ function AddProductStore(props) {
 
   return (
     <>
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
       <PageTitle>Add Product to Store</PageTitle>
@@ -124,7 +132,9 @@ function AddProductStore(props) {
               <TableCell>Product Name (ID)</TableCell>
               <TableCell>Variant Name (ID)</TableCell>
               <TableCell>Market Price</TableCell>
-              {hasPermission(PAGE_ADD_PRODUCT_TO_STORE, "create") && <TableCell>Selling Price</TableCell>}
+              {hasPermission(PAGE_ADD_PRODUCT_TO_STORE, "create") && (
+                <TableCell>Selling Price</TableCell>
+              )}
             </tr>
           </TableHeader>
           <TableBody>
@@ -165,7 +175,10 @@ function AddProductStore(props) {
                   <TableCell>{`${variantName}  (${variantId})`}</TableCell>
                   <TableCell>{marketPrice}</TableCell>
                   {hasPermission(PAGE_ADD_PRODUCT_TO_STORE, "create") && (
-                    <TableCell className=" cursor-default" onClick={(e) => e.stopPropagation()}>
+                    <TableCell
+                      className=" cursor-default"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <div className="flex flex-row ">
                         <Input
                           className="border mr-1 h-8 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
@@ -188,7 +201,11 @@ function AddProductStore(props) {
                           }`}
                           onClick={() => {
                             if (sellingPrice === "") return;
-                            addProductToStore(productId, variantId, Number(sellingPrice));
+                            addProductToStore(
+                              productId,
+                              variantId,
+                              Number(sellingPrice)
+                            );
                           }}
                         />
                       </div>

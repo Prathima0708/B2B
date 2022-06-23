@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import React, { createContext, useReducer } from "react";
 
 export const AdminContext = createContext();
@@ -8,7 +7,8 @@ const initialState = {
   //   ? JSON.parse(Cookies.get('adminInfo'))
   //   : null,
   adminInfo: {
-    image: "https://external-preview.redd.it/6ihEzDJBAovC5HbmhxCuJU3NR8qeuWWvlYZ_QDwyLOA.jpg?auto=webp&s=94b6dfdffd2de8d996c816a80034166f546297ea",
+    image:
+      "https://external-preview.redd.it/6ihEzDJBAovC5HbmhxCuJU3NR8qeuWWvlYZ_QDwyLOA.jpg?auto=webp&s=94b6dfdffd2de8d996c816a80034166f546297ea",
     email: "bq@gmail.com",
   },
 };
@@ -32,5 +32,7 @@ function reducer(state, action) {
 export const AdminProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const value = { state, dispatch };
-  return <AdminContext.Provider value={value}>{children}</AdminContext.Provider>;
+  return (
+    <AdminContext.Provider value={value}>{children}</AdminContext.Provider>
+  );
 };

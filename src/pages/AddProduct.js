@@ -1,6 +1,8 @@
 import { Badge, Button, Input, Select } from "@windmill/react-ui";
-import React, { useContext, useEffect, useState } from "react";
-import hasPermission, { PAGE_CATEGORY_LIST, PAGE_PRODUCT_UPDATE } from "../components/login/hasPermission";
+import React, { useEffect, useState } from "react";
+import hasPermission, {
+  PAGE_PRODUCT_UPDATE,
+} from "../components/login/hasPermission";
 import { notifyError, notifySuccess } from "../utils/toast";
 import { useHistory, useParams } from "react-router-dom";
 
@@ -14,7 +16,7 @@ import ProductAttributeInput from "../components/form/ProductAttributeInput";
 import ProductBrand from "../components/product/ProductBrand";
 import ReactTagInput from "@pathofdev/react-tag-input";
 import Uploader from "../components/image-uploader/Uploader";
-import _ from "lodash";
+
 import apiService from "../utils/apiService";
 import { assetServiceBaseUrl } from "../utils/backendUrls";
 import axios from "axios";
@@ -30,7 +32,14 @@ const AddProduct = () => {
   const [productResource, setProductResource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [variants, setVariants] = useState([
-    { variantName: "", marketPrice: "", currency: "QAR", measure: "", deleted: false, variantResource: [] },
+    {
+      variantName: "",
+      marketPrice: "",
+      currency: "QAR",
+      measure: "",
+      deleted: false,
+      variantResource: [],
+    },
   ]);
   const [submitLoader, setSubmitLoader] = useState(false);
   const unitsOptions = ["kgs", "gms", "ltrs", "ml", "packets", "bags"];
@@ -130,7 +139,9 @@ const AddProduct = () => {
       return;
     }
     if (variants.length > 1) {
-      const variantNames = new Set(variants.map((variant) => variant.variantName));
+      const variantNames = new Set(
+        variants.map((variant) => variant.variantName)
+      );
       if (variantNames.size < variants.length) {
         notifyError("Variant names cannot be repeated");
         setSubmitLoader(false);
@@ -138,10 +149,6 @@ const AddProduct = () => {
       }
     }
     if (id) {
-      // if (variants.every(({ deleted }) => deleted === true)) {
-      //   setSubmitLoader(false);
-      //   return notifyError("All the variant cannot be deleted");
-      // }
       if (!thumbnailImageFormData.url && !thumbnailImageFormData.formData) {
         setSubmitLoader(false);
         return notifyError("Thumbnail image is required");
@@ -159,9 +166,12 @@ const AddProduct = () => {
         resources: [],
         variants: [],
       };
-      if (thumbnailImageFormData.url) payload.thumbnailImage = thumbnailImageFormData.url;
+      if (thumbnailImageFormData.url)
+        payload.thumbnailImage = thumbnailImageFormData.url;
       if (thumbnailImageFormData.formData)
-        payload.thumbnailImage = await uploaderUtil(thumbnailImageFormData.formData);
+        payload.thumbnailImage = await uploaderUtil(
+          thumbnailImageFormData.formData
+        );
       if (thumbnailImageFormData.deletedImageUrl.length > 0) {
         await axios.delete(
           `${assetServiceBaseUrl}/delete/by-url?url=${thumbnailImageFormData.deletedImageUrl}`
@@ -183,7 +193,15 @@ const AddProduct = () => {
         }
       });
       variants.forEach(
-        ({ id, variantName, marketPrice, currency, measure, variantResource, deleted = false }) => {
+        ({
+          id,
+          variantName,
+          marketPrice,
+          currency,
+          measure,
+          variantResource,
+          deleted = false,
+        }) => {
           const variant = {
             name: variantName,
             marketPrice: Number(marketPrice),
@@ -216,11 +234,13 @@ const AddProduct = () => {
       );
       await apiService
         .post("b2b", `/products/product-variant`, payload)
-        .then((data) => {
+        .then(() => {
           notifySuccess("Product updated successfully");
           setUpdate(!update);
         })
-        .catch((err) => notifyError(err.response.data.errorMessage || "Something went wrong"));
+        .catch((err) =>
+          notifyError(err.response.data.errorMessage || "Something went wrong")
+        );
       setSubmitLoader(false);
     } else {
       if (!thumbnailImageFormData.formData) {
@@ -240,7 +260,9 @@ const AddProduct = () => {
         resources: [],
         variants: [],
       };
-      payloadNew.thumbnailImage = await uploaderUtil(thumbnailImageFormData.formData);
+      payloadNew.thumbnailImage = await uploaderUtil(
+        thumbnailImageFormData.formData
+      );
       productResource.forEach(({ attributeId, enValue }) => {
         if (!enValue) return;
         return payloadNew.resources.push({
@@ -249,32 +271,36 @@ const AddProduct = () => {
           delete: false,
         });
       });
-      variants.forEach(({ variantName, marketPrice, currency, measure, variantResource }) => {
-        const variant = {
-          name: variantName,
-          marketPrice: Number(marketPrice),
-          currency,
-          measure,
-          deleted: false,
-          resource: [],
-        };
-        variantResource.forEach(({ attributeId, enValue }) => {
-          if (!enValue) return;
-          return variant.resource.push({
-            attributeId,
-            enValue,
-            delete: false,
+      variants.forEach(
+        ({ variantName, marketPrice, currency, measure, variantResource }) => {
+          const variant = {
+            name: variantName,
+            marketPrice: Number(marketPrice),
+            currency,
+            measure,
+            deleted: false,
+            resource: [],
+          };
+          variantResource.forEach(({ attributeId, enValue }) => {
+            if (!enValue) return;
+            return variant.resource.push({
+              attributeId,
+              enValue,
+              delete: false,
+            });
           });
-        });
-        return payloadNew.variants.push(variant);
-      });
+          return payloadNew.variants.push(variant);
+        }
+      );
       await apiService
         .post("b2b", `/products/product-variant`, payloadNew)
         .then((data) => {
           notifySuccess("Product added successfully");
           history.push(`/products/${data.data.result.id}`);
         })
-        .catch((err) => notifyError(err.response.data.errorMessage || "Something went wrong"));
+        .catch((err) =>
+          notifyError(err.response.data.errorMessage || "Something went wrong")
+        );
       setSubmitLoader(false);
     }
   };
@@ -321,7 +347,10 @@ const AddProduct = () => {
                 onChange={(e) => {
                   setVariants((prevData) => {
                     if (i === Number(e.target.name.slice(-1))) {
-                      prevData[i].marketPrice = e.target.value.replace(/[^0-9]/gi, "");
+                      prevData[i].marketPrice = e.target.value.replace(
+                        /[^0-9]/gi,
+                        ""
+                      );
                       return [...prevData];
                     } else return [...prevData];
                   });
@@ -369,7 +398,10 @@ const AddProduct = () => {
                 onChange={(e) => {
                   setVariants((prevData) => {
                     if (i === Number(e.target.name.slice(-1))) {
-                      prevData[i].measure = e.target.value.replace(/[^0-9]/gi, "");
+                      prevData[i].measure = e.target.value.replace(
+                        /[^0-9]/gi,
+                        ""
+                      );
                       return [...prevData];
                     } else return [...prevData];
                   });
@@ -401,8 +433,12 @@ const AddProduct = () => {
                 // edit={true}
                 index={i}
                 currentValue={
-                  variants[i].variantResource?.filter((vr) => vr.attributeId === schema.id)[0]
-                    ? variants[i].variantResource.filter((vr) => vr.attributeId === schema.id)[0]
+                  variants[i].variantResource?.filter(
+                    (vr) => vr.attributeId === schema.id
+                  )[0]
+                    ? variants[i].variantResource.filter(
+                        (vr) => vr.attributeId === schema.id
+                      )[0]
                     : null
                 }
               />
@@ -425,11 +461,13 @@ const AddProduct = () => {
                               prevData[i].deleted = !prevData[i].deleted;
                               return [...prevData];
                             } else {
-                              return [...variants.filter((v, index) => index !== i)];
+                              return [
+                                ...variants.filter((index) => index !== i),
+                              ];
                             }
                           });
                         } else {
-                          setVariants(variants.filter((v, index) => index !== i));
+                          setVariants(variants.filter((index) => index !== i));
                         }
                       }}
                     >
@@ -446,18 +484,20 @@ const AddProduct = () => {
                       className="cursor-pointer"
                       type={variants[i].deleted ? `warning` : `danger`}
                       id={`delete${i}`}
-                      onClick={(e) => {
+                      onClick={() => {
                         if (id) {
                           setVariants((prevData) => {
                             if (prevData[i].id) {
                               prevData[i].deleted = !prevData[i].deleted;
                               return [...prevData];
                             } else {
-                              return [...variants.filter((v, index) => index !== i)];
+                              return [
+                                ...variants.filter((index) => index !== i),
+                              ];
                             }
                           });
                         } else {
-                          setVariants(variants.filter((v, index) => index !== i));
+                          setVariants(variants.filter((index) => index !== i));
                         }
                       }}
                     >
@@ -472,7 +512,7 @@ const AddProduct = () => {
             <>
               <span
                 className="ml-2 text-xl "
-                onClick={(e) =>
+                onClick={() =>
                   setVariants((prevData) => [
                     ...prevData,
                     (prevData[i + 1] = {
@@ -497,7 +537,11 @@ const AddProduct = () => {
                       variantName: prevData[i].variantName,
                       marketPrice: prevData[i].marketPrice,
                       currency: prevData[i].currency,
-                      variantResource: [...prevData[i].variantResource.map(({ id, ...rest }) => rest)],
+                      variantResource: [
+                        ...prevData[i].variantResource.map(
+                          ({ id, ...rest }) => rest
+                        ),
+                      ],
                     }),
                   ])
                 }
@@ -514,14 +558,18 @@ const AddProduct = () => {
   return (
     <>
       <PageTitle>{id ? `Update Product` : `Add product`}</PageTitle>
-      <p className=" text-gray-700 dark:text-gray-300 text-xs -mt-6">* Required</p>
+      <p className=" text-gray-700 dark:text-gray-300 text-xs -mt-6">
+        * Required
+      </p>
       {loading ? (
         <Loading loading={loading} />
       ) : (
         <>
           {id && (
             <>
-              {hasPermission(PAGE_PRODUCT_UPDATE, "viewCategory") && <MapProductToCategory productId={id} />}
+              {hasPermission(PAGE_PRODUCT_UPDATE, "viewCategory") && (
+                <MapProductToCategory productId={id} />
+              )}
             </>
           )}
           <form onSubmit={handleFormSubmitLevel} className="block">
@@ -627,17 +675,27 @@ const AddProduct = () => {
                     requiredUnits={schema.requiredUnits}
                     unitValue={schema.unitValue}
                     currentValue={
-                      id && productResource.filter((pr) => pr.attributeId === schema.id)[0]
-                        ? productResource.filter((pr) => pr.attributeId === schema.id)[0]
+                      id &&
+                      productResource.filter(
+                        (pr) => pr.attributeId === schema.id
+                      )[0]
+                        ? productResource.filter(
+                            (pr) => pr.attributeId === schema.id
+                          )[0]
                         : null
                     }
                   />
                 ))}
             </div>
-            <p className="text-gray-700 dark:text-gray-300 m-1">Product variants</p>
+            <p className="text-gray-700 dark:text-gray-300 m-1">
+              Product variants
+            </p>
             <div className=" py-8 flex-grow w-full ">{getVariants()}</div>
             {hasPermission(PAGE_PRODUCT_UPDATE, "update") && (
-              <div className="w-full md:w-56 lg:w-56 xl:w-56 mb-10" style={{ width: "100%" }}>
+              <div
+                className="w-full md:w-56 lg:w-56 xl:w-56 mb-10"
+                style={{ width: "100%" }}
+              >
                 {!submitLoader ? (
                   <Button type="submit" className="w-full rounded-md h-12">
                     Submit

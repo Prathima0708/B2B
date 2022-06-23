@@ -52,13 +52,13 @@ const useCategorySubmit = (id) => {
   useEffect(() => {
     if (!isDrawerOpen) {
       setValue("parent");
-      // setValue("slug");
+
       setValue("children");
       setValue("type");
       setImageUrl("");
       setChildren([]);
       clearErrors("parent");
-      // setValue("slug");
+
       clearErrors("children");
       clearErrors("type");
       return;
@@ -68,14 +68,14 @@ const useCategorySubmit = (id) => {
         .then((res) => {
           if (res) {
             setValue("parent", res.parent);
-            // setValue("slug", res.slug);
+
             setChildren(res.children);
             setValue("type", res.type);
             setValue("icon", res.icon);
             setImageUrl(res.icon);
           }
         })
-        .catch((err) => {
+        .catch(() => {
           notifyError("There is a server error!");
         });
     }

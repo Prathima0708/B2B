@@ -1,10 +1,13 @@
 import { FiMinus, FiPlus } from "react-icons/fi";
 import React, { useState } from "react";
-import hasPermission, { PAGE_STORE_UPDATE, PAGE_STORE_ZONE_SLOT_LIST } from "../login/hasPermission";
+import hasPermission, {
+  PAGE_STORE_UPDATE,
+  PAGE_STORE_ZONE_SLOT_LIST,
+} from "../login/hasPermission";
 
 import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
-import apiService from "../../utils/apiService";
+
 import axios from "axios";
 import { coreServiceBaseUrl } from "../../utils/backendUrls";
 import { notifyError } from "../../utils/toast";
@@ -34,9 +37,12 @@ const ZoneItem = ({ name, mapped, zone_id, storeId, update, display }) => {
   const handleRemoveStoreFromZone = async () => {
     setLoading(true);
     await axios
-      .delete(`${coreServiceBaseUrl}/location/deleteZoneStore/${mapped.zone_id}`, {
-        params: { "x-store-id": storeId },
-      })
+      .delete(
+        `${coreServiceBaseUrl}/location/deleteZoneStore/${mapped.zone_id}`,
+        {
+          params: { "x-store-id": storeId },
+        }
+      )
       .then(() => {
         update((prevData) => {
           return !prevData;

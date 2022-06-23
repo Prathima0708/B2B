@@ -15,16 +15,12 @@ import { AdminContext } from "../../context/AdminContext";
 import { BiArrowBack } from "react-icons/bi";
 import Scrollbars from "react-custom-scrollbars";
 import { SidebarContext } from "../../context/SidebarContext";
-import _ from "lodash";
+
 import axios from "axios";
 import { connect } from "react-redux";
 import { deleteUserDetails } from "../../Redux/actions";
 import { deleteUserFromLocalStorage } from "../../utils/setLocalStorage";
 import { gatewayServiceBaseUrl } from "../../utils/backendUrls";
-
-// import Cookies from "js-cookie";
-
-// import Select from "react-select";
 
 const Header = (props) => {
   const { toggleSidebar } = useContext(SidebarContext);
@@ -33,28 +29,19 @@ const Header = (props) => {
   const { mode, toggleMode } = useContext(WindmillContext);
   const [profileOpen, setProfileOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [storeList, setStoreList] = useState([]);
+
   const pRef = useRef();
   const nRef = useRef();
   const history = useHistory();
 
   const handleLogOut = async () => {
-    await axios.delete(`${gatewayServiceBaseUrl}/user_device`).catch((err) => console.log(err));
+    await axios
+      .delete(`${gatewayServiceBaseUrl}/user_device`)
+      .catch((err) => console.log(err));
     props.deleteUserDetails();
     deleteUserFromLocalStorage();
     localStorage.removeItem("firebase-token");
   };
-
-  // useEffect(() => {
-  //   let strList = [];
-  //   if (props.storeIdProps.storeList && props.storeIdProps.storeList.length > 0) {
-  //     props.storeIdProps.storeList.map((str, index) => {
-  //       strList.push({ value: str.store_id, label: str.store_data.name });
-  //     });
-  //     setStoreList(strList);
-  //   }
-  // }, [props.storeIdProps.storeList]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -143,10 +130,14 @@ const Header = (props) => {
                             />
 
                             <div className="notification-content">
-                              <h6 className="font-medium text-gray-500">Strawberries Package</h6>
+                              <h6 className="font-medium text-gray-500">
+                                Strawberries Package
+                              </h6>
                               <p className="flex items-center text-xs text-gray-400">
                                 <Badge type="danger">Stock Out</Badge>
-                                <span className="ml-2">12 Decembor 2021 - 12:40PM</span>
+                                <span className="ml-2">
+                                  12 Decembor 2021 - 12:40PM
+                                </span>
                               </p>
                             </div>
                           </div>
@@ -160,10 +151,14 @@ const Header = (props) => {
                             />
 
                             <div className="notification-content">
-                              <h6 className="font-medium text-gray-500">Rainbow Chard</h6>
+                              <h6 className="font-medium text-gray-500">
+                                Rainbow Chard
+                              </h6>
                               <p className="flex items-center text-xs text-gray-400">
                                 <Badge type="danger">Stock Out</Badge>
-                                <span className="ml-2">12 Decembor 2021 - 12:40PM</span>
+                                <span className="ml-2">
+                                  12 Decembor 2021 - 12:40PM
+                                </span>
                               </p>
                             </div>
                           </div>
@@ -178,11 +173,14 @@ const Header = (props) => {
 
                             <div className="notification-content">
                               <h6 className="font-medium text-gray-500">
-                                Sam L. Place a order <span className="font-bold">$300</span> USD
+                                Sam L. Place a order{" "}
+                                <span className="font-bold">$300</span> USD
                               </h6>
                               <p className="flex items-center text-xs text-gray-400">
                                 <Badge type="success">New Order</Badge>
-                                <span className="ml-2">12 December 2021 - 12:40PM</span>
+                                <span className="ml-2">
+                                  12 December 2021 - 12:40PM
+                                </span>
                               </p>
                             </div>
                           </div>
@@ -196,10 +194,14 @@ const Header = (props) => {
                             />
 
                             <div className="notification-content">
-                              <h6 className="font-medium text-gray-500">Strawberries Package</h6>
+                              <h6 className="font-medium text-gray-500">
+                                Strawberries Package
+                              </h6>
                               <p className="flex items-center text-xs text-gray-400">
                                 <Badge type="danger">Stock Out</Badge>
-                                <span className="ml-2">12 Decembor 2021 - 12:40PM</span>
+                                <span className="ml-2">
+                                  12 Decembor 2021 - 12:40PM
+                                </span>
                               </p>
                             </div>
                           </div>
@@ -213,10 +215,14 @@ const Header = (props) => {
                             />
 
                             <div className="notification-content">
-                              <h6 className="font-medium text-gray-500">Rainbow Chard</h6>
+                              <h6 className="font-medium text-gray-500">
+                                Rainbow Chard
+                              </h6>
                               <p className="flex items-center text-xs text-gray-400">
                                 <Badge type="danger">Stock Out</Badge>
-                                <span className="ml-2">12 Decembor 2021 - 12:40PM</span>
+                                <span className="ml-2">
+                                  12 Decembor 2021 - 12:40PM
+                                </span>
                               </p>
                             </div>
                           </div>
@@ -231,11 +237,14 @@ const Header = (props) => {
 
                             <div className="notification-content">
                               <h6 className="font-medium text-gray-500">
-                                Sam L. Place a order <span className="font-bold">$300</span> USD
+                                Sam L. Place a order{" "}
+                                <span className="font-bold">$300</span> USD
                               </h6>
                               <p className="flex items-center text-xs text-gray-400">
                                 <Badge type="success">New Order</Badge>
-                                <span className="ml-2">12 Decembor 2021 - 12:40PM</span>
+                                <span className="ml-2">
+                                  12 Decembor 2021 - 12:40PM
+                                </span>
                               </p>
                             </div>
                           </div>
@@ -273,7 +282,11 @@ const Header = (props) => {
                 onClick={handleProfileOpen}
               >
                 {adminInfo.image ? (
-                  <Avatar className="align-middle" src={`${adminInfo.image}`} aria-hidden="true" />
+                  <Avatar
+                    className="align-middle"
+                    src={`${adminInfo.image}`}
+                    aria-hidden="true"
+                  />
                 ) : (
                   <span>{adminInfo.email.toUpperCase()}</span>
                 )}
@@ -283,7 +296,10 @@ const Header = (props) => {
                   <li className="justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-gray-100 text-gray-500 hover:text-green-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200">
                     <Link to="/dashboard">
                       <span className="flex items-center text-sm">
-                        <IoGridOutline className="w-4 h-4 mr-3" aria-hidden="true" />
+                        <IoGridOutline
+                          className="w-4 h-4 mr-3"
+                          aria-hidden="true"
+                        />
                         <span>Dashboard</span>
                       </span>
                     </Link>
@@ -291,7 +307,10 @@ const Header = (props) => {
                   <li className="justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-gray-100 text-gray-500 hover:text-green-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200">
                     <Link to="/edit-profile">
                       <span className="flex items-center text-sm">
-                        <IoSettingsOutline className="w-4 h-4 mr-3" aria-hidden="true" />
+                        <IoSettingsOutline
+                          className="w-4 h-4 mr-3"
+                          aria-hidden="true"
+                        />
                         <span>Edit Profile</span>
                       </span>
                     </Link>
@@ -301,7 +320,10 @@ const Header = (props) => {
                     className="cursor-pointer justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-gray-100 text-gray-500 hover:text-green-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                   >
                     <span className="flex items-center text-sm">
-                      <IoLogOutOutline className="w-4 h-4 mr-3" aria-hidden="true" />
+                      <IoLogOutOutline
+                        className="w-4 h-4 mr-3"
+                        aria-hidden="true"
+                      />
                       <span>Log out</span>
                     </span>
                   </li>

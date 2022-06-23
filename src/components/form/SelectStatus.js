@@ -1,9 +1,9 @@
-import React from 'react';
-import { Select } from '@windmill/react-ui';
-import OrderServices from '../../services/OrderServices';
-import { notifyError, notifySuccess } from '../../utils/toast';
-import { useContext } from 'react';
-import { SidebarContext } from '../../context/SidebarContext';
+import React, { useContext } from "react";
+import { Select } from "@windmill/react-ui";
+import OrderServices from "../../services/OrderServices";
+import { notifyError, notifySuccess } from "../../utils/toast";
+
+import { SidebarContext } from "../../context/SidebarContext";
 
 const SelectStatus = ({ id }) => {
   const { setIsUpdate } = useContext(SidebarContext);

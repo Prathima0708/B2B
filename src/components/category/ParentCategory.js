@@ -8,7 +8,7 @@ const ParentCategory = () => {
     await apiService
       .get("b2b", "/categories")
       .then((data) => setCategories([...data.data.result]))
-      .catch((err) => console.log("Unable to get all category"));
+      .catch(() => console.log("Unable to get all category"));
   }, []);
 
   return (

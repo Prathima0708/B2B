@@ -10,7 +10,8 @@ import { defaultImage } from "../../utils/constants";
 import useToggleDrawer from "../../hooks/useToggleDrawer";
 
 const CategoryTable = ({ categories }) => {
-  const { serviceId, handleModalOpen, handleUpdate, serviceParentId } = useToggleDrawer();
+  const { serviceId, handleModalOpen, handleUpdate, serviceParentId } =
+    useToggleDrawer();
   const getCategories = (children) => {
     if (children.length === 0) return "-";
     const subCategoryName = [];
@@ -20,19 +21,19 @@ const CategoryTable = ({ categories }) => {
 
   const showChildrenCategories = (id) => {
     let categoryHeader = document.getElementById(id + "-category-by-id-header");
-    // let categoryRow = document.getElementById('category-by-id'+id);
 
     if (categoryHeader != null) {
       document.getElementById(id + "-category-by-id-header").style.display =
         categoryHeader.style.display === "revert" ? "none" : "revert";
       document.getElementById(id + "-category-by-id-header").style.animation =
         categoryHeader.style.display === "revert" ? "fadeIn 2s" : "fadeOut 2s";
-      // document.getElementById('category-by-id'+id).style.display = categoryRow.style.display === "revert" ? "none" : "revert";
-      // document.getElementById('category-by-id'+id).style.animation = categoryRow.style.display === "revert" ? 'fadeIn 2s' : 'fadeOut 2s';
+
       const nodeList = document.querySelectorAll("#category-by-id" + id);
       for (let i = 0; i < nodeList.length; i++) {
-        nodeList[i].style.display = nodeList[i].style.display === "revert" ? "none" : "revert";
-        nodeList[i].style.animation = nodeList[i].style.display === "revert" ? "fadeIn 2s" : "fadeOut 2s";
+        nodeList[i].style.display =
+          nodeList[i].style.display === "revert" ? "none" : "revert";
+        nodeList[i].style.animation =
+          nodeList[i].style.display === "revert" ? "fadeIn 2s" : "fadeOut 2s";
       }
     }
   };
@@ -55,7 +56,9 @@ const CategoryTable = ({ categories }) => {
                 }}
                 className="cursor-pointer"
               >
-                <TableCell className="font-semibold uppercase text-xs">{parent.id}</TableCell>
+                <TableCell className="font-semibold uppercase text-xs">
+                  {parent.id}
+                </TableCell>
                 <TableCell>
                   <Avatar
                     className="hidden mr-3 md:block bg-gray-50 p-1"
@@ -65,7 +68,9 @@ const CategoryTable = ({ categories }) => {
                 </TableCell>
                 <TableCell className="text-sm">{parent.rank}</TableCell>
                 <TableCell className="text-sm">{parent.name}</TableCell>
-                <TableCell className="text-sm">{getCategories(parent.children)}</TableCell>
+                <TableCell className="text-sm">
+                  {getCategories(parent.children)}
+                </TableCell>
                 {(hasPermission(PAGE_CATEGORY_LIST, "update") ||
                   hasPermission(PAGE_CATEGORY_LIST, "delete")) && (
                   <TableCell onClick={(e) => e.stopPropagation()}>
@@ -84,7 +89,9 @@ const CategoryTable = ({ categories }) => {
                 <TableRow
                   id={parent.id + "-category-by-id-header"}
                   className={
-                    "bg-gray-200 dark:bg-gray-700  text-xs hidden delay-150 " + parent.id + "-category-by-id"
+                    "bg-gray-200 dark:bg-gray-700  text-xs hidden delay-150 " +
+                    parent.id +
+                    "-category-by-id"
                   }
                 >
                   <TableCell>ID</TableCell>
@@ -93,11 +100,13 @@ const CategoryTable = ({ categories }) => {
                   <TableCell>NAME</TableCell>
                   <TableCell>{""}</TableCell>
                   {(hasPermission(PAGE_CATEGORY_LIST, "update") ||
-                    hasPermission(PAGE_CATEGORY_LIST, "delete")) && <TableCell>ACTIONS</TableCell>}
+                    hasPermission(PAGE_CATEGORY_LIST, "delete")) && (
+                    <TableCell>ACTIONS</TableCell>
+                  )}
                 </TableRow>
               ) : null}
               {parent.children.length
-                ? parent.children.map((child, id) => (
+                ? parent.children.map((child) => (
                     <TableRow
                       id={"category-by-id" + parent.id}
                       className={

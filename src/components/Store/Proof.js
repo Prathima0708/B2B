@@ -2,49 +2,36 @@
 
 import "./store.css";
 
-import { Button, Input, Label } from "@windmill/react-ui";
+import { Button, Label } from "@windmill/react-ui";
 import React, { useEffect, useState } from "react";
 import hasPermission, { PAGE_STORE_UPDATE } from "../login/hasPermission";
 
 import ExistingImageDisplay from "../image-uploader/ExistingImageDisplay";
-import { FiTrash2 } from "react-icons/fi";
+
 import Grid from "@mui/material/Grid";
 import Uploader from "../image-uploader/Uploader";
 
 function Proof(props) {
-  const [customerRegistrationFormData, setCustomerRegistrationFormData] = useState({
-    url: undefined,
-    formData: undefined,
-    previewUrl: undefined,
-  });
+  const [customerRegistrationFormData, setCustomerRegistrationFormData] =
+    useState({
+      url: undefined,
+      formData: undefined,
+      previewUrl: undefined,
+    });
   const [tradeLicenseNumberFormData, setTradeLicenseNumberFormData] = useState({
     url: undefined,
     formData: undefined,
     previewUrl: undefined,
   });
-  // const [drugLicenseNumber, setDrugLicenseNumber] = useState("");
-  // const [drugLicenseIssueDate, setDrugLicenseIssueDate] = useState("");
-  // const [drugLicenseExpiryDate, setDrugLicenseExpiryDate] = useState("");
-  // const [customerRegNumber, setCustomerRegNumber] = useState("");
-  // const [customerRegExpiryDate, setCustomerRegExpiryDate] = useState("");
-  // const [tradeLicenseNumber, setTradeLicenseNumber] = useState("");
-  // const [tradeLicenseIssueDate, setTradeLicenseIssueDate] = useState("");
-  // const [tradeLicenseExpiryDate, setTradeLicenseExpiryDate] = useState("");
 
   useEffect(() => {
     if (props.state !== null) {
       props.state.customerRegistrationFormData?.url &&
-        setCustomerRegistrationFormData(props.state.customerRegistrationFormData);
+        setCustomerRegistrationFormData(
+          props.state.customerRegistrationFormData
+        );
       props.state.tradeLicenseNumberFormData?.url &&
         setTradeLicenseNumberFormData(props.state.tradeLicenseNumberFormData);
-      // setDrugLicenseNumber(props.state.drugLicenseNumber);
-      // setDrugLicenseIssueDate(props.state.drugLicenseIssueDate);
-      // setDrugLicenseExpiryDate(props.state.drugLicenseExpiryDate);
-      // setCustomerRegNumber(props.state.customerRegNumber);
-      // setCustomerRegExpiryDate(props.state.customerRegExpiryDate);
-      // setTradeLicenseNumber(props.state.tradeLicenseNumber);
-      // setTradeLicenseIssueDate(props.state.tradeLicenseIssueDate);
-      // setTradeLicenseExpiryDate(props.state.tradeLicenseExpiryDate);
     }
   }, [props.state]);
 
@@ -239,7 +226,9 @@ function Proof(props) {
               props.onNextHandel(proof, state);
             }}
           >
-            {`Preview${hasPermission(PAGE_STORE_UPDATE, "update") ? " & Submit" : ""}`}
+            {`Preview${
+              hasPermission(PAGE_STORE_UPDATE, "update") ? " & Submit" : ""
+            }`}
           </Button>
         </Grid>
       </Grid>

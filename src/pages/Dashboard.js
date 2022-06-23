@@ -1,30 +1,47 @@
 import { Bar, Doughnut } from "react-chartjs-2";
 import { FiCheck, FiRefreshCw, FiShoppingCart, FiTruck } from "react-icons/fi";
-import { Pagination, Table, TableCell, TableContainer, TableFooter, TableHeader } from "@windmill/react-ui";
+import {
+  Pagination,
+  Table,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHeader,
+} from "@windmill/react-ui";
 import React, { useEffect } from "react";
-import { barLegends, barOptions, doughnutLegends, doughnutOptions } from "../utils/chartsData";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  barLegends,
+  barOptions,
+  doughnutLegends,
+  doughnutOptions,
+} from "../utils/chartsData";
 
 import CardItem from "../components/dashboard/CardItem";
 import ChartCard from "../components/chart/ChartCard";
 import ChartLegend from "../components/chart/ChartLegend";
 import Loading from "../components/preloader/Loading";
-import OrderServices from "../services/OrderServices";
+
 import OrderTable from "../components/dashboard/OrderTable";
 import PageTitle from "../components/Typography/PageTitle";
 import apiService from "../utils/apiService";
-import axios from "axios";
+
 import { messaging } from "../utils/firebase";
 import { orders } from "../util/orders";
-import useAsync from "../hooks/useAsync";
+
 import useFilter from "../hooks/useFilter";
 
 const Dashboard = () => {
-  // const { data, loading } = useAsync(OrderServices.getAllOrders);
   const data = orders;
   const loading = false;
-  const { handleChangePage, totalResults, resultsPerPage, dataTable, pending, processing, delivered } =
-    useFilter(data);
+  const {
+    handleChangePage,
+    totalResults,
+    resultsPerPage,
+    dataTable,
+    pending,
+    processing,
+    delivered,
+  } = useFilter(data);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

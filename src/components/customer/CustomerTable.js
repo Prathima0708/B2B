@@ -7,7 +7,6 @@ import { FiEye, FiTrash2 } from "react-icons/fi";
 import Tooltip from "../tooltip/Tooltip";
 import MainModal from "../modal/MainModal";
 import { SidebarContext } from "../../context/SidebarContext";
-import { v4 } from "uuid";
 
 const CustomerTable = ({ customers }) => {
   const [customerId, setCustomerId] = useState("");
@@ -25,10 +24,15 @@ const CustomerTable = ({ customers }) => {
         {customers?.map((user) => (
           <TableRow key={user.id}>
             <TableCell>
-              <span className="font-semibold uppercase text-xs"> {user.id /*.substring(20, 24)*/}</span>
+              <span className="font-semibold uppercase text-xs">
+                {" "}
+                {user.id /*.substring(20, 24)*/}
+              </span>
             </TableCell>
             <TableCell>
-              <span className="text-sm">{dayjs(user.createdAt).format("MMM D, YYYY")}</span>
+              <span className="text-sm">
+                {dayjs(user.createdAt).format("MMM D, YYYY")}
+              </span>
             </TableCell>
             <TableCell>
               <span className="text-sm">{user.name}</span>
@@ -45,11 +49,24 @@ const CustomerTable = ({ customers }) => {
                 <div className="p-2 cursor-pointer text-gray-400 hover:text-green-600">
                   {" "}
                   <Link to={`/customer-order/${user.id}`}>
-                    <Tooltip id="view" Icon={FiEye} title="View Order" bgColor="#34D399" />
+                    <Tooltip
+                      id="view"
+                      Icon={FiEye}
+                      title="View Order"
+                      bgColor="#34D399"
+                    />
                   </Link>
                 </div>
-                <div onClick={() => handleModalOpen(user.id)} className="p-2 cursor-pointer text-gray-400 hover:text-red-600">
-                  <Tooltip id="delete" Icon={FiTrash2} title="Delete" bgColor="#F87171" />
+                <div
+                  onClick={() => handleModalOpen(user.id)}
+                  className="p-2 cursor-pointer text-gray-400 hover:text-red-600"
+                >
+                  <Tooltip
+                    id="delete"
+                    Icon={FiTrash2}
+                    title="Delete"
+                    bgColor="#F87171"
+                  />
                 </div>
               </div>
             </TableCell>

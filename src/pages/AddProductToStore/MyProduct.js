@@ -15,11 +15,13 @@ import {
   TableHeader,
   TableRow,
 } from "@windmill/react-ui";
-import { FiEdit, FiEye, FiTrash2 } from "react-icons/fi";
-import { Link, useHistory } from "react-router-dom";
+
+import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import ReactSelect, { components } from "react-select";
-import hasPermission, { PAGE_MY_STORE_PRODUCT } from "../../components/login/hasPermission";
+import hasPermission, {
+  PAGE_MY_STORE_PRODUCT,
+} from "../../components/login/hasPermission";
 import { notifyError, notifySuccess } from "../../utils/toast";
 
 import Backdrop from "@mui/material/Backdrop";
@@ -46,7 +48,6 @@ function MyProduct(props) {
   const history = useHistory();
   const { height, width } = useWindowDimensions();
   const [showFilters, setShowFilters] = useState(width < 700 ? false : true);
-  
 
   useEffect(() => {
     console.log(height, width);
@@ -69,13 +70,21 @@ function MyProduct(props) {
   useEffect(async () => {
     await apiService
       .get("b2b", `/brands`)
-      .then(({ data }) => setBrandList(data.result.map(({ id, name }) => ({ value: id, label: name }))))
-      .catch((err) => notifyError("Unable to get all brands"));
+      .then(({ data }) =>
+        setBrandList(
+          data.result.map(({ id, name }) => ({ value: id, label: name }))
+        )
+      )
+      .catch(() => notifyError("Unable to get all brands"));
 
     await apiService
       .get("b2b", `/categories`)
-      .then(({ data }) => setCategoryList(data.result.map(({ id, name }) => ({ value: id, label: name }))))
-      .catch((err) => notifyError("Unable to get all categories"));
+      .then(({ data }) =>
+        setCategoryList(
+          data.result.map(({ id, name }) => ({ value: id, label: name }))
+        )
+      )
+      .catch(() => notifyError("Unable to get all categories"));
   }, []);
 
   const getProductList = () => {
@@ -124,7 +133,7 @@ function MyProduct(props) {
           setData([]);
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -139,8 +148,10 @@ function MyProduct(props) {
   const handleApplyFilters = () => {
     if (filter && brandsSelected && categorySelected && filterText) return;
 
-    const bids = brandsSelected && brandsSelected.map(({ value }) => value).join(",");
-    const cids = categorySelected && categorySelected.map(({ value }) => value).join(",");
+    const bids =
+      brandsSelected && brandsSelected.map(({ value }) => value).join(",");
+    const cids =
+      categorySelected && categorySelected.map(({ value }) => value).join(",");
 
     apiService
       .get("b2b", `${GET_PRODUCT_LIST_OF_STORE_URL}`, {
@@ -190,7 +201,7 @@ function MyProduct(props) {
           setData([]);
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -207,7 +218,9 @@ function MyProduct(props) {
       .then(() => {
         setIsLoading(false);
         getProductList();
-        notifySuccess(`Product status set to ${active ? "Active" : "Inactive"}`);
+        notifySuccess(
+          `Product status set to ${active ? "Active" : "Inactive"}`
+        );
       })
       .catch(() => {
         setIsLoading(false);
@@ -215,7 +228,13 @@ function MyProduct(props) {
       });
   };
 
-  const toggleInStock = async (storeId, productId, variantId, inStock, price) => {
+  const toggleInStock = async (
+    storeId,
+    productId,
+    variantId,
+    inStock,
+    price
+  ) => {
     let payload = { productId, variantId, inStock, price };
     setIsLoading(true);
     await apiService
@@ -229,13 +248,19 @@ function MyProduct(props) {
         getProductList();
         notifySuccess("Product status changes");
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
         notifyError("Something went wrong!!");
       });
   };
 
-  const updateSellerPrice = async (storeId, productId, variantId, inStock, price) => {
+  const updateSellerPrice = async (
+    storeId,
+    productId,
+    variantId,
+    inStock,
+    price
+  ) => {
     let payload = { productId, variantId, inStock, price };
     setIsLoading(true);
     await apiService
@@ -260,7 +285,11 @@ function MyProduct(props) {
     return (
       <div>
         <components.Option {...props}>
-          <input type="checkbox" checked={props.isSelected} onChange={() => null} />
+          <input
+            type="checkbox"
+            checked={props.isSelected}
+            onChange={() => null}
+          />
           <label>{props.label}</label>
         </components.Option>
       </div>
@@ -269,7 +298,10 @@ function MyProduct(props) {
 
   return (
     <>
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
       <PageTitle>My Store Products</PageTitle>
@@ -279,7 +311,11 @@ function MyProduct(props) {
             <div className="flex flex-col md:flex-row gap-2">
               <Label className="w-full flex-grow">
                 <span>Active Status</span>
-                <Select value={filter} onChange={(e) => setFilter(e.target.value)} name="filter">
+                <Select
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                  name="filter"
+                >
                   <option value="">All Products</option>
                   <option value="true">Active Products</option>
                   <option value="false">Inactive Products</option>
@@ -331,12 +367,18 @@ function MyProduct(props) {
               </Label>
             </div>
           </div>
-          <Button onClick={handleApplyFilters} className="  min-w-64 my-2 flex-grow">
+          <Button
+            onClick={handleApplyFilters}
+            className="  min-w-64 my-2 flex-grow"
+          >
             Apply Filters
           </Button>
         </>
       ) : (
-        <Button onClick={() => setShowFilters(true)} className="  min-w-64 my-2 flex-grow">
+        <Button
+          onClick={() => setShowFilters(true)}
+          className="  min-w-64 my-2 flex-grow"
+        >
           Filter Store Products
         </Button>
       )}
@@ -397,10 +439,17 @@ function MyProduct(props) {
                   <TableCell>{`${productName} (${productId})`}</TableCell>
                   <TableCell>{`${name} (${variantId})`}</TableCell>
                   <TableCell>{marketPrice}</TableCell>
-                  <TableCell className=" cursor-default" onClick={(e) => e.stopPropagation()}>
+                  <TableCell
+                    className=" cursor-default"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <div className="flex flex-row ">
                       <Input
-                        disabled={hasPermission(PAGE_MY_STORE_PRODUCT, "update") ? false : true}
+                        disabled={
+                          hasPermission(PAGE_MY_STORE_PRODUCT, "update")
+                            ? false
+                            : true
+                        }
                         className="border mr-1 h-8 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                         label=" Seller Price"
                         name="sellerPrice"
@@ -408,7 +457,10 @@ function MyProduct(props) {
                         value={sellerPrice}
                         onChange={(e) =>
                           setStoreProducts((prevData) => {
-                            prevData[i].sellerPrice = e.target.value.replace(/[^0-9]/gi, "");
+                            prevData[i].sellerPrice = e.target.value.replace(
+                              /[^0-9]/gi,
+                              ""
+                            );
                             return [...prevData];
                           })
                         }
@@ -422,16 +474,29 @@ function MyProduct(props) {
                           }`}
                           onClick={() => {
                             if (originalSellerPrice === sellerPrice) return;
-                            updateSellerPrice(storeId, productId, variantId, inStock, Number(sellerPrice));
+                            updateSellerPrice(
+                              storeId,
+                              productId,
+                              variantId,
+                              inStock,
+                              Number(sellerPrice)
+                            );
                           }}
                         />
                       )}
                     </div>
                   </TableCell>
-                  <TableCell className=" cursor-default" onClick={(e) => e.stopPropagation()}>
+                  <TableCell
+                    className=" cursor-default"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <Switch
                       className=""
-                      disabled={hasPermission(PAGE_MY_STORE_PRODUCT, "updateStatus") ? false : true}
+                      disabled={
+                        hasPermission(PAGE_MY_STORE_PRODUCT, "updateStatus")
+                          ? false
+                          : true
+                      }
                       offColor="#f05252"
                       checkedIcon={false}
                       uncheckedIcon={false}
@@ -441,15 +506,28 @@ function MyProduct(props) {
                       checked={active != null ? active : true}
                     />
                   </TableCell>
-                  <TableCell className=" cursor-default" onClick={(e) => e.stopPropagation()}>
+                  <TableCell
+                    className=" cursor-default"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <Switch
-                      disabled={hasPermission(PAGE_MY_STORE_PRODUCT, "update") ? false : true}
+                      disabled={
+                        hasPermission(PAGE_MY_STORE_PRODUCT, "update")
+                          ? false
+                          : true
+                      }
                       className=""
                       onColor="#ACB992"
                       checkedIcon={true}
                       uncheckedIcon={true}
                       onChange={(e) => {
-                        toggleInStock(storeId, productId, variantId, e, sellerPrice);
+                        toggleInStock(
+                          storeId,
+                          productId,
+                          variantId,
+                          e,
+                          sellerPrice
+                        );
                       }}
                       checked={inStock != null ? inStock : true}
                     />

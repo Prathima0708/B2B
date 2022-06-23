@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { SidebarContext } from '../context/SidebarContext';
-import CouponServices from '../services/CouponServices';
-import { notifyError, notifySuccess } from '../utils/toast';
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { SidebarContext } from "../context/SidebarContext";
+import CouponServices from "../services/CouponServices";
+import { notifyError, notifySuccess } from "../utils/toast";
 
 const useCouponSubmit = (id) => {
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState("");
   const { isDrawerOpen, closeDrawer, setIsUpdate } = useContext(SidebarContext);
 
   const {
@@ -18,7 +18,7 @@ const useCouponSubmit = (id) => {
 
   const onSubmit = (data) => {
     if (!imageUrl) {
-      notifyError('Icon is required!');
+      notifyError("Icon is required!");
       return;
     }
     const CouponData = {
@@ -52,36 +52,36 @@ const useCouponSubmit = (id) => {
 
   useEffect(() => {
     if (!isDrawerOpen) {
-      setValue('title');
-      setValue('productType');
-      setValue('couponCode');
-      setValue('endTime');
-      setValue('discountPercentage');
-      setValue('minimumAmount');
-      setImageUrl('');
-      clearErrors('title');
-      clearErrors('productType');
-      clearErrors('couponCode');
-      clearErrors('endTime');
-      clearErrors('discountPercentage');
-      clearErrors('minimumAmount');
+      setValue("title");
+      setValue("productType");
+      setValue("couponCode");
+      setValue("endTime");
+      setValue("discountPercentage");
+      setValue("minimumAmount");
+      setImageUrl("");
+      clearErrors("title");
+      clearErrors("productType");
+      clearErrors("couponCode");
+      clearErrors("endTime");
+      clearErrors("discountPercentage");
+      clearErrors("minimumAmount");
       return;
     }
     if (id) {
       CouponServices.getCouponById(id)
         .then((res) => {
           if (res) {
-            setValue('title', res.title);
-            setValue('productType', res.productType);
-            setValue('couponCode', res.couponCode);
-            setValue('endTime', res.endTime);
-            setValue('discountPercentage', res.discountPercentage);
-            setValue('minimumAmount', res.minimumAmount);
+            setValue("title", res.title);
+            setValue("productType", res.productType);
+            setValue("couponCode", res.couponCode);
+            setValue("endTime", res.endTime);
+            setValue("discountPercentage", res.discountPercentage);
+            setValue("minimumAmount", res.minimumAmount);
             setImageUrl(res.logo);
           }
         })
-        .catch((err) => {
-          notifyError('There is a server error!');
+        .catch(() => {
+          notifyError("There is a server error!");
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

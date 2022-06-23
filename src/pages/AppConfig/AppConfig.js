@@ -1,4 +1,8 @@
-import { ADD_CONFIG_TO_LIST_URL, DEL_CONFIG_FROM_LIST_URL, GET_CONFIG_LIST_URL } from "./constants";
+import {
+  ADD_CONFIG_TO_LIST_URL,
+  DEL_CONFIG_FROM_LIST_URL,
+  GET_CONFIG_LIST_URL,
+} from "./constants";
 import {
   Button,
   Card,
@@ -16,16 +20,17 @@ import {
   TableRow,
   Textarea,
 } from "@windmill/react-ui";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiPlus, FiX } from "react-icons/fi";
 import React, { useEffect, useState } from "react";
-import hasPermission, { PAGE_APP_CONFIG } from "../../components/login/hasPermission";
+import hasPermission, {
+  PAGE_APP_CONFIG,
+} from "../../components/login/hasPermission";
 import { notifyError, notifySuccess } from "../../utils/toast";
 
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Drawer from "rc-drawer";
-import { FiPlus } from "react-icons/fi";
-import { FiX } from "react-icons/fi";
+
 import JSONInput from "react-json-editor-ajrm";
 import LabelArea from "../../components/form/LabelArea";
 import NotFound from "../../components/table/NotFound";
@@ -64,7 +69,7 @@ function AppConfig() {
           setConfigList([]);
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -98,7 +103,7 @@ function AppConfig() {
             setIsLoading(false);
           }
         })
-        .catch((e) => {
+        .catch(() => {
           setIsLoading(false);
           notifyError("Something went wrong!!");
         });
@@ -117,7 +122,7 @@ function AppConfig() {
             setIsLoading(false);
           }
         })
-        .catch((e) => {
+        .catch(() => {
           setIsLoading(false);
           notifyError("Something went wrong!!");
         });
@@ -139,7 +144,7 @@ function AppConfig() {
           }, 0);
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
         setDel_config(false);
         notifyError("Something went wrong!!");
@@ -178,10 +183,19 @@ function AppConfig() {
 
   return (
     <>
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Drawer open={showDrawer} onClose={() => {}} parent={null} level={null} placement={"right"}>
+      <Drawer
+        open={showDrawer}
+        onClose={() => {}}
+        parent={null}
+        level={null}
+        placement={"right"}
+      >
         <div className="flex p-6 flex-col w-full h-full justify-between dark:bg-gray-800 dark:text-gray-300">
           <div className="w-full relative  bg-white dark:bg-gray-800 dark:text-gray-300">
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
@@ -209,7 +223,10 @@ function AppConfig() {
             <br />
             <br />
             <br />
-            <Scrollbars className="w-full  relative mt-6" style={{ height: "90vh" }}>
+            <Scrollbars
+              className="w-full  relative mt-6"
+              style={{ height: "90vh" }}
+            >
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label="Key" />
                 <div className="col-span-8 sm:col-span-4">
@@ -307,7 +324,10 @@ function AppConfig() {
               }}
               className="py-3 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex"
             >
-              <div className="w-full md:w-56 lg:w-56 xl:w-56" style={{ width: "100%" }}>
+              <div
+                className="w-full md:w-56 lg:w-56 xl:w-56"
+                style={{ width: "100%" }}
+              >
                 <Button
                   onClick={() => {
                     setShowDrawer(true);
@@ -333,7 +353,8 @@ function AppConfig() {
                   <TableCell>ID</TableCell>
                   <TableCell>KEY</TableCell>
                   <TableCell>DATA TYPE</TableCell>
-                  {(hasPermission(PAGE_APP_CONFIG, "update") || hasPermission(PAGE_APP_CONFIG, "delete")) && (
+                  {(hasPermission(PAGE_APP_CONFIG, "update") ||
+                    hasPermission(PAGE_APP_CONFIG, "delete")) && (
                     <TableCell>ACTIONS</TableCell>
                   )}
                 </tr>
@@ -342,9 +363,15 @@ function AppConfig() {
                 {configList.map((config, index) => {
                   return (
                     <TableRow key={index} className="cursor-pointer">
-                      <TableCell className="font-semibold uppercase text-xs">{config.id}</TableCell>
-                      <TableCell className="font-semibold uppercase text-xs">{config.key}</TableCell>
-                      <TableCell className="font-semibold uppercase text-xs">{config.datatype}</TableCell>
+                      <TableCell className="font-semibold uppercase text-xs">
+                        {config.id}
+                      </TableCell>
+                      <TableCell className="font-semibold uppercase text-xs">
+                        {config.key}
+                      </TableCell>
+                      <TableCell className="font-semibold uppercase text-xs">
+                        {config.datatype}
+                      </TableCell>
                       {(hasPermission(PAGE_APP_CONFIG, "update") ||
                         hasPermission(PAGE_APP_CONFIG, "delete")) && (
                         <TableCell>
@@ -357,7 +384,12 @@ function AppConfig() {
                                 }}
                                 className="p-2 cursor-pointer text-gray-400 hover:text-green-600"
                               >
-                                <Tooltip id="edit" Icon={FiEdit} title="Edit" bgColor="#10B981" />
+                                <Tooltip
+                                  id="edit"
+                                  Icon={FiEdit}
+                                  title="Edit"
+                                  bgColor="#10B981"
+                                />
                               </div>
                             )}
                             {hasPermission(PAGE_APP_CONFIG, "delete") && (
@@ -367,7 +399,12 @@ function AppConfig() {
                                 }}
                                 className="p-2 cursor-pointer text-gray-400 hover:text-red-600"
                               >
-                                <Tooltip id="delete" Icon={FiTrash2} title="Delete" bgColor="#EF4444" />
+                                <Tooltip
+                                  id="delete"
+                                  Icon={FiTrash2}
+                                  title="Delete"
+                                  bgColor="#EF4444"
+                                />
                               </div>
                             )}
                           </div>
@@ -390,10 +427,12 @@ function AppConfig() {
                 <span className="flex justify-center text-3xl mb-6 text-red-500">
                   <FiTrash2 />
                 </span>
-                <h2 className="text-xl font-medium mb-1">Are You Sure! Want to Delete This Record?</h2>
+                <h2 className="text-xl font-medium mb-1">
+                  Are You Sure! Want to Delete This Record?
+                </h2>
                 <p>
-                  Do you really want to delete these records? You can't view this in your list anymore if you
-                  delete!
+                  Do you really want to delete these records? You can't view
+                  this in your list anymore if you delete!
                 </p>
               </ModalBody>
               <ModalFooter className="justify-center">

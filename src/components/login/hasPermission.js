@@ -38,7 +38,7 @@ const GET_PRODUCTS = "/api/v1/products";
 const GET_PRODUCT_BY_ID = "/api/v1/products/{id}";
 const ADD_OR_UPDATE_PRODUCT = "/api/v1/products/product-variant";
 const TOGGLE_PRODUCT_DELETE = "/api/v1/products/toggle-delete/{id}";
-// const GET_PRODUCT_CATEGORY = "/api/v1/category-product/{id}";
+
 const GET_PRODUCT_CATEGORY = "/api/v1/category-product/categories";
 const ADD_PRODUCT_CATEGORY = "/api/v1/category-product";
 const DELETE_PRODUCT_CATEGORY = "/api/v1/category-product/{id}";
@@ -655,7 +655,10 @@ const hasPermission = (path = "/products", type = "page") => {
   if (!permission) return false;
   return userPermissionList.some((item) => {
     return permission.some((item2) => {
-      return item2.end_point === item.end_point && item2.request_type === item.request_type;
+      return (
+        item2.end_point === item.end_point &&
+        item2.request_type === item.request_type
+      );
     });
   });
 };

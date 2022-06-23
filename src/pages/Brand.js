@@ -11,7 +11,9 @@ import {
   TableHeader,
 } from "@windmill/react-ui";
 import React, { useContext, useEffect, useState } from "react";
-import hasPermission, { PAGE_BRAND_LIST } from "../components/login/hasPermission";
+import hasPermission, {
+  PAGE_BRAND_LIST,
+} from "../components/login/hasPermission";
 
 import BrandDrawer from "../components/drawer/BrandDrawer";
 import BrandTable from "../components/brand/BrandTable";
@@ -30,9 +32,14 @@ const Brand = () => {
   const { toggleDrawer, isUpdate } = useContext(SidebarContext);
   const [filterText, setFilterText] = useState("");
   const [filteredBrands, setFilteredBrands] = useState([]);
-  const { handleChangePage, resultsPerPage, totalResults, dataTable } = useFilter(filteredBrands);
+  const { handleChangePage, resultsPerPage, totalResults, dataTable } =
+    useFilter(filteredBrands);
   useEffect(() => {
-    setFilteredBrands(brands.filter((brand) => brand.name.toLowerCase().includes(filterText.toLowerCase())));
+    setFilteredBrands(
+      brands.filter((brand) =>
+        brand.name.toLowerCase().includes(filterText.toLowerCase())
+      )
+    );
   }, [filterText]);
   const getBrands = async () => {
     setLoading(true);
@@ -40,9 +47,11 @@ const Brand = () => {
       .get("b2b", "/brands")
       .then((data) => {
         setBrands([...data.data.result.sort((a, b) => (a.id < b.id ? -1 : 1))]);
-        setFilteredBrands([...data.data.result.sort((a, b) => (a.id < b.id ? -1 : 1))]);
+        setFilteredBrands([
+          ...data.data.result.sort((a, b) => (a.id < b.id ? -1 : 1)),
+        ]);
       })
-      .catch((err) => console.log("Unable to get all brands"));
+      .catch(() => console.log("Unable to get all brands"));
     setLoading(false);
   };
 
@@ -69,7 +78,10 @@ const Brand = () => {
             </div>
             {hasPermission(PAGE_BRAND_LIST, "create") && (
               <div className="w-full md:w-1/2 md:flex-grow lg:flex-grow xl:flex-grow ">
-                <Button onClick={toggleDrawer} className="w-full rounded-md h-12">
+                <Button
+                  onClick={toggleDrawer}
+                  className="w-full rounded-md h-12"
+                >
                   <span className="mr-3">
                     <FiPlus />
                   </span>
@@ -92,7 +104,8 @@ const Brand = () => {
                 <TableCell>Icon</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Description</TableCell>
-                {(hasPermission(PAGE_BRAND_LIST, "update") || hasPermission(PAGE_BRAND_LIST, "delete")) && (
+                {(hasPermission(PAGE_BRAND_LIST, "update") ||
+                  hasPermission(PAGE_BRAND_LIST, "delete")) && (
                   <TableCell>Actions</TableCell>
                 )}
               </tr>

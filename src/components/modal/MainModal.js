@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { notifyError, notifySuccess } from "../../utils/toast";
 
 import AdminServices from "../../services/AdminServices";
-import CategoryServices from "../../services/CategoryServices";
+
 import CouponServices from "../../services/CouponServices";
 import { FiTrash2 } from "react-icons/fi";
 import ProductServices from "../../services/ProductServices";
@@ -25,18 +25,11 @@ const MainModal = ({ id }) => {
           notifySuccess(res.message);
         })
         .catch((err) => notifyError(err.message));
-      // notifySuccess('Product Deleted Successfully!');
+
       closeModal();
     }
 
     if (location.pathname === "/category") {
-      // CategoryServices.deleteCategory(id)
-      //   .then((res) => {
-      //     setIsUpdate(true);
-      //     notifySuccess(res.message);
-      //   })
-      //   .catch((err) => notifyError(err.message));
-      // // notifySuccess('Category Deleted Successfully!');
       await axios
         .delete(`${coreServiceBaseUrl}/categories/${id}`)
         .then(() => {
@@ -48,13 +41,6 @@ const MainModal = ({ id }) => {
       closeModal();
     }
     if (location.pathname === "/attributes") {
-      // CategoryServices.deleteCategory(id)
-      //   .then((res) => {
-      //     setIsUpdate(true);
-      //     notifySuccess(res.message);
-      //   })
-      //   .catch((err) => notifyError(err.message));
-      // // notifySuccess('Category Deleted Successfully!');
       await axios
         .delete(`${coreServiceBaseUrl}/schema/${id}`)
         .then(() => {
@@ -83,7 +69,7 @@ const MainModal = ({ id }) => {
           notifySuccess(res.message);
         })
         .catch((err) => notifyError(err.message));
-      // notifySuccess('Customer Deleted Successfully!');
+
       closeModal();
     }
 
@@ -94,7 +80,7 @@ const MainModal = ({ id }) => {
           notifySuccess(res.message);
         })
         .catch((err) => notifyError(err.message));
-      // notifySuccess('Coupon Deleted Successfully!');
+
       closeModal();
     }
     if (location.pathname === "/our-staff") {
@@ -104,7 +90,7 @@ const MainModal = ({ id }) => {
           notifySuccess(res.message);
         })
         .catch((err) => notifyError(err.message));
-      // notifySuccess('Staff Deleted Successfully!');
+
       closeModal();
     }
   };
@@ -116,10 +102,12 @@ const MainModal = ({ id }) => {
           <span className="flex justify-center text-3xl mb-6 text-red-500">
             <FiTrash2 />
           </span>
-          <h2 className="text-xl font-medium mb-1">Are You Sure! Want to Delete This Record?</h2>
+          <h2 className="text-xl font-medium mb-1">
+            Are You Sure! Want to Delete This Record?
+          </h2>
           <p>
-            Do you really want to delete these records? You can't view this in your list anymore if you
-            delete!
+            Do you really want to delete these records? You can't view this in
+            your list anymore if you delete!
           </p>
         </ModalBody>
         <ModalFooter className="justify-center">

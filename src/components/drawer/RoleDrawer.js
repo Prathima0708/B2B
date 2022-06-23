@@ -42,7 +42,7 @@ const RolesDrawer = (props) => {
           notifySuccess("Role updated successfully");
           onUpdate((prevData) => !prevData);
         })
-        .catch((err) => {
+        .catch(() => {
           notifyError("Something went wrong");
         });
     } else {
@@ -57,7 +57,7 @@ const RolesDrawer = (props) => {
           onUpdate((prevData) => !prevData);
           notifySuccess("Role added successfully");
         })
-        .catch((err) => {
+        .catch(() => {
           notifyError("Something went wrong");
         });
     }
@@ -67,9 +67,15 @@ const RolesDrawer = (props) => {
     <>
       <div className="w-full relative p-6 border-b border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
         {id ? (
-          <Title title="Edit Role" description="Edit Permission and necessary information from here" />
+          <Title
+            title="Edit Role"
+            description="Edit Permission and necessary information from here"
+          />
         ) : (
-          <Title title="Add Role" description="Add Roles and necessary information from here" />
+          <Title
+            title="Add Role"
+            description="Add Roles and necessary information from here"
+          />
         )}
       </div>
       <Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">

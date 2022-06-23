@@ -1,27 +1,21 @@
-import { Avatar, Badge, TableBody, TableCell, TableRow } from "@windmill/react-ui";
-import React, { useContext, useEffect } from "react";
-import { TiDeleteOutline, TiTickOutline } from "react-icons/ti";
-import hasPermission, { PAGE_STORE_ZONE_SLOT_LIST } from "../login/hasPermission";
+import { TableBody, TableCell, TableRow } from "@windmill/react-ui";
 
-import AttributeDrawer from "../drawer/AttributeDrawer";
-import BrandDrawer from "../drawer/BrandDrawer";
-import CategoryDrawer from "../drawer/CategoryDrawer";
-import CategoryServices from "../../services/CategoryServices";
+import hasPermission, {
+  PAGE_STORE_ZONE_SLOT_LIST,
+} from "../login/hasPermission";
+
 import EditDeleteButton from "../table/EditDeleteButton";
 import MainDrawer from "../drawer/MainDrawer";
 import MainModal from "../modal/MainModal";
-import ShowHideButton from "../table/ShowHideButton";
-import { SidebarContext } from "../../context/SidebarContext";
+
 import SlotDrawer from "../drawer/SlotDrawer";
 import { Switch } from "@material-ui/core";
 import apiService from "../../utils/apiService";
-import axios from "axios";
-import useAsync from "../../hooks/useAsync";
+
 import useToggleDrawer from "../../hooks/useToggleDrawer";
-import { v4 } from "uuid";
 
 const SlotTable = ({ daySlots, day, onUpdate }) => {
-  const { serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
+  const { serviceId, handleUpdate } = useToggleDrawer();
   const handleStatusChange = (slotId) => {
     apiService
       .put("b2b", `/slots/changeStatus/${slotId}`)
@@ -35,7 +29,10 @@ const SlotTable = ({ daySlots, day, onUpdate }) => {
       <MainDrawer>
         {serviceId ? (
           <SlotDrawer
-            slotDetails={{ ...daySlots.filter((slot) => slot.slotId === serviceId)[0], day }}
+            slotDetails={{
+              ...daySlots.filter((slot) => slot.slotId === serviceId)[0],
+              day,
+            }}
             onUpdate={onUpdate}
             id={serviceId}
           />
@@ -49,7 +46,9 @@ const SlotTable = ({ daySlots, day, onUpdate }) => {
           ?.sort((a, b) => (a.slotId > b.slotId ? 1 : -1))
           .map((slot) => (
             <TableRow key={slot.slot.slotId}>
-              <TableCell className="font-semibold uppercase text-l">{slot.slotId}</TableCell>
+              <TableCell className="font-semibold uppercase text-l">
+                {slot.slotId}
+              </TableCell>
               <TableCell className="text-l">{`${
                 String(slot.slot.startTime?.hr).length === 2
                   ? slot.slot.startTime?.hr
@@ -76,7 +75,7 @@ const SlotTable = ({ daySlots, day, onUpdate }) => {
                     checked={slot.active}
                     color="primary"
                     // onChange={handleShow}
-                    onChange={(e) => handleStatusChange(slot.slotId)}
+                    onChange={() => handleStatusChange(slot.slotId)}
                     // onClick={() => updatePermissionStatus(permission)}
                     inputProps={{ "aria-label": "controlled" }}
                   />

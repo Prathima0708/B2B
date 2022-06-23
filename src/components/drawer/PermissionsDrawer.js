@@ -11,7 +11,14 @@ import apiService from "../../utils/apiService";
 
 const PermissionsDrawer = (props) => {
   const { toggleDrawer } = useContext(SidebarContext);
-  const serviceTypes = ["core", "delivery", "payment", "notification", "asset", "gateway"];
+  const serviceTypes = [
+    "core",
+    "delivery",
+    "payment",
+    "notification",
+    "asset",
+    "gateway",
+  ];
   const { permissionsData, id, onUpdate } = props;
   const [state, setState] = useState({
     name: "",
@@ -55,7 +62,7 @@ const PermissionsDrawer = (props) => {
           request_type: state.requestType,
           is_active: state.isActive,
         })
-        .then((res) => {
+        .then(() => {
           notifySuccess("Permission updated successfully");
           props.onUpdate((prevData) => !prevData);
           setState({
@@ -76,7 +83,7 @@ const PermissionsDrawer = (props) => {
           request_type: state.requestType,
           is_active: true,
         })
-        .then((res) => {
+        .then(() => {
           notifySuccess("Permission added successfully");
           props.onUpdate((prevData) => !prevData);
           setState({
@@ -98,9 +105,15 @@ const PermissionsDrawer = (props) => {
     <>
       <div className="w-full relative p-6 border-b border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
         {id ? (
-          <Title title="Edit Permission" description="Edit Permission and necessary information from here" />
+          <Title
+            title="Edit Permission"
+            description="Edit Permission and necessary information from here"
+          />
         ) : (
-          <Title title="Add Permission" description="Add Permission and necessary information from here" />
+          <Title
+            title="Add Permission"
+            description="Add Permission and necessary information from here"
+          />
         )}
       </div>
       <Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">
@@ -123,7 +136,9 @@ const PermissionsDrawer = (props) => {
               <LabelArea label="Service Type" />
               <div className="col-span-8 sm:col-span-4">
                 <Select
-                  onChange={(e) => setState({ ...state, serviceName: e.target.value })}
+                  onChange={(e) =>
+                    setState({ ...state, serviceName: e.target.value })
+                  }
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                   name="serviceName"
                   value={state.serviceName}
@@ -145,13 +160,17 @@ const PermissionsDrawer = (props) => {
                   type="text"
                   placeholder="enter end point"
                   value={state.endPoint}
-                  onChange={(e) => setState({ ...state, endPoint: e.target.value })}
+                  onChange={(e) =>
+                    setState({ ...state, endPoint: e.target.value })
+                  }
                 />
               </div>
               <LabelArea label="Request Type" />
               <div className="col-span-8 sm:col-span-4">
                 <Select
-                  onChange={(e) => setState({ ...state, requestType: e.target.value })}
+                  onChange={(e) =>
+                    setState({ ...state, requestType: e.target.value })
+                  }
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                   name="dataType"
                   value={state.requestType}

@@ -7,7 +7,7 @@ import DrawerButton from "../form/DrawerButton";
 import ExistingImageDisplay from "../image-uploader/ExistingImageDisplay";
 import LabelArea from "../form/LabelArea";
 import ParentCategory from "../category/ParentCategory";
-import { SERVER_HOST } from "./../../utils/constants";
+
 import Scrollbars from "react-custom-scrollbars";
 import { SidebarContext } from "../../context/SidebarContext";
 import Title from "../form/Title";
@@ -15,7 +15,8 @@ import Uploader from "../image-uploader/Uploader";
 import apiService from "../../utils/apiService";
 
 const CategoryDrawer = ({ id, parentId }) => {
-  const { toggleDrawer, isDrawerOpen, setIsUpdate } = useContext(SidebarContext);
+  const { toggleDrawer, isDrawerOpen, setIsUpdate } =
+    useContext(SidebarContext);
   const [categoryName, setCategoryName] = useState("");
   const [description, setDescription] = useState("");
   const [rank, setRank] = useState(1);
@@ -31,7 +32,12 @@ const CategoryDrawer = ({ id, parentId }) => {
     setCategoryName("");
     setDescription("");
     setRank(1);
-    setIconFormData({ url: "", formData: false, previewUrl: "", deletedImageUrl: "" });
+    setIconFormData({
+      url: "",
+      formData: false,
+      previewUrl: "",
+      deletedImageUrl: "",
+    });
     setParentCategory();
   };
   useEffect(async () => {
@@ -61,14 +67,17 @@ const CategoryDrawer = ({ id, parentId }) => {
     setLoading(true);
     if (id) {
       if (iconFormData.deletedImageUrl.length > 0) {
-        await deleteUtil(iconFormData.deletedImageUrl).catch(() => notifyError("Something went wrong"));
+        await deleteUtil(iconFormData.deletedImageUrl).catch(() =>
+          notifyError("Something went wrong")
+        );
       }
       let payload = {};
       payload.name = categoryName;
       payload.description = description;
       payload.rank = parseInt(rank);
       if (id != parentId) payload.parent = parentId;
-      if (iconFormData.formData) payload.imageUrl = await uploaderUtil(iconFormData.formData);
+      if (iconFormData.formData)
+        payload.imageUrl = await uploaderUtil(iconFormData.formData);
       if (iconFormData.url) payload.imageUrl = iconFormData.url;
       await apiService
         .put("b2b", `/categories/${id}`, payload)
@@ -76,7 +85,7 @@ const CategoryDrawer = ({ id, parentId }) => {
           notifySuccess("Category details successfully updated");
           resetValues();
         })
-        .catch((err) => {
+        .catch(() => {
           notifyError("Something went wrong");
           resetValues();
         });
@@ -86,7 +95,8 @@ const CategoryDrawer = ({ id, parentId }) => {
       payload.description = description;
       payload.rank = parseInt(rank);
       if (parentCategory != 0) payload.parent = parentCategory;
-      if (iconFormData.formData) payload.imageUrl = await uploaderUtil(iconFormData.formData);
+      if (iconFormData.formData)
+        payload.imageUrl = await uploaderUtil(iconFormData.formData);
       await apiService
         .post("b2b", "/categories", payload)
         .then(() => {
@@ -95,7 +105,9 @@ const CategoryDrawer = ({ id, parentId }) => {
         })
         .catch((err) => {
           if (err.response.data.status === 400) {
-            err.response.data.errors.forEach(({ field, message }) => notifyError(`${field} ${message}`));
+            err.response.data.errors.forEach(({ field, message }) =>
+              notifyError(`${field} ${message}`)
+            );
           } else {
             notifyError(err.response.data.message || `Something went wrong`);
           }
@@ -128,7 +140,10 @@ const CategoryDrawer = ({ id, parentId }) => {
               <LabelArea label="Category Icon" />
               <div className="col-span-8 sm:col-span-4">
                 {iconFormData.url ? (
-                  <ExistingImageDisplay setFormData={setIconFormData} url={iconFormData.url} />
+                  <ExistingImageDisplay
+                    setFormData={setIconFormData}
+                    url={iconFormData.url}
+                  />
                 ) : (
                   <Uploader setFormData={setIconFormData} />
                 )}
@@ -164,7 +179,9 @@ const CategoryDrawer = ({ id, parentId }) => {
                   required
                   placeholder="Category Name"
                   value={rank}
-                  onChange={(e) => setRank(e.target.value.replace(/[^0-9]/gi, ""))}
+                  onChange={(e) =>
+                    setRank(e.target.value.replace(/[^0-9]/gi, ""))
+                  }
                 />
                 {/* <Error errorName={errors.parent} /> */}
               </div>

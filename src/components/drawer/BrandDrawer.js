@@ -13,7 +13,8 @@ import Uploader from "../image-uploader/Uploader";
 import apiService from "../../utils/apiService";
 
 const BrandDrawer = ({ id }) => {
-  const { isDrawerOpen, setIsUpdate, toggleDrawer } = useContext(SidebarContext);
+  const { isDrawerOpen, setIsUpdate, toggleDrawer } =
+    useContext(SidebarContext);
   const [brandName, setBrandName] = useState("");
   const [description, setDescription] = useState("");
   const [iconFormData, setIconFormData] = useState({
@@ -26,7 +27,12 @@ const BrandDrawer = ({ id }) => {
   const resetValues = () => {
     setBrandName("");
     setDescription("");
-    setIconFormData({ url: "", formData: false, previewUrl: "", deletedImageUrl: "" });
+    setIconFormData({
+      url: "",
+      formData: false,
+      previewUrl: "",
+      deletedImageUrl: "",
+    });
   };
 
   useEffect(async () => {
@@ -55,13 +61,16 @@ const BrandDrawer = ({ id }) => {
     e.preventDefault();
     if (id) {
       if (iconFormData.deletedImageUrl.length > 0) {
-        await deleteUtil(iconFormData.deletedImageUrl).catch(() => notifyError("Something went wrong"));
+        await deleteUtil(iconFormData.deletedImageUrl).catch(() =>
+          notifyError("Something went wrong")
+        );
       }
       let payload = {
         name: brandName,
         description,
       };
-      if (iconFormData.formData) payload.imageUrl = await uploaderUtil(iconFormData.formData);
+      if (iconFormData.formData)
+        payload.imageUrl = await uploaderUtil(iconFormData.formData);
       if (iconFormData.url) payload.imageUrl = iconFormData.url;
       await apiService
         .put("b2b", `/brands/${id}`, payload)
@@ -69,7 +78,7 @@ const BrandDrawer = ({ id }) => {
           notifySuccess("Brand details successfully updated");
           resetValues();
         })
-        .catch((err) => {
+        .catch(() => {
           notifyError("Something went wrong");
           resetValues();
         });
@@ -78,11 +87,12 @@ const BrandDrawer = ({ id }) => {
         name: brandName,
         description,
       };
-      if (iconFormData.formData) payload.imageUrl = await uploaderUtil(iconFormData.formData);
+      if (iconFormData.formData)
+        payload.imageUrl = await uploaderUtil(iconFormData.formData);
       await apiService
         .post("b2b", "/brands", payload)
         .then(() => notifySuccess("New brand successfully added"))
-        .catch((err) => {
+        .catch(() => {
           notifyError("Something went wrong");
           resetValues();
         });
@@ -114,7 +124,10 @@ const BrandDrawer = ({ id }) => {
               <LabelArea label="Brand Icon" />
               <div className="col-span-8 sm:col-span-4">
                 {iconFormData.url ? (
-                  <ExistingImageDisplay setFormData={setIconFormData} url={iconFormData.url} />
+                  <ExistingImageDisplay
+                    setFormData={setIconFormData}
+                    url={iconFormData.url}
+                  />
                 ) : (
                   <Uploader setFormData={setIconFormData} />
                 )}

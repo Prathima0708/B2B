@@ -1,6 +1,5 @@
 import { Card, Input } from "@windmill/react-ui";
 import React, { useEffect, useState } from "react";
-import hasPermission, { PAGE_CATEGORY_LIST, PAGE_PRODUCT_UPDATE } from "../login/hasPermission";
 
 import CategoryItem from "./CategoryItem";
 import Loading from "../preloader/Loading";
@@ -29,7 +28,9 @@ const MapProductToCategory = ({ productId }) => {
       if (filterText.length === 0) setFilteredCategories(categoryArray);
       else
         setFilteredCategories(
-          categoryArray.filter((ac) => ac.name.toLowerCase().includes(filterText.toLowerCase()))
+          categoryArray.filter((ac) =>
+            ac.name.toLowerCase().includes(filterText.toLowerCase())
+          )
         );
     });
     apiService
@@ -38,27 +39,35 @@ const MapProductToCategory = ({ productId }) => {
     setLoading(false);
     if (filterText.length === 0) return setFilteredCategories(allCategories);
     setFilteredCategories(
-      allCategories.filter((ac) => ac.name.toLowerCase().includes(filterText.toLowerCase()))
+      allCategories.filter((ac) =>
+        ac.name.toLowerCase().includes(filterText.toLowerCase())
+      )
     );
   }, [update]);
   useEffect(() => {
     setFilterText((prevData) => prevData);
     if (filterText.length === 0) return setFilteredCategories(allCategories);
     setFilteredCategories(
-      allCategories.filter((ac) => ac.name.toLowerCase().includes(filterText.toLowerCase()))
+      allCategories.filter((ac) =>
+        ac.name.toLowerCase().includes(filterText.toLowerCase())
+      )
     );
   }, [filterText]);
   return (
     <div className=" mb-10">
       <PageTitle>Map product to category</PageTitle>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 p-4 w-full  border-gray-600 border-2 mb-5">
-        <p className="text-gray-700 dark:text-gray-300 m-1">Mapped categories</p>
+        <p className="text-gray-700 dark:text-gray-300 m-1">
+          Mapped categories
+        </p>
         {loading ? (
           <Loading loading={loading} />
         ) : (
           <div className="flex flex-row flex-wrap">
             {allCategories.map((category) => {
-              const [isMapped = false] = productCategories.filter((pc) => pc.category.id === category.id);
+              const [isMapped = false] = productCategories.filter(
+                (pc) => pc.category.id === category.id
+              );
               return (
                 <CategoryItem
                   key={category.id}
@@ -96,7 +105,9 @@ const MapProductToCategory = ({ productId }) => {
         ) : (
           <div className="flex flex-row flex-wrap">
             {filteredCategories.map((category) => {
-              const [isMapped = false] = productCategories.filter((pc) => pc.category.id === category.id);
+              const [isMapped = false] = productCategories.filter(
+                (pc) => pc.category.id === category.id
+              );
               if (isMapped) return null;
               return (
                 <CategoryItem

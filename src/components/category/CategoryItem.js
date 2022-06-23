@@ -3,11 +3,18 @@ import React, { useState } from "react";
 import hasPermission, { PAGE_PRODUCT_UPDATE } from "../login/hasPermission";
 
 import CircularProgress from "@mui/material/CircularProgress";
-import Loading from "../preloader/Loading";
+
 import apiService from "../../utils/apiService";
 import { notifyError } from "../../utils/toast";
 
-const CategoryItem = ({ name, mapped, categoryId, productId, update, display }) => {
+const CategoryItem = ({
+  name,
+  mapped,
+  categoryId,
+  productId,
+  update,
+  display,
+}) => {
   const [loading, setLoading] = useState(false);
 
   const handleAddProductToCategory = async () => {

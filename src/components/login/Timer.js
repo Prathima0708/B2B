@@ -1,6 +1,5 @@
 import { Badge } from "@windmill/react-ui";
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const Timer = (props) => {
   const { initialMinutes = 0, initialSeconds = 0 } = props;
@@ -40,9 +39,12 @@ const Timer = (props) => {
         </Badge>
       ) : (
         <div className="flex">
-          <p className="text-gray-700 dark:text-gray-400 text-xs mt-2 ml-2">Resend OTP in</p>
+          <p className="text-gray-700 dark:text-gray-400 text-xs mt-2 ml-2">
+            Resend OTP in
+          </p>
           <p className="text-gray-700 dark:text-gray-400 text-xs mt-2 ml-1">
-            {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+            {minutes < 10 ? `0${minutes}` : minutes}:
+            {seconds < 10 ? `0${seconds}` : seconds}
           </p>
         </div>
       )}

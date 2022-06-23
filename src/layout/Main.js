@@ -7,23 +7,23 @@ import { useLocation } from "react-router-dom";
 
 const Main = ({ children, storeIdProps, setStoreSelected }) => {
   const location = useLocation();
-  
+
   let path = location.pathname;
   const [isLoading, setIsLoading] = useState(false);
   const [storeList, setStoreList] = useState([]);
-  const updateStoreList = ()=>{
+  const updateStoreList = () => {
     let strList = [];
     if (storeIdProps.storeList && storeIdProps.storeList.length > 0) {
-      storeIdProps.storeList.map((str, index) => {
+      storeIdProps.storeList.map((str) => {
         strList.push({
           value: str.store_id,
           label: `${str.store_data.name} (Store ID: ${str.store_id}, Store Type: ${str.store_data.storeType})`,
         });
       });
-      
-      setStoreList(val=>[...strList]);
+
+      setStoreList(() => [...strList]);
     }
-  }
+  };
   useEffect(() => {
     updateStoreList();
   }, [storeIdProps.storeList]);
@@ -38,14 +38,23 @@ const Main = ({ children, storeIdProps, setStoreSelected }) => {
           <Grid item md={12}>
             <Grid container spacing={3} className="p-3">
               <Grid item md={2}>
-                <h1 class="my-1 text-lg font-bold text-gray-700 dark:text-gray-300">{"Select Store "}</h1>
+                <h1 class="my-1 text-lg font-bold text-gray-700 dark:text-gray-300">
+                  {"Select Store "}
+                </h1>
               </Grid>
               <Grid item md={10}>
                 {storeList && storeList.length > 0 && (
                   <Select
                     className="dark:basic-single-store-select"
                     classNamePrefix="select"
-                    value={storeList.length > 0 ? _.find(storeList, ["value", storeIdProps.storeSelected]) : null}
+                    value={
+                      storeList.length > 0
+                        ? _.find(storeList, [
+                            "value",
+                            storeIdProps.storeSelected,
+                          ])
+                        : null
+                    }
                     isLoading={isLoading}
                     isClearable={false}
                     isRtl={false}

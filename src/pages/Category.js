@@ -11,7 +11,9 @@ import {
   TableHeader,
 } from "@windmill/react-ui";
 import React, { useContext, useEffect, useState } from "react";
-import hasPermission, { PAGE_CATEGORY_LIST } from "../components/login/hasPermission";
+import hasPermission, {
+  PAGE_CATEGORY_LIST,
+} from "../components/login/hasPermission";
 
 import CategoryDrawer from "../components/drawer/CategoryDrawer";
 import CategoryTable from "../components/category/CategoryTable";
@@ -30,11 +32,14 @@ const Category = () => {
   const [categories, setCategories] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [filterText, setFilterText] = useState("");
-  const { handleChangePage, resultsPerPage, totalResults, dataTable } = useFilter(filteredCategories);
+  const { handleChangePage, resultsPerPage, totalResults, dataTable } =
+    useFilter(filteredCategories);
 
   useEffect(() => {
     setFilteredCategories(
-      categories.filter((cat) => cat.name.toLowerCase().includes(filterText.toLowerCase()))
+      categories.filter((cat) =>
+        cat.name.toLowerCase().includes(filterText.toLowerCase())
+      )
     );
   }, [filterText]);
 
@@ -43,10 +48,14 @@ const Category = () => {
     await apiService
       .get("b2b", "/categories")
       .then((data) => {
-        setCategories([...data.data.result.sort((a, b) => (a.id < b.id ? -1 : 1))]);
-        setFilteredCategories([...data.data.result.sort((a, b) => (a.id < b.id ? -1 : 1))]);
+        setCategories([
+          ...data.data.result.sort((a, b) => (a.id < b.id ? -1 : 1)),
+        ]);
+        setFilteredCategories([
+          ...data.data.result.sort((a, b) => (a.id < b.id ? -1 : 1)),
+        ]);
       })
-      .catch((err) => console.log("Unable to get all category"));
+      .catch(() => console.log("Unable to get all category"));
     setLoading(false);
   };
   useEffect(() => {
@@ -71,7 +80,10 @@ const Category = () => {
             </div>
             {hasPermission(PAGE_CATEGORY_LIST, "create") && (
               <div className="w-full md:w-1/2 md:flex-grow lg:flex-grow xl:flex-grow ">
-                <Button onClick={toggleDrawer} className="w-full rounded-md h-12">
+                <Button
+                  onClick={toggleDrawer}
+                  className="w-full rounded-md h-12"
+                >
                   <span className="mr-3">
                     <FiPlus />
                   </span>
@@ -96,7 +108,9 @@ const Category = () => {
                 <TableCell>NAME</TableCell>
                 <TableCell>SUB CATEGORIES</TableCell>
                 {(hasPermission(PAGE_CATEGORY_LIST, "update") ||
-                  hasPermission(PAGE_CATEGORY_LIST, "delete")) && <TableCell>ACTIONS</TableCell>}
+                  hasPermission(PAGE_CATEGORY_LIST, "delete")) && (
+                  <TableCell>ACTIONS</TableCell>
+                )}
               </tr>
             </TableHeader>
             <CategoryTable categories={dataTable} />
