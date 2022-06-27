@@ -26,15 +26,18 @@ import {
   TableFooter,
   TableHeader,
   TableRow,
+  Badge,
 } from "@windmill/react-ui";
 import { FiSearch, FiTruck, FiUserPlus } from "react-icons/fi";
 import React, { useEffect, useState } from "react";
-import hasPermission, { PAGE_B2C_ORDERS } from "../../../components/login/hasPermission";
+import hasPermission, {
+  PAGE_B2C_ORDERS,
+} from "../../../components/login/hasPermission";
 import { notifyError, notifySuccess } from "../../../utils/toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import Backdrop from "@mui/material/Backdrop";
-import { Badge } from "@windmill/react-ui";
+
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import NotFound from "../../../components/table/NotFound";
@@ -72,8 +75,8 @@ function MyOrdersB2C(props) {
       size,
       "x-store-id": Number(props.storeSelected),
     };
-    if(filterstatus!=null){
-      payload.status=filterstatus;
+    if (filterstatus != null) {
+      payload.status = filterstatus;
     }
     let url = GET_ORDERS_LIST_URL_B2C;
     apiService
@@ -88,7 +91,7 @@ function MyOrdersB2C(props) {
           notifyError("Something Went Wrong!!");
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -136,7 +139,7 @@ function MyOrdersB2C(props) {
           notifyError("Something Went Wrong!!");
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -159,7 +162,7 @@ function MyOrdersB2C(props) {
           notifyError("Something Went Wrong!!");
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -206,11 +209,23 @@ function MyOrdersB2C(props) {
                 {driver &&
                   driver.map((users, index) => {
                     return (
-                      <TableRow key={index} className="cursor-pointer" onClick={async () => {}}>
-                        <TableCell className="font-semibold uppercase text-xs">{users.user_id}</TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{users.first_name}</TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{users.last_name}</TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{users.role_name}</TableCell>
+                      <TableRow
+                        key={index}
+                        className="cursor-pointer"
+                        onClick={async () => {}}
+                      >
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.user_id}
+                        </TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.first_name}
+                        </TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.last_name}
+                        </TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.role_name}
+                        </TableCell>
                         <TableCell>
                           <Input
                             type="radio"
@@ -229,7 +244,11 @@ function MyOrdersB2C(props) {
           </TableContainer>
         </ModalBody>
         <ModalFooter>
-          <Button className="w-full sm:w-auto" layout="outline" onClick={closeModalAssignDriverModal}>
+          <Button
+            className="w-full sm:w-auto"
+            layout="outline"
+            onClick={closeModalAssignDriverModal}
+          >
             Cancel
           </Button>
           <Button
@@ -237,7 +256,7 @@ function MyOrdersB2C(props) {
             onClick={() => {
               let orderSOBJ = orders;
               let selectedOrders = [];
-              orderSOBJ.map((ord, index) => {
+              orderSOBJ.map((ord) => {
                 if (ord.selected)
                   selectedOrders.push({
                     orderId: parseInt(ord.orderId),
@@ -255,14 +274,16 @@ function MyOrdersB2C(props) {
                     if (response.status) {
                       setIsLoading(false);
                       closeModalAssignDriverModal();
-                      notifySuccess(`Driver has been assigned to Selected Orders`);
+                      notifySuccess(
+                        `Driver has been assigned to Selected Orders`
+                      );
                       getOrders(currentPage, currentPageSize);
                     } else {
                       setIsLoading(false);
                       notifyError("Something Went Wrong!!");
                     }
                   })
-                  .catch((e) => {
+                  .catch(() => {
                     setIsLoading(false);
                   });
               }
@@ -294,11 +315,23 @@ function MyOrdersB2C(props) {
                 {storeUsers &&
                   storeUsers.map((users, index) => {
                     return (
-                      <TableRow key={index} className="cursor-pointer" onClick={async () => {}}>
-                        <TableCell className="font-semibold uppercase text-xs">{users.user_id}</TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{users.first_name}</TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{users.last_name}</TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{users.role_name}</TableCell>
+                      <TableRow
+                        key={index}
+                        className="cursor-pointer"
+                        onClick={async () => {}}
+                      >
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.user_id}
+                        </TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.first_name}
+                        </TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.last_name}
+                        </TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.role_name}
+                        </TableCell>
                         <TableCell>
                           <Input
                             type="radio"
@@ -317,7 +350,11 @@ function MyOrdersB2C(props) {
           </TableContainer>
         </ModalBody>
         <ModalFooter>
-          <Button className="w-full sm:w-auto" layout="outline" onClick={closeModal}>
+          <Button
+            className="w-full sm:w-auto"
+            layout="outline"
+            onClick={closeModal}
+          >
             Cancel
           </Button>
           <Button
@@ -325,7 +362,7 @@ function MyOrdersB2C(props) {
             onClick={() => {
               let orderSOBJ = orders;
               let selectedOrders = [];
-              orderSOBJ.map((ord, index) => {
+              orderSOBJ.map((ord) => {
                 if (ord.selected)
                   selectedOrders.push({
                     orderId: parseInt(ord.orderId),
@@ -343,14 +380,16 @@ function MyOrdersB2C(props) {
                     if (response.status) {
                       setIsLoading(false);
                       closeModal();
-                      notifySuccess(`Picker has been assigned to Selected Orders`);
+                      notifySuccess(
+                        `Picker has been assigned to Selected Orders`
+                      );
                       getOrders(currentPage, currentPageSize);
                     } else {
                       setIsLoading(false);
                       notifyError("Something Went Wrong!!");
                     }
                   })
-                  .catch((e) => {
+                  .catch(() => {
                     setIsLoading(false);
                   });
               }
@@ -360,14 +399,23 @@ function MyOrdersB2C(props) {
           </Button>
         </ModalFooter>
       </Modal>
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
       <Grid container spacing={3}>
         <Grid item sm={6} xs={12} className="pt-1">
           <PageTitle>B2C Orders</PageTitle>
         </Grid>
-        <Grid item sm={6} xs={12} className="pt-1" style={{ marginTop: "2rem" }}></Grid>
+        <Grid
+          item
+          sm={6}
+          xs={12}
+          className="pt-1"
+          style={{ marginTop: "2rem" }}
+        ></Grid>
       </Grid>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody>
@@ -382,12 +430,18 @@ function MyOrdersB2C(props) {
               />
             </Grid>
             <Grid item lg={3} md={3} sm={6} xs={12} className="pt-1">
-              <Select className="h-12" value={""} onChange={(e) => {}}>
+              <Select className="h-12" value={""} onChange={() => {}}>
                 <option value={""}>{"Payment Method"}</option>
               </Select>
             </Grid>
             <Grid item lg={3} md={3} sm={6} xs={12} className="pt-1">
-              <Select className="h-12" value={filterstatus} onChange={(e) => {setfilterstatus(e.target.value);}}>
+              <Select
+                className="h-12"
+                value={filterstatus}
+                onChange={(e) => {
+                  setfilterstatus(e.target.value);
+                }}
+              >
                 <option value={""}>{"--Status(All)--"}</option>
                 <option value={"PLACED"}>{"Placed"}</option>
                 <option value={"ACCEPTED"}>{"Accepted"}</option>
@@ -399,7 +453,7 @@ function MyOrdersB2C(props) {
             </Grid>
 
             <Grid item lg={3} md={3} sm={6} xs={12} className="pt-1">
-              <Button onClick={() => {}} className="w-full rounded-md h-12">
+              <Button className="w-full rounded-md h-12">
                 <span className="mr-3">
                   <FiSearch />
                 </span>
@@ -478,12 +532,17 @@ function MyOrdersB2C(props) {
                           <Input
                             type="checkbox"
                             checked={users.selected ? users.selected : false}
-                            disabled={users.orderStatus === 'COMPLETED' || users.orderStatus === 'REJECTED' || users.orderStatus === 'CANCELLED'}
+                            disabled={
+                              users.orderStatus === "COMPLETED" ||
+                              users.orderStatus === "REJECTED" ||
+                              users.orderStatus === "CANCELLED"
+                            }
                             onClick={(e) => {
                               e.stopPropagation();
                               setIsLoading(true);
                               let ordersArray = orders;
-                              ordersArray[index].selected = ordersArray[index].selected
+                              ordersArray[index].selected = ordersArray[index]
+                                .selected
                                 ? !ordersArray[index].selected
                                 : true;
 
@@ -503,8 +562,8 @@ function MyOrdersB2C(props) {
                           {moment(users.deliveryDate).format("DD-MM-YYYY")}
                         </TableCell>
                         <TableCell className="font-semibold uppercase text-xs">
-                          {moment(users.deliverySlotStartTime).format("HH:mm")} ~{" "}
-                          {moment(users.deliverySlotEndTime).format("HH:mm")}
+                          {moment(users.deliverySlotStartTime).format("HH:mm")}{" "}
+                          ~ {moment(users.deliverySlotEndTime).format("HH:mm")}
                         </TableCell>
                         <TableCell className="font-semibold uppercase text-xs">
                           {getPicker(users.pickerId)}
@@ -512,8 +571,12 @@ function MyOrdersB2C(props) {
                         <TableCell className="font-semibold uppercase text-xs">
                           {getDriver(users.driverId)}
                         </TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{"-"}</TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{users.paymentMode}</TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {"-"}
+                        </TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.paymentMode}
+                        </TableCell>
                         <TableCell>
                           {users.status === "CANCELLED" ? (
                             <Badge type="danger">{users.status}</Badge>

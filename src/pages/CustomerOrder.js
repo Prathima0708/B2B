@@ -1,11 +1,17 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Table, TableHeader, TableCell, TableFooter, TableContainer, Pagination } from "@windmill/react-ui";
+import {
+  Table,
+  TableHeader,
+  TableCell,
+  TableFooter,
+  TableContainer,
+  Pagination,
+} from "@windmill/react-ui";
 import { IoBagHandle } from "react-icons/io5";
 
-import useAsync from "../hooks/useAsync";
 import useFilter from "../hooks/useFilter";
-import OrderServices from "../services/OrderServices";
+
 import Loading from "../components/preloader/Loading";
 import PageTitle from "../components/Typography/PageTitle";
 import CustomerOrderTable from "../components/customer/CustomerOrderTable";
@@ -14,15 +20,12 @@ import { orders } from "../util/orders";
 const CustomerOrder = () => {
   const { id } = useParams();
 
-  // const { data, loading, error } = useAsync(() =>
-  //   OrderServices.getOrderByUser(id)
-  // );
-
   const data = orders;
   const loading = false;
   const error = false;
 
-  const { handleChangePage, totalResults, resultsPerPage, dataTable } = useFilter(data);
+  const { handleChangePage, totalResults, resultsPerPage, dataTable } =
+    useFilter(data);
 
   return (
     <>
@@ -35,7 +38,9 @@ const CustomerOrder = () => {
             <span className="flex justify-center my-30 text-red-500 font-semibold text-6xl">
               <IoBagHandle />
             </span>
-            <h2 className="font-medium text-base mt-4 text-gray-600">This Customer have no order Yet!</h2>
+            <h2 className="font-medium text-base mt-4 text-gray-600">
+              This Customer have no order Yet!
+            </h2>
           </div>
         </div>
       )}
@@ -58,7 +63,12 @@ const CustomerOrder = () => {
             <CustomerOrderTable orders={dataTable} />
           </Table>
           <TableFooter>
-            <Pagination totalResults={totalResults} resultsPerPage={resultsPerPage} onChange={handleChangePage} label="Table navigation" />
+            <Pagination
+              totalResults={totalResults}
+              resultsPerPage={resultsPerPage}
+              onChange={handleChangePage}
+              label="Table navigation"
+            />
           </TableFooter>
         </TableContainer>
       ) : null}

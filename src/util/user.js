@@ -1,4 +1,3 @@
-// const bcrypt = require("bcryptjs");
 import * as bcrypt from "bcryptjs";
 export const users = [
   {

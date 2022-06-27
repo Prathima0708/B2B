@@ -530,7 +530,7 @@ const AddProduct = () => {
               </span>
               <span
                 className="ml-2 text-xl "
-                onClick={(e) =>
+                onClick={() =>
                   setVariants((prevData) => [
                     ...prevData,
                     (prevData[i + 1] = {

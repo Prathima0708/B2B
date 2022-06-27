@@ -1,5 +1,5 @@
 import { Button, Input, Label, Textarea } from "@windmill/react-ui";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Grid } from "@material-ui/core";
 import Loading from "../../../components/preloader/Loading";
@@ -15,7 +15,10 @@ const Broadcast = () => {
     e.preventDefault();
     setSubmitLoader(true);
     await axios
-      .post(`${notificationServiceBaseUrl}/broadcastEmail`, { subject, email_body })
+      .post(`${notificationServiceBaseUrl}/broadcastEmail`, {
+        subject,
+        email_body,
+      })
       .catch((err) => console.log(err));
     setSubmitLoader(false);
   };

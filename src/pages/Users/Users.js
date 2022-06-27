@@ -2,7 +2,6 @@ import {
   Button,
   Card,
   CardBody,
-  Input,
   Modal,
   ModalBody,
   ModalFooter,
@@ -16,10 +15,13 @@ import {
   TableHeader,
   TableRow,
 } from "@windmill/react-ui";
-import { FiSearch, FiTrash2 } from "react-icons/fi";
+import { FiTrash2 } from "react-icons/fi";
 import { GET_ROLES_URL, GET_USER_LIST_URL } from "./constants";
 import React, { useEffect, useState } from "react";
-import hasPermission, { PAGE_ROLES_LIST, PAGE_USER_DETAILS } from "../../components/login/hasPermission";
+import hasPermission, {
+  PAGE_ROLES_LIST,
+  PAGE_USER_DETAILS,
+} from "../../components/login/hasPermission";
 import { notifyError, notifySuccess } from "../../utils/toast";
 
 import Backdrop from "@mui/material/Backdrop";
@@ -29,8 +31,6 @@ import NotFound from "../../components/table/NotFound";
 import PageTitle from "../../components/Typography/PageTitle";
 import apiService from "../../utils/apiService";
 import { useHistory } from "react-router-dom";
-
-// import { SidebarContext } from "../../context/SidebarContext";
 
 function UsersRole() {
   // Declare a new state variable, which we'll call "count"
@@ -68,7 +68,7 @@ function UsersRole() {
           notifyError("Something Went Wrong!!");
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
         notifyError("Something Went Wrong!!");
       });
@@ -82,7 +82,7 @@ function UsersRole() {
         setIsLoading(false);
         setRoles(response.data);
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -102,7 +102,7 @@ function UsersRole() {
             getUsers(currentPage, currentPageSize);
           }
         })
-        .catch((e) => {
+        .catch(() => {
           setIsLoading(false);
         });
     } else {
@@ -130,7 +130,7 @@ function UsersRole() {
       })
       .catch((error) => {
         setIsLoading(false);
-        // setNumberOfUsers(0);
+
         if (error.response) {
           // Request made and server responded
           notifyError(error.response.data.message);
@@ -139,7 +139,9 @@ function UsersRole() {
           notifyError("The request was made but no response was received");
         } else {
           // Something happened in setting up the request that triggered an Error
-          notifyError("Something happened in setting up the request that triggered an Error");
+          notifyError(
+            "Something happened in setting up the request that triggered an Error"
+          );
         }
       });
   };
@@ -152,42 +154,16 @@ function UsersRole() {
 
   return (
     <>
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
       <PageTitle>Users</PageTitle>
       {hasPermission(PAGE_ROLES_LIST, "page") && (
         <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
           <CardBody>
-            {/* <Grid container spacing={3}>
-            <Grid item lg={4} md={4} sm={6} xs={12} className="pt-1">
-              <Input
-                className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                label="User ID"
-                name="userID"
-                type="number"
-                placeholder="User ID"
-                value={userId}
-                onChange={(e) => {
-                  setUserId(e.target.value);
-                }}
-              />
-            </Grid>
-           
-            <Grid item lg={4} md={4} sm={6} xs={12} className="pt-1">
-              <Button
-                onClick={() => {
-                  getUserOnSearch();
-                }}
-                className="w-full rounded-md h-12"
-              >
-                <span className="mr-3">
-                  <FiSearch />
-                </span>
-                Search User
-              </Button>
-            </Grid>
-          </Grid> */}
             <Grid item lg={4} md={4} sm={6} xs={12} className="pt-1">
               <Select
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
@@ -198,7 +174,11 @@ function UsersRole() {
                   let id = e.target.value;
                   if (id) {
                     apiService
-                      .get("user_service", GET_USER_LIST_URL + "?page=0&size=15&role id=" + id, null)
+                      .get(
+                        "user_service",
+                        GET_USER_LIST_URL + "?page=0&size=15&role id=" + id,
+                        null
+                      )
                       .then((response) => {
                         setIsLoading(false);
                         if (response) {
@@ -208,7 +188,7 @@ function UsersRole() {
                           getUsers(currentPage, currentPageSize);
                         }
                       })
-                      .catch((e) => {
+                      .catch(() => {
                         setIsLoading(false);
                       });
                   } else {
@@ -251,21 +231,35 @@ function UsersRole() {
                     <TableRow
                       key={index}
                       className={
-                        hasPermission(PAGE_USER_DETAILS, "page") ? "cursor-pointer" : "cursor-default"
+                        hasPermission(PAGE_USER_DETAILS, "page")
+                          ? "cursor-pointer"
+                          : "cursor-default"
                       }
                       onClick={() => {
                         if (!hasPermission(PAGE_USER_DETAILS, "page")) return;
                         history.push(`/users/${users.id}/details`);
                       }}
                     >
-                      <TableCell className="font-semibold uppercase text-xs">{users.id}</TableCell>
-                      <TableCell className="font-semibold uppercase text-xs">{users.first_name}</TableCell>
-                      <TableCell className="font-semibold uppercase text-xs">{users.last_name}</TableCell>
-                      <TableCell className="font-semibold uppercase text-xs">{users.email}</TableCell>
                       <TableCell className="font-semibold uppercase text-xs">
-                        {users.role && users.role != null ? users.role.name : "-"}
+                        {users.id}
                       </TableCell>
-                      <TableCell className="font-semibold uppercase text-xs">{users.mobile_number}</TableCell>
+                      <TableCell className="font-semibold uppercase text-xs">
+                        {users.first_name}
+                      </TableCell>
+                      <TableCell className="font-semibold uppercase text-xs">
+                        {users.last_name}
+                      </TableCell>
+                      <TableCell className="font-semibold uppercase text-xs">
+                        {users.email}
+                      </TableCell>
+                      <TableCell className="font-semibold uppercase text-xs">
+                        {users.role && users.role != null
+                          ? users.role.name
+                          : "-"}
+                      </TableCell>
+                      <TableCell className="font-semibold uppercase text-xs">
+                        {users.mobile_number}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -285,28 +279,27 @@ function UsersRole() {
           </TableContainer>
 
           <>
-            <Modal isOpen={false} onClose={() => {}}>
+            <Modal isOpen={false}>
               <ModalBody className="text-center custom-modal px-8 pt-6 pb-4">
                 <span className="flex justify-center text-3xl mb-6 text-red-500">
                   <FiTrash2 />
                 </span>
-                <h2 className="text-xl font-medium mb-1">Are You Sure! Want to Delete This Record?</h2>
+                <h2 className="text-xl font-medium mb-1">
+                  Are You Sure! Want to Delete This Record?
+                </h2>
                 <p>
-                  Do you really want to delete these records? You can't view this in your list anymore if you
-                  delete!
+                  Do you really want to delete these records? You can't view
+                  this in your list anymore if you delete!
                 </p>
               </ModalBody>
               <ModalFooter className="justify-center">
                 <Button
                   className="w-full sm:w-auto hover:bg-white hover:border-gray-50"
                   layout="outline"
-                  onClick={() => {}}
                 >
                   No, Keep It
                 </Button>
-                <Button onClick={() => {}} className="w-full sm:w-auto">
-                  Yes, Delete It
-                </Button>
+                <Button className="w-full sm:w-auto">Yes, Delete It</Button>
               </ModalFooter>
             </Modal>
           </>

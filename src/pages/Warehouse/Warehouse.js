@@ -9,65 +9,44 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  Select,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHeader,
   TableRow,
-  Textarea,
 } from "@windmill/react-ui";
 import {
-  DEL_CONFIG_FROM_LIST_URL,
   DEL_WAREHOUSE,
   GET_WAREHOUSE_LIST_URL,
   GOOGLE_MAP_API_KEY,
   POST_WAREHOUSE,
 } from "./constants";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from "@react-google-maps/api";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { compose, withProps } from "recompose";
+import {
+  GoogleMap,
+  InfoWindow,
+  Marker,
+  useJsApiLoader,
+} from "@react-google-maps/api";
+import React, { useEffect, useRef, useState } from "react";
+
 import { notifyError, notifySuccess } from "../../utils/toast";
 
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import Drawer from "rc-drawer";
-import { FiPlus } from "react-icons/fi";
-import { FiX } from "react-icons/fi";
+
+import { FiPlus, FiX } from "react-icons/fi";
+
 import Grid from "@mui/material/Grid";
-import JSONInput from "react-json-editor-ajrm";
-import LabelArea from "../../components/form/LabelArea";
+
 import NotFound from "../../components/table/NotFound";
 import PageTitle from "../../components/Typography/PageTitle";
 import ReactGoogleAutocomplete from "react-google-autocomplete";
-import ReactLeafLetMap from "./ReactLeafLetMap";
-import Scrollbars from "react-custom-scrollbars";
+
 import Title from "../../components/form/Title";
 import Tooltip from "../../components/tooltip/Tooltip";
 import apiService from "../../utils/apiService";
-import locale from "react-json-editor-ajrm/locale/en";
-
-// import { SidebarContext } from "../../context/SidebarContext";
-
-// const MapWithAMarker = withGoogleMap((props) => {
-//   const [center, setCenter] = useState({ lat: 25.286106, lng: 51.534817 });
-//   useEffect(() => {
-//     setCenter(props.center);
-//   }, [props.center]);
-//   return (
-//     <GoogleMap
-//       defaultZoom={14}
-//       center={center}
-//       onClick={(e) => {
-//         props.setGLatLng({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-//       }}
-//     >
-//       <Marker position={props.gLatLng} />
-//     </GoogleMap>
-//   );
-// });
 
 const Map = ({ center, zoom, setGLatLng, gLatLng }) => {
   const [showInfo, setShowInfo] = useState(false);
@@ -108,7 +87,7 @@ const Map = ({ center, zoom, setGLatLng, gLatLng }) => {
     fetchMarkerData(position.lat, position.lng);
   };
 
-  function handleZoomChanged(e) {
+  function handleZoomChanged() {
     setPosition(position);
   }
 
@@ -122,9 +101,13 @@ const Map = ({ center, zoom, setGLatLng, gLatLng }) => {
       center={center}
       id="google-map-script"
     >
-      <Marker position={position} onClick={(e) => setShowInfo(true)}>
+      <Marker position={position} onClick={() => setShowInfo(true)}>
         {showInfo && (
-          <InfoWindow position={position} zIndex={10} onCloseClick={(e) => setShowInfo(false)}>
+          <InfoWindow
+            position={position}
+            zIndex={10}
+            onCloseClick={() => setShowInfo(false)}
+          >
             <h4>{markerData.formatted_address}</h4>
           </InfoWindow>
         )}
@@ -170,12 +153,12 @@ function Warehouse() {
           setWarehouseList([]);
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
 
-  const deleteConfig = (index) => {
+  const deleteConfig = () => {
     setIsLoading(true);
     apiService
       .delete("b2b", DEL_WAREHOUSE + del_warehouse, null)
@@ -223,7 +206,8 @@ function Warehouse() {
   useEffect(() => {
     getWarehouseList();
     var d = document.getElementsByClassName("drawer-content");
-    if (d && d[0]) d[0].className += " bg-white dark:bg-gray-800 dark:text-gray-300";
+    if (d && d[0])
+      d[0].className += " bg-white dark:bg-gray-800 dark:text-gray-300";
   }, []);
 
   useEffect(() => {
@@ -241,9 +225,12 @@ function Warehouse() {
         buildingName: edit_warehouse.address.buildingName,
       };
       setName(nm);
-      setAddress((prevMovies) => ({ ...add }));
-      setShopLatLng((prevMovies) => [edit_warehouse.latitude, edit_warehouse.longitude]);
-      setGLatLng({ lat: edit_warehouse.latitude, lng: edit_warehouse.longitude });
+      setAddress(() => ({ ...add }));
+      setShopLatLng(() => [edit_warehouse.latitude, edit_warehouse.longitude]);
+      setGLatLng({
+        lat: edit_warehouse.latitude,
+        lng: edit_warehouse.longitude,
+      });
     }
   }, [edit_warehouse]);
 
@@ -289,7 +276,7 @@ function Warehouse() {
             }, 0);
           }
         })
-        .catch((e) => {
+        .catch(() => {
           setIsLoading(false);
           notifyError("Something went wrong!!");
         });
@@ -309,7 +296,7 @@ function Warehouse() {
             }, 0);
           }
         })
-        .catch((e) => {
+        .catch(() => {
           setIsLoading(false);
           notifyError("Something went wrong!!");
         });
@@ -318,7 +305,10 @@ function Warehouse() {
 
   return (
     <>
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
       {/* <Drawer
@@ -337,7 +327,11 @@ function Warehouse() {
                 <div className="col-span-8 sm:col-span-4">
                   <div className=" top-0 w-full right-0 py-4 lg:py-8 px-6 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex bg-gray-50 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
                     <Title
-                      title={edit_warehouse === null ? "Add Warehouse" : "Edit Warehouse"}
+                      title={
+                        edit_warehouse === null
+                          ? "Add Warehouse"
+                          : "Edit Warehouse"
+                      }
                       description={
                         edit_warehouse === null
                           ? "Add your App Config and necessary information from here"
@@ -374,8 +368,17 @@ function Warehouse() {
                 <Grid item lg={6} md={12} sm={12} xs={12} className="">
                   <Label>
                     <span>Location</span>
-                    {onLoadOfComponent ? <>{getAutoComplete()}</> : <div className="mb-2">Loading ...</div>}
-                    <Map zoom={14} center={center} gLatLng={gLatLng} setGLatLng={setGLatLng} />
+                    {onLoadOfComponent ? (
+                      <>{getAutoComplete()}</>
+                    ) : (
+                      <div className="mb-2">Loading ...</div>
+                    )}
+                    <Map
+                      zoom={14}
+                      center={center}
+                      gLatLng={gLatLng}
+                      setGLatLng={setGLatLng}
+                    />
                   </Label>
                 </Grid>
                 <Grid item lg={6} md={12} sm={12} xs={12} className=""></Grid>
@@ -390,7 +393,7 @@ function Warehouse() {
                       onChange={(e) => {
                         let a = address;
                         a.buildingName = e.target.value;
-                        setAddress((prevMovies) => ({ ...a }));
+                        setAddress(() => ({ ...a }));
                       }}
                     />
                   </Label>
@@ -407,7 +410,7 @@ function Warehouse() {
                       onChange={(e) => {
                         let a = address;
                         a.street = e.target.value;
-                        setAddress((prevMovies) => ({ ...a }));
+                        setAddress(() => ({ ...a }));
                       }}
                     />
                   </Label>
@@ -423,7 +426,7 @@ function Warehouse() {
                       onChange={(e) => {
                         let a = address;
                         a.locality = e.target.value;
-                        setAddress((prevMovies) => ({ ...a }));
+                        setAddress(() => ({ ...a }));
                       }}
                     />
                   </Label>
@@ -439,7 +442,7 @@ function Warehouse() {
                       onChange={(e) => {
                         let a = address;
                         a.city = e.target.value;
-                        setAddress((prevMovies) => ({ ...a }));
+                        setAddress(() => ({ ...a }));
                       }}
                     />
                   </Label>
@@ -455,7 +458,7 @@ function Warehouse() {
                       onChange={(e) => {
                         let a = address;
                         a.landmark = e.target.value;
-                        setAddress((prevMovies) => ({ ...a }));
+                        setAddress(() => ({ ...a }));
                       }}
                     />
                   </Label>
@@ -483,11 +486,14 @@ function Warehouse() {
                           type="submit"
                           className="w-full h-12"
                           onClick={() => {
-                            let editFlag = edit_warehouse != null ? true : false;
+                            let editFlag =
+                              edit_warehouse != null ? true : false;
                             onSubmitHandler(editFlag);
                           }}
                         >
-                          <span>{edit_warehouse === null ? "Add" : "Edit"} </span>
+                          <span>
+                            {edit_warehouse === null ? "Add" : "Edit"}{" "}
+                          </span>
                         </Button>
                       </Grid>
                     </Grid>
@@ -512,7 +518,10 @@ function Warehouse() {
                 }}
                 className="py-3 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex"
               >
-                <div className="w-full md:w-56 lg:w-56 xl:w-56" style={{ width: "100%" }}>
+                <div
+                  className="w-full md:w-56 lg:w-56 xl:w-56"
+                  style={{ width: "100%" }}
+                >
                   <Button
                     onClick={() => {
                       setShowDrawer(true);
@@ -556,13 +565,19 @@ function Warehouse() {
                             setEdit_warehouse(wh);
                           }}
                         >
-                          <TableCell className="font-semibold uppercase text-xs">{wh.id}</TableCell>
-                          <TableCell className="font-semibold uppercase text-xs">{wh.name}</TableCell>
+                          <TableCell className="font-semibold uppercase text-xs">
+                            {wh.id}
+                          </TableCell>
+                          <TableCell className="font-semibold uppercase text-xs">
+                            {wh.name}
+                          </TableCell>
                           <TableCell className="font-semibold uppercase text-xs">
                             {wh.address.city ? wh.address.city : "-"}
                           </TableCell>
                           <TableCell className="font-semibold uppercase text-xs">
-                            {wh.address.buildingName ? wh.address.buildingName : "-"}
+                            {wh.address.buildingName
+                              ? wh.address.buildingName
+                              : "-"}
                           </TableCell>
                           <TableCell>
                             <div className="flex " /* justify-end text-right*/>
@@ -577,7 +592,12 @@ function Warehouse() {
                                 }}
                                 className="p-2 cursor-pointer text-gray-400 hover:text-green-600"
                               >
-                                <Tooltip id="edit" Icon={FiEdit} title="Edit" bgColor="#10B981" />
+                                <Tooltip
+                                  id="edit"
+                                  Icon={FiEdit}
+                                  title="Edit"
+                                  bgColor="#10B981"
+                                />
                               </div>
 
                               <div
@@ -587,7 +607,12 @@ function Warehouse() {
                                 }}
                                 className="p-2 cursor-pointer text-gray-400 hover:text-red-600"
                               >
-                                <Tooltip id="delete" Icon={FiTrash2} title="Delete" bgColor="#EF4444" />
+                                <Tooltip
+                                  id="delete"
+                                  Icon={FiTrash2}
+                                  title="Delete"
+                                  bgColor="#EF4444"
+                                />
                               </div>
                             </div>
                           </TableCell>
@@ -608,10 +633,12 @@ function Warehouse() {
                     <span className="flex justify-center text-3xl mb-6 text-red-500">
                       <FiTrash2 />
                     </span>
-                    <h2 className="text-xl font-medium mb-1">Are You Sure! Want to Delete This Record?</h2>
+                    <h2 className="text-xl font-medium mb-1">
+                      Are You Sure! Want to Delete This Record?
+                    </h2>
                     <p>
-                      Do you really want to delete these records? You can't view this in your list anymore if
-                      you delete!
+                      Do you really want to delete these records? You can't view
+                      this in your list anymore if you delete!
                     </p>
                   </ModalBody>
                   <ModalFooter className="justify-center">

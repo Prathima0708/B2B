@@ -34,10 +34,18 @@ import {
   TableHeader,
   TableRow,
 } from "@windmill/react-ui";
-import { FiPlus, FiPrinter, FiSearch, FiTruck, FiUserPlus } from "react-icons/fi";
+import {
+  FiPlus,
+  FiPrinter,
+  FiSearch,
+  FiTruck,
+  FiUserPlus,
+} from "react-icons/fi";
 import React, { useEffect, useState } from "react";
-import {SERVER_HOST_LINK, SERVER_HOST_LINK2} from "./../../utils/constants"
-import hasPermission, { PAGE_MY_ORDERS } from "../../components/login/hasPermission";
+import { SERVER_HOST_LINK, SERVER_HOST_LINK2 } from "./../../utils/constants";
+import hasPermission, {
+  PAGE_MY_ORDERS,
+} from "../../components/login/hasPermission";
 import { notifyError, notifySuccess } from "../../utils/toast";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -156,12 +164,15 @@ function MyOrders(props) {
     const params = {
       page: currentPage - 1,
       size: currentPageSize,
-      sort: "id"
+      sort: "id",
     };
-    if(filterstatus!=null){
-      params.status=filterstatus;
+    if (filterstatus != null) {
+      params.status = filterstatus;
     }
-    let url = location.pathname === "/myOrders" ? GET_ORDERS_LIST_URL : GET_ORDERS_LIST_SELLER_URL;
+    let url =
+      location.pathname === "/myOrders"
+        ? GET_ORDERS_LIST_URL
+        : GET_ORDERS_LIST_SELLER_URL;
     apiService
       .get("b2b", url, params)
       .then((response) => {
@@ -203,7 +214,10 @@ function MyOrders(props) {
   const getDeliveryStoreName = (user) => {
     let dlvryAddress = JSON.parse(user.deliveryAddress);
     if (dlvryAddress && dlvryAddress != null) {
-      let strName = dlvryAddress.store_data && dlvryAddress.store_data.name ? dlvryAddress.store_data.name : "";
+      let strName =
+        dlvryAddress.store_data && dlvryAddress.store_data.name
+          ? dlvryAddress.store_data.name
+          : "";
 
       return strName;
     } else {
@@ -214,7 +228,10 @@ function MyOrders(props) {
   const getDeliveryAddress = (user) => {
     let dlvryAddress = JSON.parse(user.deliveryAddress);
     if (dlvryAddress && dlvryAddress != null) {
-      let strName = dlvryAddress.store_data && dlvryAddress.store_data.name ? dlvryAddress.store_data.name : "";
+      let strName =
+        dlvryAddress.store_data && dlvryAddress.store_data.name
+          ? dlvryAddress.store_data.name
+          : "";
       let address = "";
       if (dlvryAddress.store_data && dlvryAddress.store_data.address) {
         let add = JSON.parse(dlvryAddress.store_data.address);
@@ -226,8 +243,8 @@ function MyOrders(props) {
     }
   };
 
-  const openInNewTab = url => {
-    window.open(url, '_blank', 'noopener,noreferrer');
+  const openInNewTab = (url) => {
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -252,7 +269,7 @@ function MyOrders(props) {
                     onChange={(e) => setWarehouse(e.target.value)}
                     name="filter"
                   >
-                    {warehouseList.map((wr, i) => {
+                    {warehouseList.map((wr) => {
                       return <option value={wr.id}>{wr.name}</option>;
                     })}
                   </Select>
@@ -279,8 +296,14 @@ function MyOrders(props) {
                     {driver &&
                       driver.map((users, index) => {
                         return (
-                          <TableRow key={index} className="cursor-pointer" onClick={async () => {}}>
-                            <TableCell className="font-semibold uppercase text-xs">{users.user_id}</TableCell>
+                          <TableRow
+                            key={index}
+                            className="cursor-pointer"
+                            onClick={async () => {}}
+                          >
+                            <TableCell className="font-semibold uppercase text-xs">
+                              {users.user_id}
+                            </TableCell>
                             <TableCell className="font-semibold uppercase text-xs">
                               {users.first_name}
                             </TableCell>
@@ -312,7 +335,11 @@ function MyOrders(props) {
           )}
         </ModalBody>
         <ModalFooter>
-          <Button className="w-full sm:w-auto" layout="outline" onClick={closeModalAssignDriverModal}>
+          <Button
+            className="w-full sm:w-auto"
+            layout="outline"
+            onClick={closeModalAssignDriverModal}
+          >
             Cancel
           </Button>
           <Button
@@ -320,7 +347,7 @@ function MyOrders(props) {
             onClick={() => {
               let orderSOBJ = orders;
               let selectedOrders = [];
-              orderSOBJ.map((ord, index) => {
+              orderSOBJ.map((ord) => {
                 if (ord.selected) {
                   if (typeFlg === "vendor") {
                     selectedOrders.push({
@@ -340,21 +367,26 @@ function MyOrders(props) {
                 setIsLoading(true);
                 let payload = selectedOrders;
                 localStorage.setItem("x-member-id", selectedDriver);
-                let url = typeFlg === "vendor" ? ASSIGN_DRIVER_B2B_VENDOR : ASSIGN_DRIVER_B2B_SELLER;
+                let url =
+                  typeFlg === "vendor"
+                    ? ASSIGN_DRIVER_B2B_VENDOR
+                    : ASSIGN_DRIVER_B2B_SELLER;
                 apiService
                   .post("b2b", url, payload)
                   .then((response) => {
                     if (response.status) {
                       setIsLoading(false);
                       closeModalAssignDriverModal();
-                      notifySuccess(`Driver has been assigned to Selected Orders`);
+                      notifySuccess(
+                        `Driver has been assigned to Selected Orders`
+                      );
                       getOrders();
                     } else {
                       setIsLoading(false);
                       notifyError("Something Went Wrong!!");
                     }
                   })
-                  .catch((e) => {
+                  .catch(() => {
                     setIsLoading(false);
                   });
               }
@@ -388,8 +420,14 @@ function MyOrders(props) {
                     {storeUsers &&
                       storeUsers.map((users, index) => {
                         return (
-                          <TableRow key={index} className="cursor-pointer" onClick={async () => {}}>
-                            <TableCell className="font-semibold uppercase text-xs">{users.user_id}</TableCell>
+                          <TableRow
+                            key={index}
+                            className="cursor-pointer"
+                            onClick={async () => {}}
+                          >
+                            <TableCell className="font-semibold uppercase text-xs">
+                              {users.user_id}
+                            </TableCell>
                             <TableCell className="font-semibold uppercase text-xs">
                               {users.first_name}
                             </TableCell>
@@ -419,7 +457,11 @@ function MyOrders(props) {
           )}
         </ModalBody>
         <ModalFooter>
-          <Button className="w-full sm:w-auto" layout="outline" onClick={closeModal}>
+          <Button
+            className="w-full sm:w-auto"
+            layout="outline"
+            onClick={closeModal}
+          >
             Cancel
           </Button>
           <Button
@@ -462,18 +504,26 @@ function MyOrders(props) {
           </Button>
         </ModalFooter>
       </Modal>
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
       <Grid container spacing={3}>
         <Grid item sm={6} xs={12} className="pt-1">
           <PageTitle>My Orders</PageTitle>
         </Grid>
-        <Grid item sm={6} xs={12} className="pt-1" style={{ marginTop: "2rem" }}>
+        <Grid
+          item
+          sm={6}
+          xs={12}
+          className="pt-1"
+          style={{ marginTop: "2rem" }}
+        >
           <Grid container spacing={3}>
             <Grid xs={6} className="pt-1">
               <Button
-                onClick={() => {}}
                 className="h-12 bg-white w-full text-green-500 hover:bg-green-50 hover:border-green-100 hover:text-green-600 dark:bg-gray-700 dark:border-gray-700 dark:text-gray-500 dark:hover:bg-gray-800 dark:hover:text-green-700"
                 layout="outline"
               >
@@ -481,7 +531,7 @@ function MyOrders(props) {
               </Button>
             </Grid>
             <Grid xs={6} className="pt-1 pl-1">
-              <Button type="submit" className="w-full h-12" onClick={() => {}}>
+              <Button type="submit" className="w-full h-12">
                 <FiPlus className="me-1" /> Create New Orders
               </Button>
             </Grid>
@@ -501,12 +551,18 @@ function MyOrders(props) {
               />
             </Grid>
             <Grid item lg={3} md={4} sm={6} xs={12} className="pt-1">
-              <Select className="h-12" value={""} onChange={(e) => {}}>
+              <Select className="h-12" value={""}>
                 <option value={""}>{"Payment Method"}</option>
               </Select>
             </Grid>
             <Grid item lg={3} md={4} sm={6} xs={12} className="pt-1">
-              <Select className="h-12" value={filterstatus} onChange={(e) => {setfilterstatus(e.target.value);}}>
+              <Select
+                className="h-12"
+                value={filterstatus}
+                onChange={(e) => {
+                  setfilterstatus(e.target.value);
+                }}
+              >
                 <option value={""}>{"--Status(All)--"}</option>
                 <option value={"PLACED"}>{"Placed"}</option>
                 <option value={"ACCEPTED"}>{"Accepted"}</option>
@@ -517,24 +573,24 @@ function MyOrders(props) {
               </Select>
             </Grid>
             <Grid item lg={3} md={4} sm={6} xs={12} className="pt-1">
-              <Select className="h-12" value={""} onChange={(e) => {}}>
+              <Select className="h-12" value={""}>
                 <option value={""}>{"Lorem Ipsum"}</option>
               </Select>
             </Grid>
             <Grid item lg={3} md={4} sm={6} xs={12} className="pt-1">
-              <Select className="h-12" value={""} onChange={(e) => {}}>
+              <Select className="h-12" value={""}>
                 <option value={""}>{"More Filters"}</option>
               </Select>
             </Grid>
             <Grid item lg={3} md={4} sm={6} xs={12} className="pt-1">
-              <Select className="h-12" onChange={(e) => {}}>
+              <Select className="h-12">
                 <option>{"All"}</option>
                 <option>{"Pick Ups"}</option>
                 <option>{"Returns"}</option>
               </Select>
             </Grid>
             <Grid item lg={3} md={4} sm={6} xs={12} className="pt-1">
-              <Button onClick={() => {}} className="w-full rounded-md h-12">
+              <Button className="w-full rounded-md h-12">
                 <span className="mr-3">
                   <FiSearch />
                 </span>
@@ -613,12 +669,17 @@ function MyOrders(props) {
                         <Input
                           type="checkbox"
                           checked={users.selected ? users.selected : false}
-                          disabled={users.orderStatus === 'COMPLETED' || users.orderStatus === 'REJECTED' || users.orderStatus === 'CANCELLED'}
+                          disabled={
+                            users.orderStatus === "COMPLETED" ||
+                            users.orderStatus === "REJECTED" ||
+                            users.orderStatus === "CANCELLED"
+                          }
                           onClick={(e) => {
                             e.stopPropagation();
                             setIsLoading(true);
                             let ordersArray = orders;
-                            ordersArray[index].selected = ordersArray[index].selected
+                            ordersArray[index].selected = ordersArray[index]
+                              .selected
                               ? !ordersArray[index].selected
                               : true;
 
@@ -641,47 +702,86 @@ function MyOrders(props) {
                         <p>{getDeliveryStoreName(users)}</p>
                         <p>{getDeliveryAddress(users)}</p>
                       </TableCell>
-                      <TableCell className="font-semibold uppercase text-xs">{"-"}</TableCell>
-                      <TableCell className="font-semibold uppercase text-xs" onClick={(e)=>{e.stopPropagation();}}>
-                        {typeFlg === "vendor" ? <Select className="h-12" style={{width:"120px"}} onChange={(e) => {
-                           e.stopPropagation();
-                           console.log(e.target.value)
-                           if(e.target.value !== '-Select-')
-                            openInNewTab(SERVER_HOST_LINK+'?vendor-order-id='+users.id+'&doc-type='+e.target.value)
-                         }}>
-                          <option value={null}>{"-Select-"}</option>
-                          <option>{"PO"}</option>
-                          <option>{"DN"}</option>
-                        </Select> : <Select className="h-12" style={{width:"120px"}} onChange={(e) => {
-                           e.stopPropagation();
-                           if(e.target.value !== '-Select-')
-                            openInNewTab(SERVER_HOST_LINK2+'?vendor-order-id='+users.id+'&doc-type='+e.target.value)
-                         }}>
-                          <option value={null}>{"-Select-"}</option>
-                          <option>{"IN"}</option>
-                        </Select>}
-                        
+                      <TableCell className="font-semibold uppercase text-xs">
+                        {"-"}
+                      </TableCell>
+                      <TableCell
+                        className="font-semibold uppercase text-xs"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        {typeFlg === "vendor" ? (
+                          <Select
+                            className="h-12"
+                            style={{ width: "120px" }}
+                            onChange={(e) => {
+                              e.stopPropagation();
+                              console.log(e.target.value);
+                              if (e.target.value !== "-Select-")
+                                openInNewTab(
+                                  SERVER_HOST_LINK +
+                                    "?vendor-order-id=" +
+                                    users.id +
+                                    "&doc-type=" +
+                                    e.target.value
+                                );
+                            }}
+                          >
+                            <option value={null}>{"-Select-"}</option>
+                            <option>{"PO"}</option>
+                            <option>{"DN"}</option>
+                          </Select>
+                        ) : (
+                          <Select
+                            className="h-12"
+                            style={{ width: "120px" }}
+                            onChange={(e) => {
+                              e.stopPropagation();
+                              if (e.target.value !== "-Select-")
+                                openInNewTab(
+                                  SERVER_HOST_LINK2 +
+                                    "?vendor-order-id=" +
+                                    users.id +
+                                    "&doc-type=" +
+                                    e.target.value
+                                );
+                            }}
+                          >
+                            <option value={null}>{"-Select-"}</option>
+                            <option>{"IN"}</option>
+                          </Select>
+                        )}
                       </TableCell>
                       <TableCell className="font-semibold uppercase text-xs">
                         {users.deliveryNote?.length > 0 ? (
                           <>
-                            <p data-tip>{`${users.deliveryNote.slice(0, 30)}...`}</p>
+                            <p data-tip>{`${users.deliveryNote.slice(
+                              0,
+                              30
+                            )}...`}</p>
                             <ReactTooltip backgroundColor="#10B981">
-                              <span className="text-sm font-medium">{users.deliveryNote}</span>
+                              <span className="text-sm font-medium">
+                                {users.deliveryNote}
+                              </span>
                             </ReactTooltip>
                           </>
                         ) : (
                           users.deliveryNote
                         )}
                       </TableCell>
-                      <TableCell className="font-semibold uppercase text-xs">{users.paymentMode}</TableCell>
-                      <TableCell className="font-semibold uppercase text-xs">{users.totalAmount}</TableCell>
+                      <TableCell className="font-semibold uppercase text-xs">
+                        {users.paymentMode}
+                      </TableCell>
+                      <TableCell className="font-semibold uppercase text-xs">
+                        {users.totalAmount}
+                      </TableCell>
                       <TableCell>
                         {users.orderStatus === "CANCELLED" ? (
-                            <Badge type="danger">{users.orderStatus}</Badge>
-                          ) : (
-                            <Badge type="success">{users.orderStatus}</Badge>
-                          )}
+                          <Badge type="danger">{users.orderStatus}</Badge>
+                        ) : (
+                          <Badge type="success">{users.orderStatus}</Badge>
+                        )}
                       </TableCell>
                     </TableRow>
                   );

@@ -1,28 +1,50 @@
 import React from "react";
-import { Table, TableHeader, TableCell, TableFooter, TableContainer, Select, Input, Card, CardBody, Pagination } from "@windmill/react-ui";
+import {
+  Table,
+  TableHeader,
+  TableCell,
+  TableFooter,
+  TableContainer,
+  Select,
+  Input,
+  Card,
+  CardBody,
+  Pagination,
+} from "@windmill/react-ui";
 
-import useAsync from "../hooks/useAsync";
 import useFilter from "../hooks/useFilter";
 import NotFound from "../components/table/NotFound";
-import OrderServices from "../services/OrderServices";
+
 import Loading from "../components/preloader/Loading";
 import OrderTable from "../components/order/OrderTable";
 import PageTitle from "../components/Typography/PageTitle";
 import { orders } from "../util/orders";
 
 const Orders = () => {
-  // const { data, loading } = useAsync(OrderServices.getAllOrders);
   const data = orders;
   const loading = false;
 
-  const { orderRef, setStatus, setTime, handleChangePage, totalResults, resultsPerPage, dataTable, serviceData, handleSubmitOrder } = useFilter(data);
+  const {
+    orderRef,
+    setStatus,
+    setTime,
+    handleChangePage,
+    totalResults,
+    resultsPerPage,
+    dataTable,
+    serviceData,
+    handleSubmitOrder,
+  } = useFilter(data);
 
   return (
     <>
       <PageTitle>Orders</PageTitle>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody>
-          <form onSubmit={handleSubmitOrder} className="py-3 grid gap-4 lg:gap-6 xl:gap-6 md:grid-cols-3 xl:grid-cols-3">
+          <form
+            onSubmit={handleSubmitOrder}
+            className="py-3 grid gap-4 lg:gap-6 xl:gap-6 md:grid-cols-3 xl:grid-cols-3"
+          >
             <div>
               <Input
                 ref={orderRef}
@@ -84,7 +106,12 @@ const Orders = () => {
             <OrderTable orders={dataTable} />
           </Table>
           <TableFooter>
-            <Pagination totalResults={totalResults} resultsPerPage={resultsPerPage} onChange={handleChangePage} label="Table navigation" />
+            <Pagination
+              totalResults={totalResults}
+              resultsPerPage={resultsPerPage}
+              onChange={handleChangePage}
+              label="Table navigation"
+            />
           </TableFooter>
         </TableContainer>
       ) : (

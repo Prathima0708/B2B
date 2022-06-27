@@ -1,4 +1,3 @@
-// import requests from "./httpService";
 import requests from "./httpService";
 
 const CategoryServices = {

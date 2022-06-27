@@ -22,7 +22,11 @@ const Email = () => {
         page: 0,
         size: 15,
       })
-      .then(({ data }) => setUsers(data.results.map(({ email }) => ({ value: email, label: email }))))
+      .then(({ data }) =>
+        setUsers(
+          data.results.map(({ email }) => ({ value: email, label: email }))
+        )
+      )
       .catch((err) => console.log(err));
   }, []);
   const handleUsersSelected = (selected) => {
@@ -32,7 +36,11 @@ const Email = () => {
     return (
       <div>
         <components.Option {...props}>
-          <input type="checkbox" checked={props.isSelected} onChange={() => null} />
+          <input
+            type="checkbox"
+            checked={props.isSelected}
+            onChange={() => null}
+          />
           <label>{props.label}</label>
         </components.Option>
       </div>
@@ -42,7 +50,9 @@ const Email = () => {
     e.preventDefault();
     setSubmitLoader(true);
     if (usersSelected.length === 0) {
-      notifyError("Please select at least one user to send the notification to");
+      notifyError(
+        "Please select at least one user to send the notification to"
+      );
       setSubmitLoader(false);
       return;
     }
@@ -56,7 +66,7 @@ const Email = () => {
     };
     await axios
       .post(`${notificationServiceBaseUrl}/sendEmail`, payload)
-      .then((data) => {
+      .then(() => {
         notifySuccess("Notification Sent");
       })
       .catch((err) => console.log(err));

@@ -4,9 +4,15 @@ import "react-step-progress-bar/styles.css";
 
 import { Card, CardBody } from "@windmill/react-ui";
 import { ProgressBar, Step } from "react-step-progress-bar";
-import React, { useContext, useEffect, useState } from "react";
-import { dayOptions, startTimeOption, stopTimeOption } from "../utils/dayAndTimeUtils";
-import hasPermission, { PAGE_STORE_UPDATE } from "../components/login/hasPermission";
+import React, { useEffect, useState } from "react";
+import {
+  dayOptions,
+  startTimeOption,
+  stopTimeOption,
+} from "../utils/dayAndTimeUtils";
+import hasPermission, {
+  PAGE_STORE_UPDATE,
+} from "../components/login/hasPermission";
 
 import BasicInfo from "../components/Store/BasicInfo";
 import ContactInfo from "../components/Store/ContactInfo";
@@ -71,21 +77,37 @@ const Store = () => {
               openTime: undefined,
               closeTime: undefined,
             };
-            const existingDay = workingHours?.find((eDay) => eDay.dayOfWeek === day.id);
+            const existingDay = workingHours?.find(
+              (eDay) => eDay.dayOfWeek === day.id
+            );
             if (existingDay !== undefined) {
-              dayObj.openTime = String(startTimeOption.find((opt) => opt.time === existingDay.openTime).id);
+              dayObj.openTime = String(
+                startTimeOption.find((opt) => opt.time === existingDay.openTime)
+                  .id
+              );
               dayObj.closeTimeOption = stopTimeOption.slice(
-                startTimeOption.find((opt) => opt.time === existingDay.openTime).id
+                startTimeOption.find((opt) => opt.time === existingDay.openTime)
+                  .id
               );
               const openTimeArray = existingDay.openTime.split(":");
-              const openTimeInMinutes = Number(openTimeArray[0]) * 60 + Number(openTimeArray[1]);
-              const closeTimeInMinutes = openTimeInMinutes + existingDay.workingTimeInMins;
+              const openTimeInMinutes =
+                Number(openTimeArray[0]) * 60 + Number(openTimeArray[1]);
+              const closeTimeInMinutes =
+                openTimeInMinutes + existingDay.workingTimeInMins;
               const closeTimeHour = Math.floor(closeTimeInMinutes / 60);
               const closeTimeMins = closeTimeInMinutes % 60;
               const closeTime = `${
-                String(closeTimeHour).length === 1 ? `0${closeTimeHour}` : `${closeTimeHour}`
-              }:${String(closeTimeMins).length === 1 ? `0${closeTimeMins}` : `${closeTimeMins}`}`;
-              dayObj.closeTime = String(stopTimeOption.find((opt) => opt.time === closeTime).id);
+                String(closeTimeHour).length === 1
+                  ? `0${closeTimeHour}`
+                  : `${closeTimeHour}`
+              }:${
+                String(closeTimeMins).length === 1
+                  ? `0${closeTimeMins}`
+                  : `${closeTimeMins}`
+              }`;
+              dayObj.closeTime = String(
+                stopTimeOption.find((opt) => opt.time === closeTime).id
+              );
               dayObj.openTimeOption = startTimeOption.slice(
                 0,
                 stopTimeOption.find((opt) => opt.time === closeTime).id + 1
@@ -110,7 +132,9 @@ const Store = () => {
             storeType,
             workingHours: workingHoursArr,
             shopImageFormData: {
-              url: resources?.find((res) => res.type === "STORE_IMAGE")?.value || "",
+              url:
+                resources?.find((res) => res.type === "STORE_IMAGE")?.value ||
+                "",
               formData: false,
               previewUrl: "",
               deletedImageUrl: "",
@@ -138,13 +162,18 @@ const Store = () => {
           });
           setProofState({
             customerRegistrationFormData: {
-              url: resources?.find((res) => res.name === "Customer registration number")?.value || "",
+              url:
+                resources?.find(
+                  (res) => res.name === "Customer registration number"
+                )?.value || "",
               formData: false,
               previewUrl: "",
               deletedImageUrl: "",
             },
             tradeLicenseNumberFormData: {
-              url: resources?.find((res) => res.name === "Trade license number")?.value || "",
+              url:
+                resources?.find((res) => res.name === "Trade license number")
+                  ?.value || "",
               formData: false,
               previewUrl: "",
               deletedImageUrl: "",
@@ -164,23 +193,41 @@ const Store = () => {
         height={3}
       >
         <Step>
-          {({ accomplished, index }) => (
-            <div className={`bg-green indexedStep ${accomplished ? "accomplished" : null}`}>&nbsp;</div>
+          {({ accomplished }) => (
+            <div
+              className={`bg-green indexedStep ${
+                accomplished ? "accomplished" : null
+              }`}
+            >
+              &nbsp;
+            </div>
           )}
         </Step>
         <Step>
-          {({ accomplished, index }) => (
-            <div className={`indexedStep ${accomplished ? "accomplished" : null}`}>&nbsp;</div>
+          {({ accomplished }) => (
+            <div
+              className={`indexedStep ${accomplished ? "accomplished" : null}`}
+            >
+              &nbsp;
+            </div>
           )}
         </Step>
         <Step>
-          {({ accomplished, index }) => (
-            <div className={`indexedStep ${accomplished ? "accomplished" : null}`}>&nbsp;</div>
+          {({ accomplished }) => (
+            <div
+              className={`indexedStep ${accomplished ? "accomplished" : null}`}
+            >
+              &nbsp;
+            </div>
           )}
         </Step>
         <Step>
-          {({ accomplished, index }) => (
-            <div className={`indexedStep ${accomplished ? "accomplished" : null}`}>&nbsp;</div>
+          {({ accomplished }) => (
+            <div
+              className={`indexedStep ${accomplished ? "accomplished" : null}`}
+            >
+              &nbsp;
+            </div>
           )}
         </Step>
       </ProgressBar>
@@ -194,27 +241,37 @@ const Store = () => {
       ) : (
         <>
           <PageTitle>Store</PageTitle>
-          {id && <>{hasPermission(PAGE_STORE_UPDATE, "viewZone") && <MapStoreToZone storeId={id} />}</>}
+          {id && (
+            <>
+              {hasPermission(PAGE_STORE_UPDATE, "viewZone") && (
+                <MapStoreToZone storeId={id} />
+              )}
+            </>
+          )}
           <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
             <CardBody className="pl-4 pr-4">
-              <p className="float-right text-white">{stepIndex < 100 ? "Progression" : "Completed"}</p>
+              <p className="float-right text-white">
+                {stepIndex < 100 ? "Progression" : "Completed"}
+              </p>
               <br />
               {stepProgressComponent(stepIndex)}
             </CardBody>
-            <p className="pl-4 pt-4 text-gray-400">{"Register Yourself As Store"}</p>
+            <p className="pl-4 pt-4 text-gray-400">
+              {"Register Yourself As Store"}
+            </p>
             <CardBody className=" mt-0">
               <div class="grid grid-cols-5 gap-4 mt-5">
                 <div class="xl:col-span-1 lg:col-span-2 md:col-span-2 col-span-2 lg:block md:hidden hidden rounded-md dark:bg-gray-800 text-center font-extrabold antialiased">
                   {tabIndex !== 3 ? (
                     <StoreStepperVertical
                       tabIndex={tabIndex}
-                      onClickEvent={(i) => {
-                        // setTabIndex(i);
-                      }}
+                      onClickEvent={() => {}}
                     />
                   ) : (
                     <div>
-                      <p className="mt-2 text-green-400 text-2xl">{"Preview"}</p>
+                      <p className="mt-2 text-green-400 text-2xl">
+                        {"Preview"}
+                      </p>
                     </div>
                   )}
                 </div>

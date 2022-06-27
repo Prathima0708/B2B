@@ -1,27 +1,21 @@
 import {
   FiBook,
-  FiCompass,
-  FiGift,
   FiGitBranch,
   FiGrid,
   FiHome,
   FiList,
   FiMapPin,
-  FiSettings,
   FiShoppingBag,
   FiShoppingCart,
   FiSidebar,
   FiSliders,
   FiTriangle,
-  FiTruck,
-  FiUser,
   FiUserCheck,
-  FiUsers,
 } from "react-icons/fi";
 
 import { AiFillNotification } from "react-icons/ai";
 import { GiConverseShoe } from "react-icons/gi";
-import { MdOutlineEditNotifications } from "react-icons/md";
+
 import { RiUserSettingsLine } from "react-icons/ri";
 import hasPermission from "../components/login/hasPermission";
 
@@ -146,9 +140,15 @@ let sidebar = [
         name: "My Product",
       },
       {
-        path: process.env.REACT_APP_PRODUCT_ENV === "B2B" ? "/myOrders" : "/b2c/myOrders",
+        path:
+          process.env.REACT_APP_PRODUCT_ENV === "B2B"
+            ? "/myOrders"
+            : "/b2c/myOrders",
         icon: FiBook,
-        name: process.env.REACT_APP_PRODUCT_ENV === "B2B" ? "My Orders" : "B2C Orders",
+        name:
+          process.env.REACT_APP_PRODUCT_ENV === "B2B"
+            ? "My Orders"
+            : "B2C Orders",
       },
       // {
       //   path: '/b2c/myOrders',
@@ -198,21 +198,13 @@ if (process.env.REACT_APP_PRODUCT_ENV === "B2B") {
     name: "Seller Orders",
   });
   sidebar.join();
-  // let sb= sidebar;
-  // sb.map((s,i)=>{
-  //   if(s.name === 'My Store'){
-  //     sidebar[i].subMenu.push({
-  //       path: '/b2b/sellerOrder',
-  //       icon: FiSidebar,
-  //       name: 'Seller Orders',
-  //     });
-  //   }
-  // })
 }
 
 const accessibleSidebar = sidebar
   .map((item) => {
-    const menu = item.subMenu ? item.subMenu.filter((subItem) => hasPermission(subItem.path, "page")) : [];
+    const menu = item.subMenu
+      ? item.subMenu.filter((subItem) => hasPermission(subItem.path, "page"))
+      : [];
     const { subMenu, ...rest } = item;
     let data = {
       ...rest,
@@ -222,7 +214,7 @@ const accessibleSidebar = sidebar
     return data;
   })
   .filter((item) => item.hasPermission);
-// export default accessibleSidebar;
+
 accessibleSidebar.unshift({
   path: "/dashboard", // the url
   icon: FiGrid, // icon

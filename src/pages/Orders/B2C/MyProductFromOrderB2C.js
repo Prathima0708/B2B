@@ -39,14 +39,18 @@ function MyProductFromOrderB2C(props) {
     setIsLoading(true);
     apiService
       .get("b2b", `${GET_PRODUCT_LIST_OF_STORE_URL}${filter}`, {
-        "id": props.storeSelected,
+        id: props.storeSelected,
       })
       .then((response) => {
         if (response) {
           const priceState = [];
           setIsLoading(false);
-          
-          setData(response.data.result.sort((a, b) => (a.product.id > b.product.id ? 1 : -1)));
+
+          setData(
+            response.data.result.sort((a, b) =>
+              a.product.id > b.product.id ? 1 : -1
+            )
+          );
           response.data.result.forEach((product) =>
             product.product.variants.forEach((variant) =>
               priceState.push({
@@ -59,42 +63,39 @@ function MyProductFromOrderB2C(props) {
 
           const { result: products } = response.data;
           const sp = [];
-          products
-            .forEach((product, i) => {
-              const { variants } = product.product;
-              variants
-                .forEach((variant) =>{
-                    sp.push({
-                      image: product.product.resources.find((res) => res.titleName === "thumbnail_image")
-                        ?.enValue,
-                      mappingId: variant.storeProductVariantMapId,
-                      productId: product.product.id,
-                      productName: product.product.name,
-                      variantId: variant.variant.id,
-                      name: variant.variant.name,
-                      // mrp: variant.variant.resources[0].find((res) => res.titleName === "market_price").enValue,
-                      mrp: "",
-                      sellerPrice: variant.price,
-                      originalSellerPrice: variant.price,
-                      active: variant.active,
-                      inStock: variant.inStock,
-                      storeId: product.storeId,
-                      background:
-                        i % 2 === 0
-                          ? "bg-cool-gray-200 dark:bg-cool-gray-800"
-                          : "bg-cool-gray-300 dark:bg-cool-gray-900",
-                    })
-                    setStoreProducts([...sp]);
-                  }
-                );
+          products.forEach((product, i) => {
+            const { variants } = product.product;
+            variants.forEach((variant) => {
+              sp.push({
+                image: product.product.resources.find(
+                  (res) => res.titleName === "thumbnail_image"
+                )?.enValue,
+                mappingId: variant.storeProductVariantMapId,
+                productId: product.product.id,
+                productName: product.product.name,
+                variantId: variant.variant.id,
+                name: variant.variant.name,
+                // mrp: variant.variant.resources[0].find((res) => res.titleName === "market_price").enValue,
+                mrp: "",
+                sellerPrice: variant.price,
+                originalSellerPrice: variant.price,
+                active: variant.active,
+                inStock: variant.inStock,
+                storeId: product.storeId,
+                background:
+                  i % 2 === 0
+                    ? "bg-cool-gray-200 dark:bg-cool-gray-800"
+                    : "bg-cool-gray-300 dark:bg-cool-gray-900",
+              });
+              setStoreProducts([...sp]);
             });
-          // setStoreProducts(sp);
+          });
         } else {
           setIsLoading(false);
           setData([]);
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -132,7 +133,10 @@ function MyProductFromOrderB2C(props) {
 
   return (
     <>
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
 
@@ -140,7 +144,9 @@ function MyProductFromOrderB2C(props) {
         <Grid item md={12} sm={12} xs={12} className="pt-1">
           <Grid container spacing={3} className="mt-4">
             <Grid item md={12} sm={12} xs={12} className="">
-              <h2 className="text-gray-500 dark:text-white text-lg">{"My Products Edit"}</h2>
+              <h2 className="text-gray-500 dark:text-white text-lg">
+                {"My Products Edit"}
+              </h2>
             </Grid>
           </Grid>
           <Grid container spacing={3} className="pt-4">
@@ -165,20 +171,6 @@ function MyProductFromOrderB2C(props) {
                 </Select>
               </Label>
             </Grid>
-
-            {/* <Grid item md={4} sm={4} xs={12}>
-              <Button
-                type="submit"
-                className="mt-4"
-                onClick={() => {
-                  history.push({
-                    pathname: "/b2c/myOrders/details",
-                  });
-                }}
-              >
-                Go Back
-              </Button>
-            </Grid> */}
           </Grid>
           <Grid container spacing={3} className="mt-4">
             <Grid item md={12} sm={12} xs={12}></Grid>
@@ -201,7 +193,12 @@ function MyProductFromOrderB2C(props) {
               </TableHeader>
               <TableBody>
                 {storeProducts.map((prod, i) => (
-                  <TableRow key={i} className={`${prod.background} ` + variantisPresent(prod.variantId)}>
+                  <TableRow
+                    key={i}
+                    className={
+                      `${prod.background} ` + variantisPresent(prod.variantId)
+                    }
+                  >
                     <TableCell>
                       <Avatar
                         className="hidden mr-3 md:block bg-gray-50 p-1"
@@ -235,7 +232,9 @@ function MyProductFromOrderB2C(props) {
                         />
                       </div>
                     </TableCell>
-                    <TableCell>{prod.sellerPrice * (prod.qty ? prod.qty : 0)}</TableCell>
+                    <TableCell>
+                      {prod.sellerPrice * (prod.qty ? prod.qty : 0)}
+                    </TableCell>
                     <TableCell>
                       <Button
                         type="submit"
@@ -246,7 +245,6 @@ function MyProductFromOrderB2C(props) {
                           setCount(count + 1);
                           setStoreProducts(p);
 
-                          // let orderItems = property.user.myOrder.orderItems;
                           let orderItems = property.user.myOrder;
                           orderItems.items.push({
                             id: prod.productId,

@@ -30,7 +30,11 @@ const PushNotification = () => {
         page: 0,
         size: 15,
       })
-      .then(({ data }) => setUsers(data.results.map(({ id, email }) => ({ value: id, label: email }))))
+      .then(({ data }) =>
+        setUsers(
+          data.results.map(({ id, email }) => ({ value: id, label: email }))
+        )
+      )
       .catch((err) => console.log(err));
   }, []);
   const handleUsersSelected = (selected) => {
@@ -40,7 +44,11 @@ const PushNotification = () => {
     return (
       <div>
         <components.Option {...props}>
-          <input type="checkbox" checked={props.isSelected} onChange={() => null} />
+          <input
+            type="checkbox"
+            checked={props.isSelected}
+            onChange={() => null}
+          />
           <label>{props.label}</label>
         </components.Option>
       </div>
@@ -50,7 +58,9 @@ const PushNotification = () => {
     e.preventDefault();
     setSubmitLoader(true);
     if (usersSelected.length === 0) {
-      notifyError("Please select at least one user to send the notification to");
+      notifyError(
+        "Please select at least one user to send the notification to"
+      );
       setSubmitLoader(false);
       return;
     }
@@ -61,10 +71,11 @@ const PushNotification = () => {
       },
     };
     payload.user_ids = usersSelected.map((user) => user.value);
-    if (iconFormData.formData) payload.message.icon = await uploaderUtil(iconFormData.formData);
+    if (iconFormData.formData)
+      payload.message.icon = await uploaderUtil(iconFormData.formData);
     await axios
       .post(`${notificationServiceBaseUrl}/pushNotification`, payload)
-      .then((data) => {
+      .then(() => {
         notifySuccess("Notification Sent");
       })
       .catch((err) => {

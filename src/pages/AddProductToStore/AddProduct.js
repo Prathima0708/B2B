@@ -13,10 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@windmill/react-ui";
-import {
-  GET_PRODUCT_LIST_OF_STORE_URL,
-  GET_PRODUCT_LIST_URL,
-} from "./constants";
+import { GET_PRODUCT_LIST_OF_STORE_URL } from "./constants";
 import React, { useEffect, useState } from "react";
 import hasPermission, {
   PAGE_ADD_PRODUCT_TO_STORE,
@@ -100,7 +97,7 @@ function AddProductStore(props) {
         }`,
         payload
       )
-      .then((response) => {
+      .then(() => {
         notifySuccess("Product successfully added to store");
         setUpdate(!update);
       })

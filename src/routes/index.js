@@ -18,28 +18,41 @@ const OrderInvoice = lazy(() => import("../pages/OrderInvoice"));
 const Coupons = lazy(() => import("../pages/Coupons"));
 const Roles = lazy(() => import("../pages/RolesPermission/Roles"));
 const Permissions = lazy(() => import("../pages/RolesPermission/Permissions"));
-const ManagePermissions = lazy(() => import("../pages/RolesPermission/ManagePermissions"));
+const ManagePermissions = lazy(() =>
+  import("../pages/RolesPermission/ManagePermissions")
+);
 const SlotList = lazy(() => import("../pages/SlotList"));
-const Notification = lazy(() => import("../pages/Notification/Notification.js"));
+const Notification = lazy(() =>
+  import("../pages/Notification/Notification.js")
+);
 const UserDetails = lazy(() => import("../pages/Users/UserDetails"));
 
-// const Setting = lazy(() => import("../pages/Setting"));
 const Page404 = lazy(() => import("../pages/404"));
 const EditProfile = lazy(() => import("../pages/EditProfile"));
 const Store = lazy(() => import("../pages/Store"));
 const StoreList = lazy(() => import("../pages/StoreList"));
 const Zone = lazy(() => import("../pages/Zones/Zone"));
-const AddProductStore = lazy(() => import("../pages/AddProductToStore/AddProduct"));
+const AddProductStore = lazy(() =>
+  import("../pages/AddProductToStore/AddProduct")
+);
 const MyProduct = lazy(() => import("../pages/AddProductToStore/MyProduct"));
 const UsersRole = lazy(() => import("../pages/Users/Users"));
 const MyOrders = lazy(() => import("../pages/Orders/MyOrders"));
 const MyOrdersDetails = lazy(() => import("../pages/Orders/MyOrdersDetails"));
-const DeliveryExecutive = lazy(() => import("../pages/DeliveryExecutive/DeliveryExecutive"));
+const DeliveryExecutive = lazy(() =>
+  import("../pages/DeliveryExecutive/DeliveryExecutive")
+);
 const ForgotPassword = lazy(() => import("../pages/ForgotPassword"));
-const MyProductFromOrder = lazy(() => import("../pages/Orders/MyProductFromOrder"));
+const MyProductFromOrder = lazy(() =>
+  import("../pages/Orders/MyProductFromOrder")
+);
 const MyOrdersB2C = lazy(() => import("../pages/Orders/B2C/MyOrders"));
-const MyOrdersDetailsB2C = lazy(() => import("../pages/Orders/B2C/MyOrdersDetailsB2C"));
-const MyProductFromOrderB2C = lazy(() => import("../pages/Orders/B2C/MyProductFromOrderB2C"));
+const MyOrdersDetailsB2C = lazy(() =>
+  import("../pages/Orders/B2C/MyOrdersDetailsB2C")
+);
+const MyProductFromOrderB2C = lazy(() =>
+  import("../pages/Orders/B2C/MyProductFromOrderB2C")
+);
 const Warehouse = lazy(() => import("../pages/Warehouse/Warehouse"));
 
 /*
@@ -212,7 +225,6 @@ const routes = [
   //   component: Warehouse,
   // },
 ];
-// export default accessibleRoutes;
 
 if (process.env.REACT_APP_PRODUCT_ENV === "B2B") {
   routes.splice(2, 0, {
@@ -229,7 +241,9 @@ if (process.env.REACT_APP_PRODUCT_ENV === "B2B") {
     component: MyOrders,
   });
 }
-const accessibleRoutes = routes.filter((route) => hasPermission(route.path, "page"));
+const accessibleRoutes = routes.filter((route) =>
+  hasPermission(route.path, "page")
+);
 accessibleRoutes.push({
   path: "/dashboard",
   component: Dashboard,

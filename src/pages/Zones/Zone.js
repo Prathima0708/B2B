@@ -15,7 +15,6 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader,
   Pagination,
   Table,
   TableBody,
@@ -25,18 +24,25 @@ import {
   TableHeader,
   TableRow,
 } from "@windmill/react-ui";
-import { GoogleMap, Polygon, withGoogleMap, withScriptjs } from "react-google-maps";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import {
+  GoogleMap,
+  Polygon,
+  withGoogleMap,
+  withScriptjs,
+} from "react-google-maps";
+import { MapContainer, TileLayer } from "react-leaflet";
 import React, { useEffect, useRef, useState } from "react";
 import { compose, withProps } from "recompose";
-import hasPermission, { PAGE_ZONE_LIST } from "../../components/login/hasPermission";
+import hasPermission, {
+  PAGE_ZONE_LIST,
+} from "../../components/login/hasPermission";
 import { notifyError, notifySuccess } from "../../utils/toast";
 
 import Autocomplete from "react-google-autocomplete";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { FiEdit } from "react-icons/fi";
-import { FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
+
 import Grid from "@mui/material/Grid";
 import Loading from "../../components/preloader/Loading";
 import Switch from "react-switch";
@@ -51,26 +57,31 @@ function ZoneList(props) {
   const [zoneList, setZoneList] = useState([]);
   const [zoneSearchList, setZoneSearchList] = useState("");
   const google = window.google;
-  const { handleChangePage, resultsPerPage, totalResults, dataTable } = useFilter(zoneList, 10);
+  const { handleChangePage, resultsPerPage, totalResults, dataTable } =
+    useFilter(zoneList, 10);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     setZoneList(props.zones);
   }, [props.zones]);
   useEffect(() => {
-    setZoneList(props.zones.filter((zone) => zone.name.toLowerCase().includes(zoneSearchList.toLowerCase())));
+    setZoneList(
+      props.zones.filter((zone) =>
+        zone.name.toLowerCase().includes(zoneSearchList.toLowerCase())
+      )
+    );
   }, [zoneSearchList]);
 
   const updateZone = (editId) => {
     setIsLoading(true);
     apiService
       .put("b2b", STATUS_UPDATE_ZONE_FROM_LIST_URL + editId, null)
-      .then((response) => {
+      .then(() => {
         setIsLoading(false);
         props.getZoneList();
         notifySuccess("Zone Edited");
       })
-      .catch((e) => {
+      .catch(() => {
         notifyError("Something went wrong !!");
       });
     setIsLoading(false);
@@ -78,7 +89,10 @@ function ZoneList(props) {
 
   return (
     <>
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
       <Grid container className="overflow-y-scroll" style={{ height: "90vh" }}>
@@ -104,14 +118,18 @@ function ZoneList(props) {
                 <TableRow>
                   <TableCell>Zone Name</TableCell>
                   <TableCell>Status</TableCell>
-                  {hasPermission(PAGE_ZONE_LIST, "update") && <TableCell>Edit</TableCell>}
+                  {hasPermission(PAGE_ZONE_LIST, "update") && (
+                    <TableCell>Edit</TableCell>
+                  )}
                 </TableRow>
               </TableHeader>
               <TableBody className="bg-scroll-custom overflow-y-scroll">
                 {dataTable.map((zone, index) => {
                   if (
                     zoneSearchList === "" ||
-                    zone.name.toLowerCase().includes(zoneSearchList.toLowerCase())
+                    zone.name
+                      .toLowerCase()
+                      .includes(zoneSearchList.toLowerCase())
                   ) {
                     return (
                       <TableRow
@@ -121,12 +139,17 @@ function ZoneList(props) {
                           const zoneBounds = new google.maps.LatLngBounds();
                           const zoneCoords = [];
                           zone.points.forEach((point) =>
-                            zoneCoords.push(new google.maps.LatLng(point.lat, point.long))
+                            zoneCoords.push(
+                              new google.maps.LatLng(point.lat, point.long)
+                            )
                           );
                           zoneCoords.forEach((coord) => {
                             zoneBounds.extend(coord);
                           });
-                          props.setZoneCenter([zoneBounds.getCenter().lat(), zoneBounds.getCenter().lng()]);
+                          props.setZoneCenter([
+                            zoneBounds.getCenter().lat(),
+                            zoneBounds.getCenter().lng(),
+                          ]);
                           props.setCenter({
                             lat: zoneBounds.getCenter().lat(),
                             lng: zoneBounds.getCenter().lng(),
@@ -136,9 +159,19 @@ function ZoneList(props) {
                         <TableCell className="block items-center " width="200">
                           <Grid container>
                             <Grid item md={6} className="pt-1">
-                              <h4 className="text-dark dark:text-white">{zone.name}</h4>
-                              <div className="w-50" style={{ whiteSpace: "initial", width: "170px" }}>
-                                {zone.lastUpdated ? moment(zone.lastUpdated).format("LLL") : ""}
+                              <h4 className="text-dark dark:text-white">
+                                {zone.name}
+                              </h4>
+                              <div
+                                className="w-50"
+                                style={{
+                                  whiteSpace: "initial",
+                                  width: "170px",
+                                }}
+                              >
+                                {zone.lastUpdated
+                                  ? moment(zone.lastUpdated).format("LLL")
+                                  : ""}
                               </div>
                             </Grid>
                             <Grid item md={6} className="pt-1"></Grid>
@@ -146,12 +179,15 @@ function ZoneList(props) {
                         </TableCell>
                         <TableCell
                           className={
-                            hasPermission(PAGE_ZONE_LIST, "update") ? `cursor-pointer` : `cursor-default`
+                            hasPermission(PAGE_ZONE_LIST, "update")
+                              ? `cursor-pointer`
+                              : `cursor-default`
                           }
                         >
                           <Badge
                             onClick={async (e) => {
-                              if (!hasPermission(PAGE_ZONE_LIST, "update")) return;
+                              if (!hasPermission(PAGE_ZONE_LIST, "update"))
+                                return;
                               e.stopPropagation();
                               updateZone(zone.zone_id);
                             }}
@@ -175,7 +211,12 @@ function ZoneList(props) {
                               // onClick={() => handleUpdate(id, parentId)}
                               className="p-2 cursor-pointer text-gray-400 hover:text-green-600"
                             >
-                              <Tooltip id="edit" Icon={FiEdit} title="Edit" bgColor="#10B981" />
+                              <Tooltip
+                                id="edit"
+                                Icon={FiEdit}
+                                title="Edit"
+                                bgColor="#10B981"
+                              />
                             </div>
                           </TableCell>
                         )}
@@ -200,8 +241,7 @@ function ZoneList(props) {
   );
 }
 
-function Zone(props) {
-  //   const [count, setCount] = useState(0);
+function Zone() {
   const [isLoading, setIsLoading] = useState(false);
   const [zones, setZones] = useState([]);
   const google = window.google;
@@ -222,12 +262,14 @@ function Zone(props) {
         firstZoneCoords.forEach((coord) => {
           firstZoneBounds.extend(coord);
         });
-        setZoneCenter([firstZoneBounds.getCenter().lat(), firstZoneBounds.getCenter().lng()]);
+        setZoneCenter([
+          firstZoneBounds.getCenter().lat(),
+          firstZoneBounds.getCenter().lng(),
+        ]);
         setIsLoading(false);
         makeid();
-        // setZoom(zoom - 1);
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -235,7 +277,7 @@ function Zone(props) {
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     getZoneList();
-    // let geoPos = navigator.geolocation.getCurrentPosition()
+
     navigator.geolocation.getCurrentPosition(function (position) {
       setCenter({
         lat: position.coords.latitude,
@@ -248,7 +290,6 @@ function Zone(props) {
     }, 2500);
     // lat: props.center[0], lng: props.center[1]
     setTimeout(() => {
-      // let gmnoprint = document.getElementsByClassName("gmnoprint");
       var node2 = document.querySelector('[title="Draw a shape"]');
       var node1 = document.querySelector('[title="Stop drawing"]');
       if (node1 && node2) {
@@ -299,7 +340,7 @@ function Zone(props) {
         getZoneList();
         closeModal();
       })
-      .catch((e) => {
+      .catch(() => {
         notifyError("Zone is not added!, Something went wrong !!");
         setIsLoading(false);
       });
@@ -309,13 +350,13 @@ function Zone(props) {
     setIsLoading(true);
     apiService
       .put("b2b", STATUS_UPDATE_ZONE_FROM_LIST_URL + editId, null)
-      .then((response) => {
+      .then(() => {
         notifySuccess("Zone Edited");
         setIsLoading(false);
         getZoneList();
         closeModal();
       })
-      .catch((e) => {
+      .catch(() => {
         notifyError("Something went wrong !!");
         setIsLoading(false);
       });
@@ -324,13 +365,13 @@ function Zone(props) {
   const deleteZone = () => {
     apiService
       .delete("b2b", DEL_ZONE_FROM_LIST_URL + editId, null)
-      .then((response) => {
+      .then(() => {
         notifySuccess("Zone Deleted");
         setIsLoading(false);
         getZoneList();
         closeModal();
       })
-      .catch((e) => {
+      .catch(() => {
         notifyError("Zone is not Deleted!, Something went wrong !!");
         setIsLoading(false);
       });
@@ -342,7 +383,7 @@ function Zone(props) {
 
   const mapRef = useRef();
 
-  const getPolygon = (pts, status, name) => {
+  const getPolygon = (pts, status) => {
     var i;
     var latlngs = [];
     for (i = 0; i < pts.length; i++) {
@@ -360,7 +401,6 @@ function Zone(props) {
           strokeOpacity: 0.8,
           strokeWeight: 3,
         }}
-        onClick={() => {}}
       />
     );
   };
@@ -382,7 +422,9 @@ function Zone(props) {
     lng: -0.09,
   });
 
-  const { DrawingManager } = require("react-google-maps/lib/components/drawing/DrawingManager");
+  const {
+    DrawingManager,
+  } = require("react-google-maps/lib/components/drawing/DrawingManager");
 
   const mapContainerStyle = {
     height: "900px",
@@ -402,7 +444,7 @@ function Zone(props) {
     }
 
     let latlngs = [];
-    polygonCoordsArray.map((cords, index) => {
+    polygonCoordsArray.map((cords) => {
       let coordsArraySplit = cords.split(",");
       latlngs.push({
         lat: coordsArraySplit[0],
@@ -469,7 +511,9 @@ function Zone(props) {
                 drawingControlOptions: {
                   style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
                   position: window.google.maps.ControlPosition.RIGHT_CENTER,
-                  drawingModes: [window.google.maps.drawing.OverlayType.POLYGON],
+                  drawingModes: [
+                    window.google.maps.drawing.OverlayType.POLYGON,
+                  ],
                 },
                 polygonOptions: {
                   fillColor: "#59a57d",
@@ -491,7 +535,7 @@ function Zone(props) {
             />
           )}
           {zones.length
-            ? zones.map((zone, i) => {
+            ? zones.map((zone) => {
                 return getPolygon(zone.points, zone.active, zone.name);
               })
             : null}
@@ -518,7 +562,10 @@ function Zone(props) {
             lat: placeSelected.geometry.location.lat,
             lng: placeSelected.geometry.location.lng,
           });
-          setZoneCenter([placeSelected.geometry.location.lat, placeSelected.geometry.location.lng]);
+          setZoneCenter([
+            placeSelected.geometry.location.lat,
+            placeSelected.geometry.location.lng,
+          ]);
           setZoom(16);
         }}
         options={{
@@ -533,15 +580,34 @@ function Zone(props) {
   const [onLoadOfComponent, setOnLoadOfComponent] = useState(false);
   return (
     <>
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
       <Grid container spacing={3}>
-        <Grid item md={8} sm={8} xs={12} sx={{ display: { xs: "block", sm: "none" } }} className="mb-4">
-          {/* {getAutoComplete()} */}
-          {onLoadOfComponent ? getAutoComplete() : <Loading loading={!onLoadOfComponent} />}
+        <Grid
+          item
+          md={8}
+          sm={8}
+          xs={12}
+          sx={{ display: { xs: "block", sm: "none" } }}
+          className="mb-4"
+        >
+          {onLoadOfComponent ? (
+            getAutoComplete()
+          ) : (
+            <Loading loading={!onLoadOfComponent} />
+          )}
           {isMap ? (
-            <>{!isModalOpen ? <DrawingManagerWrapper center={zoneCenter} /> : returnStaticMap(zoneCenter)}</>
+            <>
+              {!isModalOpen ? (
+                <DrawingManagerWrapper center={zoneCenter} />
+              ) : (
+                returnStaticMap(zoneCenter)
+              )}
+            </>
           ) : null}
         </Grid>
         <Grid item md={4} sm={4} xs={12} className="">
@@ -559,10 +625,26 @@ function Zone(props) {
             />
           }
         </Grid>
-        <Grid item md={8} sm={8} xs={12} sx={{ display: { xs: "none", sm: "block" } }}>
-          {onLoadOfComponent ? getAutoComplete() : <Loading loading={!onLoadOfComponent} />}
+        <Grid
+          item
+          md={8}
+          sm={8}
+          xs={12}
+          sx={{ display: { xs: "none", sm: "block" } }}
+        >
+          {onLoadOfComponent ? (
+            getAutoComplete()
+          ) : (
+            <Loading loading={!onLoadOfComponent} />
+          )}
           {isMap ? (
-            <>{!isModalOpen ? <DrawingManagerWrapper center={zoneCenter} /> : returnStaticMap(zoneCenter)}</>
+            <>
+              {!isModalOpen ? (
+                <DrawingManagerWrapper center={zoneCenter} />
+              ) : (
+                returnStaticMap(zoneCenter)
+              )}
+            </>
           ) : null}
         </Grid>
       </Grid>
@@ -584,7 +666,12 @@ function Zone(props) {
           <Grid className="mt-4 pl-2" container spacing={3}>
             {hasPermission(PAGE_ZONE_LIST, "update") && (
               <>
-                <Grid item lg={3} md={4} className="text-dark dark:text-white ml-2">
+                <Grid
+                  item
+                  lg={3}
+                  md={4}
+                  className="text-dark dark:text-white ml-2"
+                >
                   <h5>
                     <strong>{"Status :"}</strong>
                   </h5>
@@ -606,14 +693,21 @@ function Zone(props) {
             {hasPermission(PAGE_ZONE_LIST, "delete") && (
               <Grid item md={4} className="text-dark dark:text-white ml-2">
                 {editFlg ? (
-                  <FiTrash2 className="text-lg ml-4 text-red-700 cursor-pointer" onClick={deleteZone} />
+                  <FiTrash2
+                    className="text-lg ml-4 text-red-700 cursor-pointer"
+                    onClick={deleteZone}
+                  />
                 ) : null}
               </Grid>
             )}
           </Grid>
         </ModalBody>
         <ModalFooter>
-          <Button className="w-full sm:w-auto" layout="outline" onClick={closeModal}>
+          <Button
+            className="w-full sm:w-auto"
+            layout="outline"
+            onClick={closeModal}
+          >
             Cancel
           </Button>
           <Button className="w-full sm:w-auto" onClick={createZone}>

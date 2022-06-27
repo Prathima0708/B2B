@@ -1,4 +1,11 @@
-import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMap,
+  useMapEvents,
+} from "react-leaflet";
 import React, { useState } from "react";
 
 const LocationMarker = ({ shopLatLng, setShopLatLng }) => {
@@ -9,17 +16,19 @@ const LocationMarker = ({ shopLatLng, setShopLatLng }) => {
       setPosition(e.latlng);
     },
   });
-  return position === null ? 
-  shopLatLng ? <Marker position={shopLatLng}>
-    <Popup>You are here</Popup>
-  </Marker> : null
-   : (
+  return position === null ? (
+    shopLatLng ? (
+      <Marker position={shopLatLng}>
+        <Popup>You are here</Popup>
+      </Marker>
+    ) : null
+  ) : (
     <Marker position={position}>
       <Popup>You are here</Popup>
     </Marker>
   );
 };
-const ChangeView = ({ center, zoom }) => {
+const ChangeView = ({ center }) => {
   const map = useMap();
   map.flyTo(center, map.getZoom());
   return null;
