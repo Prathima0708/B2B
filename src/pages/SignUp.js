@@ -88,7 +88,9 @@ const SignUp = (props) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="w-full">
-              <h1 className="mb-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Create account</h1>
+              <h1 className="mb-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                Create account
+              </h1>
               <Label>
                 <span className="font-medium text-sm">First Name</span>
                 <Input
@@ -99,7 +101,9 @@ const SignUp = (props) => {
                   {...register("firstName")}
                 />
                 {errors.firstName && (
-                  <p className="text-gray-700 dark:text-gray-400 text-xs mt-1">{errors.firstName.message}</p>
+                  <p className="text-gray-700 dark:text-gray-400 text-xs mt-1">
+                    {errors.firstName.message}
+                  </p>
                 )}
               </Label>
               <Label className="mt-4">
@@ -112,7 +116,9 @@ const SignUp = (props) => {
                   {...register("lastName")}
                 />
                 {errors.lastName && (
-                  <p className="text-gray-700 dark:text-gray-400 text-xs mt-1">{errors.lastName.message}</p>
+                  <p className="text-gray-700 dark:text-gray-400 text-xs mt-1">
+                    {errors.lastName.message}
+                  </p>
                 )}
               </Label>
               <Label className="mt-4">
@@ -126,7 +132,9 @@ const SignUp = (props) => {
                 />
 
                 {errors.email && (
-                  <p className="text-gray-700 dark:text-gray-400 text-xs mt-1">{errors.email.message}</p>
+                  <p className="text-gray-700 dark:text-gray-400 text-xs mt-1">
+                    {errors.email.message}
+                  </p>
                 )}
               </Label>
               <Label className="mt-4">
@@ -139,7 +147,9 @@ const SignUp = (props) => {
                   name="password"
                 />
                 {errors.password && (
-                  <p className="text-gray-700 dark:text-gray-400 text-xs mt-1">{errors.password.message}</p>
+                  <p className="text-gray-700 dark:text-gray-400 text-xs mt-1">
+                    {errors.password.message}
+                  </p>
                 )}
               </Label>
               <Label className="mt-4">
@@ -152,7 +162,9 @@ const SignUp = (props) => {
                   {...register("confirmPassword")}
                 />
                 {errors.confirmPassword && (
-                  <p className="text-gray-700 dark:text-gray-400 text-xs mt-1">Passwords do not match</p>
+                  <p className="text-gray-700 dark:text-gray-400 text-xs mt-1">
+                    Passwords do not match
+                  </p>
                 )}
               </Label>
 
@@ -169,7 +181,13 @@ const SignUp = (props) => {
                 </Button>
               ) : (
                 <div className="text-lg text-center mt-5">
-                  <Loader loading={loading} color="#34D399" width={3} radius={3} margin={4} />
+                  <Loader
+                    loading={loading}
+                    color="#34D399"
+                    width={3}
+                    radius={3}
+                    margin={4}
+                  />
                 </div>
               )}
             </div>

@@ -1,24 +1,24 @@
-import { Box, Tab, Tabs } from "@mui/material";
 import {
   Button,
   Card,
   CardBody,
-  Select,
   Table,
   TableCell,
   TableContainer,
   TableHeader,
 } from "@windmill/react-ui";
-import { FiChevronLeft, FiChevronRight, FiPlus } from "react-icons/fi";
-import { Link, useParams } from "react-router-dom";
+import { FiPlus } from "react-icons/fi";
+import { useParams } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
-import hasPermission, { PAGE_STORE_ZONE_SLOT_LIST } from "../components/login/hasPermission";
+import hasPermission, {
+  PAGE_STORE_ZONE_SLOT_LIST,
+} from "../components/login/hasPermission";
 
 import Loading from "../components/preloader/Loading";
-import MainDrawer from "../components/drawer/MainDrawer";
+
 import PageTitle from "../components/Typography/PageTitle";
 import { SidebarContext } from "../context/SidebarContext";
-import SlotDrawer from "../components/drawer/SlotDrawer";
+
 import SlotTable from "../components/Store/SlotTable";
 import apiService from "../utils/apiService";
 import { notifyError } from "../utils/toast";
@@ -117,8 +117,12 @@ const SlotList = () => {
                   <TableCell>Start Time</TableCell>
                   <TableCell>End TIme</TableCell>
                   <TableCell>Slot Margin</TableCell>
-                  {hasPermission(PAGE_STORE_ZONE_SLOT_LIST, "toggleStatus") && <TableCell>Status</TableCell>}
-                  {hasPermission(PAGE_STORE_ZONE_SLOT_LIST, "update") && <TableCell>Actions</TableCell>}
+                  {hasPermission(PAGE_STORE_ZONE_SLOT_LIST, "toggleStatus") && (
+                    <TableCell>Status</TableCell>
+                  )}
+                  {hasPermission(PAGE_STORE_ZONE_SLOT_LIST, "update") && (
+                    <TableCell>Actions</TableCell>
+                  )}
                 </tr>
               </TableHeader>
               <SlotTable daySlots={daySlots} day={day} onUpdate={setUpdate} />

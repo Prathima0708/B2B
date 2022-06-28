@@ -43,38 +43,58 @@ const Store = (props) => {
               return (
                 <TableRow
                   key={index}
-                  className={hasPermission(PAGE_STORE_UPDATE, "page") ? "cursor-pointer" : "cursor-default"}
+                  className={
+                    hasPermission(PAGE_STORE_UPDATE, "page")
+                      ? "cursor-pointer"
+                      : "cursor-default"
+                  }
                   onClick={() => {
                     if (!hasPermission(PAGE_STORE_UPDATE, "page")) return;
                     history.push(`/store/${store.id}`);
                   }}
                 >
-                  <TableCell className="font-semibold uppercase text-xs">{store.id}</TableCell>
-                  <TableCell className="font-semibold uppercase text-xs">{store.name}</TableCell>
-                  <TableCell className="font-semibold uppercase text-xs">{store.authorizedPerson}</TableCell>
+                  <TableCell className="font-semibold uppercase text-xs">
+                    {store.id}
+                  </TableCell>
+                  <TableCell className="font-semibold uppercase text-xs">
+                    {store.name}
+                  </TableCell>
+                  <TableCell className="font-semibold uppercase text-xs">
+                    {store.authorizedPerson}
+                  </TableCell>
                   <TableCell className="font-semibold uppercase text-xs">
                     {store.authorizedPersonEmail}
                   </TableCell>
-                  <TableCell className="font-semibold uppercase text-xs">{store.storeType}</TableCell>
+                  <TableCell className="font-semibold uppercase text-xs">
+                    {store.storeType}
+                  </TableCell>
                   <TableCell>
                     <div className=" flex items-center place-content-center">
                       <Switch
-                        color={hasPermission(PAGE_STORE_LIST, "update") ? "primary" : "default"}
+                        color={
+                          hasPermission(PAGE_STORE_LIST, "update")
+                            ? "primary"
+                            : "default"
+                        }
                         checked={props.verified}
                         onClick={async (e) => {
                           e.stopPropagation();
                           if (!hasPermission(PAGE_STORE_LIST, "update")) return;
                           await axios
-                            .put(`${coreServiceBaseUrl}/admin/verify-store`, null, {
-                              params: {
-                                "x-store-id": store.id,
-                              },
-                            })
+                            .put(
+                              `${coreServiceBaseUrl}/admin/verify-store`,
+                              null,
+                              {
+                                params: {
+                                  "x-store-id": store.id,
+                                },
+                              }
+                            )
                             .then(() => {
                               props.setLoading(false);
                               props.setUpdate((prevData) => !prevData);
                             })
-                            .catch((err) => {
+                            .catch(() => {
                               props.setLoading(false);
                             });
                         }}
@@ -90,7 +110,7 @@ const Store = (props) => {
   );
 };
 
-function StoreList(props) {
+function StoreList() {
   const [storeList, setStoreList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [verified, setVerified] = useState(true);
@@ -100,8 +120,11 @@ function StoreList(props) {
   const history = useHistory();
   const [update, setUpdate] = useState(true);
   const storeTypeOptions = ["ALL", "SUPPLIER", "SELLER"];
-  const [storeType, setStoreType] = useState(process.env.REACT_APP_PRODUCT_ENV === "B2C" ? "SELLER" : "ALL");
-  const { handleChangePage, resultsPerPage, totalResults, dataTable } = useFilter(storeList, 20);
+  const [storeType, setStoreType] = useState(
+    process.env.REACT_APP_PRODUCT_ENV === "B2C" ? "SELLER" : "ALL"
+  );
+  const { handleChangePage, resultsPerPage, totalResults, dataTable } =
+    useFilter(storeList, 20);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -126,7 +149,7 @@ function StoreList(props) {
           setStoreList(res);
           setIsLoading(false);
         })
-        .catch((e) => {
+        .catch(() => {
           setIsLoading(false);
         });
     })();
@@ -178,10 +201,12 @@ function StoreList(props) {
                 </Select>
                 <div
                   className="w-full flex-grow rounded-md h-12 border-green-500 border-2 flex items-center justify-between px-4 cursor-pointer"
-                  onClick={(e) => setVerified(!verified)}
+                  onClick={() => setVerified(!verified)}
                 >
                   <div className="">
-                    <span className="text-gray-700 dark:text-gray-300">Verified</span>
+                    <span className="text-gray-700 dark:text-gray-300">
+                      Verified
+                    </span>
                   </div>
                   <Switch
                     checked={verified}
@@ -235,10 +260,12 @@ function StoreList(props) {
                 </Select>
                 <div
                   className={`w-full flex-grow rounded-md h-12 border-green-500 border-2 flex items-center justify-between px-4 cursor-pointer`}
-                  onClick={(e) => setVerified(!verified)}
+                  onClick={() => setVerified(!verified)}
                 >
                   <div className="">
-                    <span className="text-gray-700 dark:text-gray-300">Verified</span>
+                    <span className="text-gray-700 dark:text-gray-300">
+                      Verified
+                    </span>
                   </div>
                   <Switch
                     checked={verified}
@@ -266,7 +293,6 @@ function StoreList(props) {
             </TableHeader>
             {storeList.length > 0 ? (
               <TableBody>
-                {/* {storeList?.length} */}
                 <Store
                   storeList={dataTable}
                   verified={verified}

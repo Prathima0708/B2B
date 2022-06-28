@@ -9,7 +9,9 @@ import {
   TableHeader,
 } from "@windmill/react-ui";
 import React, { useEffect, useState } from "react";
-import hasPermission, { PAGE_ROLE_PERMISSION_MANAGEMENT } from "../../components/login/hasPermission";
+import hasPermission, {
+  PAGE_ROLE_PERMISSION_MANAGEMENT,
+} from "../../components/login/hasPermission";
 
 import Loading from "../../components/preloader/Loading";
 import ManagePermissionsTable from "./ManagePermissionsTable";
@@ -38,7 +40,13 @@ const ManagePermissions = () => {
         });
       });
       permissions.sort((a, b) =>
-        a.isAllowed < b.isAllowed ? 1 : a.isAllowed === b.isAllowed ? (a.id > b.id ? 1 : -1) : -1
+        a.isAllowed < b.isAllowed
+          ? 1
+          : a.isAllowed === b.isAllowed
+          ? a.id > b.id
+            ? 1
+            : -1
+          : -1
       );
       setPermissions(permissions);
     });
@@ -47,14 +55,6 @@ const ManagePermissions = () => {
     });
     setLoading(false);
   }, [update]);
-
-  // const setIsAllowed = (index) => {
-  //   const allowed = permissions[index].isAllowed;
-  //   setPermissions((prevData) => {
-  //     prevData[index].isAllowed = !allowed;
-  //     return [...prevData];
-  //   });
-  // };
 
   const setIsAllowed = (id) => {
     const allowed = permissions.find((perm) => perm.id === id).isAllowed;
@@ -97,9 +97,15 @@ const ManagePermissions = () => {
                     onChange={(e) => setFilterText(e.target.value)}
                   />
                 </div>
-                {hasPermission(PAGE_ROLE_PERMISSION_MANAGEMENT, "setRolePermissions") && (
+                {hasPermission(
+                  PAGE_ROLE_PERMISSION_MANAGEMENT,
+                  "setRolePermissions"
+                ) && (
                   <div className="md:w-1/4 md:flex-grow lg:flex-grow xl:flex-grow">
-                    <Button onClick={updatePermissions} className="w-full rounded-md h-12">
+                    <Button
+                      onClick={updatePermissions}
+                      className="w-full rounded-md h-12"
+                    >
                       Save
                     </Button>
                   </div>

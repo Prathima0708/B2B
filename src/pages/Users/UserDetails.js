@@ -4,7 +4,10 @@ import { Button, Input, Label, Select } from "@windmill/react-ui";
 import { FormControlLabel, Grid, Radio, RadioGroup } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { deleteUtil, uploaderUtil } from "../../utils/uploaderUtil";
-import hasPermission, { PAGE_ROLES_LIST, PAGE_USER_DETAILS } from "../../components/login/hasPermission";
+import hasPermission, {
+  PAGE_ROLES_LIST,
+  PAGE_USER_DETAILS,
+} from "../../components/login/hasPermission";
 import { notifyError, notifySuccess } from "../../utils/toast";
 
 import ExistingImageDisplay from "../../components/image-uploader/ExistingImageDisplay";
@@ -93,7 +96,10 @@ const UserDetails = () => {
             previewUrl: "",
             deletedImageUrl: "",
           });
-          setAddress({ city: data.address.city || "", state: data.address.state || "" });
+          setAddress({
+            city: data.address.city || "",
+            state: data.address.state || "",
+          });
           setDrivingLicenseNumber(data.driving_licence_number);
           setDrivingLicenseFormData({
             url: data.driving_licence_url || undefined,
@@ -137,16 +143,22 @@ const UserDetails = () => {
     const payLoad = {};
     payLoad.address = address;
     if (dob) payLoad.dob = dob;
-    if (driving_licence_number) payLoad.driving_licence_number = driving_licence_number;
+    if (driving_licence_number)
+      payLoad.driving_licence_number = driving_licence_number;
     if (id_proof_type) payLoad.id_proof_type = id_proof_type;
     if (vehicle_number) payLoad.vehicle_number = vehicle_number;
 
-    if (profilePicFormData.url) payLoad.profile_pic_url = profilePicFormData.url;
-    if (drivingLicenseFormData.url) payLoad.driving_licence_url = drivingLicenseFormData.url;
+    if (profilePicFormData.url)
+      payLoad.profile_pic_url = profilePicFormData.url;
+    if (drivingLicenseFormData.url)
+      payLoad.driving_licence_url = drivingLicenseFormData.url;
     if (idProofFormData.url) payLoad.id_proof_url = idProofFormData.url;
-    if (vehicleNumberFormData.url) payLoad.vehicle_no_plate_url = vehicleNumberFormData.url;
-    if (vehiclePaperFormData.url) payLoad.vehicle_paper_url = vehiclePaperFormData.url;
-    if (vehiclePicFormData.url) payLoad.vehicle_pic_url = vehiclePicFormData.url;
+    if (vehicleNumberFormData.url)
+      payLoad.vehicle_no_plate_url = vehicleNumberFormData.url;
+    if (vehiclePaperFormData.url)
+      payLoad.vehicle_paper_url = vehiclePaperFormData.url;
+    if (vehiclePicFormData.url)
+      payLoad.vehicle_pic_url = vehiclePicFormData.url;
 
     if (profilePicFormData.deletedImageUrl) {
       await deleteUtil(profilePicFormData.deletedImageUrl);
@@ -176,17 +188,24 @@ const UserDetails = () => {
     if (profilePicFormData.formData)
       payLoad.profile_pic_url = await uploaderUtil(profilePicFormData.formData);
     if (drivingLicenseFormData.formData)
-      payLoad.driving_licence_url = await uploaderUtil(drivingLicenseFormData.formData);
-    if (idProofFormData.formData) payLoad.id_proof_url = await uploaderUtil(idProofFormData.formData);
+      payLoad.driving_licence_url = await uploaderUtil(
+        drivingLicenseFormData.formData
+      );
+    if (idProofFormData.formData)
+      payLoad.id_proof_url = await uploaderUtil(idProofFormData.formData);
     if (vehicleNumberFormData.formData)
-      payLoad.vehicle_no_plate_url = await uploaderUtil(vehicleNumberFormData.formData);
+      payLoad.vehicle_no_plate_url = await uploaderUtil(
+        vehicleNumberFormData.formData
+      );
     if (vehiclePaperFormData.formData)
-      payLoad.vehicle_paper_url = await uploaderUtil(vehiclePaperFormData.formData);
+      payLoad.vehicle_paper_url = await uploaderUtil(
+        vehiclePaperFormData.formData
+      );
     if (vehiclePicFormData.formData)
       payLoad.vehicle_pic_url = await uploaderUtil(vehiclePicFormData.formData);
     await apiService
       .patch("user_service", `/admin/users/${id}/user-details`, payLoad)
-      .then(({ data }) => {
+      .then(() => {
         notifySuccess("User details updated successfully");
         setUpdate(!update);
       })
@@ -202,37 +221,87 @@ const UserDetails = () => {
           <PageTitle>User Details</PageTitle>
           <form onSubmit={onFormSubmit} className="mb-10">
             <Grid container spacing={3}>
-              <Grid item lg={6} md={6} sm={6} xs={12} className="dark:text-gray-300 text-gray-900">
+              <Grid
+                item
+                lg={6}
+                md={6}
+                sm={6}
+                xs={12}
+                className="dark:text-gray-300 text-gray-900"
+              >
                 <Label>
                   <span>First Name</span>
-                  <Input className="mt-1 border" disabled value={userInfo.first_name || null} />
+                  <Input
+                    className="mt-1 border"
+                    disabled
+                    value={userInfo.first_name || null}
+                  />
                 </Label>
               </Grid>
-              <Grid item lg={6} md={6} sm={6} xs={12} className="dark:text-gray-300 text-gray-900">
+              <Grid
+                item
+                lg={6}
+                md={6}
+                sm={6}
+                xs={12}
+                className="dark:text-gray-300 text-gray-900"
+              >
                 <Label>
                   <span>Last Name</span>
-                  <Input className="mt-1 border" disabled value={userInfo.last_name || null} />
+                  <Input
+                    className="mt-1 border"
+                    disabled
+                    value={userInfo.last_name || null}
+                  />
                 </Label>
               </Grid>
-              <Grid item lg={6} md={6} sm={6} xs={12} className="dark:text-gray-300 text-gray-900">
+              <Grid
+                item
+                lg={6}
+                md={6}
+                sm={6}
+                xs={12}
+                className="dark:text-gray-300 text-gray-900"
+              >
                 <Label>
                   <span>Email</span>
-                  <Input className="mt-1 border" disabled value={userInfo.email || null} />
+                  <Input
+                    className="mt-1 border"
+                    disabled
+                    value={userInfo.email || null}
+                  />
                 </Label>
               </Grid>
-              <Grid item lg={6} md={6} sm={6} xs={12} className="dark:text-gray-300 text-gray-900">
+              <Grid
+                item
+                lg={6}
+                md={6}
+                sm={6}
+                xs={12}
+                className="dark:text-gray-300 text-gray-900"
+              >
                 <Label>
                   <span>Mobile Number</span>
                   <Input
                     className="mt-1 border"
                     disabled
-                    value={`+${userInfo.country_code} ${userInfo.mobile_number}` || null}
+                    value={
+                      `+${userInfo.country_code} ${userInfo.mobile_number}` ||
+                      null
+                    }
                   />
                 </Label>
               </Grid>
               {hasPermission(PAGE_USER_DETAILS, "moreInfo") && (
                 <>
-                  <Grid item lg={6} md={6} sm={6} xs={12} className=" dark:text-gray-300 text-gray-900">
+                  <Grid
+                    item
+                    lg={6}
+                    md={6}
+                    sm={6}
+                    xs={12}
+                    className=" dark:text-gray-300 text-gray-900"
+                  >
                     <LabelArea label="Gender" />
                     <div className="col-span-8 sm:col-span-4">
                       <RadioGroup
@@ -246,9 +315,21 @@ const UserDetails = () => {
                         value={gender}
                         onChange={(e) => setGender(e.target.value)}
                       >
-                        <FormControlLabel value="MALE" control={<Radio />} label="MALE" />
-                        <FormControlLabel value="FEMALE" control={<Radio />} label="FEMALE" />
-                        <FormControlLabel value="OTHER" control={<Radio />} label="OTHER" />
+                        <FormControlLabel
+                          value="MALE"
+                          control={<Radio />}
+                          label="MALE"
+                        />
+                        <FormControlLabel
+                          value="FEMALE"
+                          control={<Radio />}
+                          label="FEMALE"
+                        />
+                        <FormControlLabel
+                          value="OTHER"
+                          control={<Radio />}
+                          label="OTHER"
+                        />
                       </RadioGroup>
                     </div>
                   </Grid>
@@ -289,7 +370,11 @@ const UserDetails = () => {
                       <Select
                         className="mt-1 cursor-pointer"
                         value={roleId}
-                        disabled={hasPermission(PAGE_USER_DETAILS, "updateRole") ? false : true}
+                        disabled={
+                          hasPermission(PAGE_USER_DETAILS, "updateRole")
+                            ? false
+                            : true
+                        }
                         onChange={(e) => {
                           setRoleId(e.target.value);
                         }}
@@ -313,9 +398,20 @@ const UserDetails = () => {
                             onClick={async () => {
                               setRoleUpdateLoader(true);
                               await apiService
-                                .patch("user_service", `/admin/users/${id}/roles/${Number(roleId)}`)
-                                .then(() => notifySuccess("User role updated successfully"))
-                                .catch(() => notifyError("Something went wrong. Unable to update user role"));
+                                .patch(
+                                  "user_service",
+                                  `/admin/users/${id}/roles/${Number(roleId)}`
+                                )
+                                .then(() =>
+                                  notifySuccess(
+                                    "User role updated successfully"
+                                  )
+                                )
+                                .catch(() =>
+                                  notifyError(
+                                    "Something went wrong. Unable to update user role"
+                                  )
+                                );
                               setRoleUpdateLoader(false);
                             }}
                           >
@@ -338,7 +434,12 @@ const UserDetails = () => {
                         name="city"
                         placeholder="Enter your city"
                         value={address.city}
-                        onChange={(e) => setAddress((prevData) => ({ ...prevData, city: e.target.value }))}
+                        onChange={(e) =>
+                          setAddress((prevData) => ({
+                            ...prevData,
+                            city: e.target.value,
+                          }))
+                        }
                       />
                     </Label>
                   </Grid>
@@ -351,7 +452,12 @@ const UserDetails = () => {
                         name="state"
                         placeholder="Enter your state"
                         value={address.state}
-                        onChange={(e) => setAddress((prevData) => ({ ...prevData, state: e.target.value }))}
+                        onChange={(e) =>
+                          setAddress((prevData) => ({
+                            ...prevData,
+                            state: e.target.value,
+                          }))
+                        }
                       />
                     </Label>
                   </Grid>
@@ -364,7 +470,9 @@ const UserDetails = () => {
                         name="driving_licence_number"
                         placeholder="Enter your driving license number"
                         value={driving_licence_number}
-                        onChange={(e) => setDrivingLicenseNumber(e.target.value)}
+                        onChange={(e) =>
+                          setDrivingLicenseNumber(e.target.value)
+                        }
                       />
                     </Label>
                   </Grid>
@@ -468,7 +576,10 @@ const UserDetails = () => {
                     <Grid item lg={12} md={12} sm={12} xs={12} className="">
                       <div className="w-full ">
                         {!submitLoader ? (
-                          <Button type="submit" className="w-full rounded-md h-12">
+                          <Button
+                            type="submit"
+                            className="w-full rounded-md h-12"
+                          >
                             Submit
                           </Button>
                         ) : (

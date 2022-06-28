@@ -4,7 +4,6 @@ import {
   CardBody,
   Input,
   Pagination,
-  Select,
   Table,
   TableCell,
   TableContainer,
@@ -12,7 +11,9 @@ import {
   TableHeader,
 } from "@windmill/react-ui";
 import React, { useContext, useEffect, useState } from "react";
-import hasPermission, { PAGE_ROLES_LIST } from "../../components/login/hasPermission";
+import hasPermission, {
+  PAGE_ROLES_LIST,
+} from "../../components/login/hasPermission";
 
 import { FiPlus } from "react-icons/fi";
 import Loading from "../../components/preloader/Loading";
@@ -32,7 +33,8 @@ const Roles = () => {
   const [filteredRoles, setFilteredRoles] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [update, setUpdate] = useState(false);
-  const { handleChangePage, resultsPerPage, totalResults, dataTable } = useFilter(filteredRoles, 10);
+  const { handleChangePage, resultsPerPage, totalResults, dataTable } =
+    useFilter(filteredRoles, 10);
 
   useEffect(() => {
     apiService.get("user_service", "/roles", null).then((res) => {
@@ -52,7 +54,11 @@ const Roles = () => {
   useEffect(() => {
     setFilterText((prevData) => prevData);
     if (filterText.length === 0) return setFilteredRoles(data);
-    setFilteredRoles(data.filter((ap) => ap.name.toLowerCase().includes(filterText.toLowerCase())));
+    setFilteredRoles(
+      data.filter((ap) =>
+        ap.name.toLowerCase().includes(filterText.toLowerCase())
+      )
+    );
   }, [data, filterText]);
 
   return (
@@ -71,7 +77,10 @@ const Roles = () => {
             </div>
             {hasPermission(PAGE_ROLES_LIST, "create") && (
               <div className="md:w-1/3 md:flex-grow lg:flex-grow xl:flex-grow">
-                <Button onClick={toggleDrawer} className="w-full rounded-md h-12">
+                <Button
+                  onClick={toggleDrawer}
+                  className="w-full rounded-md h-12"
+                >
                   <span className="mr-3">
                     <FiPlus />
                   </span>
@@ -94,7 +103,9 @@ const Roles = () => {
                 <TableCell>Role Key</TableCell>
                 <TableCell>Role Name</TableCell>
                 <TableCell>Status</TableCell>
-                {hasPermission(PAGE_ROLES_LIST, "update") && <TableCell>Actions</TableCell>}
+                {hasPermission(PAGE_ROLES_LIST, "update") && (
+                  <TableCell>Actions</TableCell>
+                )}
               </tr>
             </TableHeader>
             <RolesTable rolesData={dataTable} onUpdate={setUpdate} />

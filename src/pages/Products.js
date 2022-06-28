@@ -14,7 +14,10 @@ import {
 } from "@windmill/react-ui";
 import React, { useEffect, useState } from "react";
 import ReactSelect, { components } from "react-select";
-import hasPermission, { PAGE_PRODUCTS_LIST, PAGE_PRODUCT_ADD } from "../components/login/hasPermission";
+import hasPermission, {
+  PAGE_PRODUCTS_LIST,
+  PAGE_PRODUCT_ADD,
+} from "../components/login/hasPermission";
 
 import { FiPlus } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -58,13 +61,21 @@ const Products = () => {
     setLoading(true);
     await apiService
       .get("b2b", `/brands`)
-      .then(({ data }) => setBrandList(data.result.map(({ id, name }) => ({ value: id, label: name }))))
-      .catch((err) => notifyError("Unable to get all brands"));
+      .then(({ data }) =>
+        setBrandList(
+          data.result.map(({ id, name }) => ({ value: id, label: name }))
+        )
+      )
+      .catch(() => notifyError("Unable to get all brands"));
 
     await apiService
       .get("b2b", `/categories`)
-      .then(({ data }) => setCategoryList(data.result.map(({ id, name }) => ({ value: id, label: name }))))
-      .catch((err) => notifyError("Unable to get all categories"));
+      .then(({ data }) =>
+        setCategoryList(
+          data.result.map(({ id, name }) => ({ value: id, label: name }))
+        )
+      )
+      .catch(() => notifyError("Unable to get all categories"));
     setLoading(false);
   }, []);
   useEffect(async () => {
@@ -74,7 +85,8 @@ const Products = () => {
       size: 2,
       sort: "id",
     };
-    if (brandsSelected.length > 0) params.brandIds = brandsSelected.map(({ value }) => value).join(",");
+    if (brandsSelected.length > 0)
+      params.brandIds = brandsSelected.map(({ value }) => value).join(",");
     if (categorySelected.length > 0)
       params.categoryIds = categorySelected.map(({ value }) => value).join(",");
     if (filterText.length > 0) params.searchQuery = filterText;
@@ -100,7 +112,11 @@ const Products = () => {
     return (
       <div>
         <components.Option {...props}>
-          <input type="checkbox" checked={props.isSelected} onChange={() => null} />
+          <input
+            type="checkbox"
+            checked={props.isSelected}
+            onChange={() => null}
+          />
           <label>{props.label}</label>
         </components.Option>
       </div>
@@ -231,7 +247,10 @@ const Products = () => {
                 )}
               </>
             ) : (
-              <Button onClick={() => setShowFilters(true)} className="w-full rounded-md h-12">
+              <Button
+                onClick={() => setShowFilters(true)}
+                className="w-full rounded-md h-12"
+              >
                 Filter Store Products
               </Button>
             )}

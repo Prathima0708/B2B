@@ -3,8 +3,6 @@ import "./orders.css";
 import {
   Avatar,
   Button,
-  Card,
-  CardBody,
   Input,
   Label,
   Select,
@@ -13,24 +11,22 @@ import {
   TableCell,
   TableContainer,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@windmill/react-ui";
-import { FiEdit, FiEye, FiTrash2 } from "react-icons/fi";
+
 import React, { useEffect, useState } from "react";
 import { notifyError, notifySuccess } from "../../utils/toast";
 import { useDispatch, useSelector } from "react-redux";
 
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { FiSave } from "react-icons/fi";
+
 import { GET_PRODUCT_LIST_OF_STORE_URL } from "./constants";
 import Grid from "@mui/material/Grid";
-import { Link } from "react-router-dom";
-import Switch from "react-switch";
-import Tooltip from "../../components/tooltip/Tooltip";
+
 import _ from "lodash";
 import apiService from "../../utils/apiService";
-import axios from "axios";
+
 import { useHistory } from "react-router-dom";
 
 function MyProductFromOrder(props) {
@@ -45,7 +41,6 @@ function MyProductFromOrder(props) {
     return state;
   });
 
-
   const getProductList = () => {
     setIsLoading(true);
     apiService
@@ -56,7 +51,11 @@ function MyProductFromOrder(props) {
         if (response) {
           const priceState = [];
           setIsLoading(false);
-          setData(response.data.result.sort((a, b) => (a.product.id > b.product.id ? 1 : -1)));
+          setData(
+            response.data.result.sort((a, b) =>
+              a.product.id > b.product.id ? 1 : -1
+            )
+          );
           response.data.result.forEach((product) =>
             product.product.variants.forEach((variant) =>
               priceState.push({
@@ -77,13 +76,17 @@ function MyProductFromOrder(props) {
                 .sort((c, d) => (c.variant.id > d.variant.id ? 1 : -1))
                 .forEach((variant) =>
                   sp.push({
-                    image: product.product.resources.find((res) => res.titleName === 'thumbnail_image')?.enValue,
+                    image: product.product.resources.find(
+                      (res) => res.titleName === "thumbnail_image"
+                    )?.enValue,
                     mappingId: variant.storeProductVariantMapId,
                     productId: product.product.id,
                     productName: product.product.name,
                     variantId: variant.variant.id,
                     name: variant.variant.name,
-                    mrp: variant.variant.resources.find((res) => res.titleName === 'market_price').enValue,
+                    mrp: variant.variant.resources.find(
+                      (res) => res.titleName === "market_price"
+                    ).enValue,
                     sellerPrice: variant.price,
                     originalSellerPrice: variant.price,
                     active: variant.active,
@@ -102,7 +105,7 @@ function MyProductFromOrder(props) {
           setData([]);
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -114,14 +117,13 @@ function MyProductFromOrder(props) {
     getProductList();
   }, [props.storeSelected, filter]);
 
-  useEffect(() => {
-  }, [storeProducts]);
+  useEffect(() => {}, [storeProducts]);
 
   const toggleActive = async (storeId, productId, variantId, active) => {
     let payload = { productId, variantId, active };
     setIsLoading(true);
     await apiService
-      .put('b2b',`/store-product/toggle-active`, payload, {
+      .put("b2b", `/store-product/toggle-active`, payload, {
         params: {
           "x-store-id": storeId,
         },
@@ -130,7 +132,9 @@ function MyProductFromOrder(props) {
         setIsLoading(false);
         closeModal();
         getProductList();
-        notifySuccess(`Product status set to ${active ? "Active" : "Inactive"}`);
+        notifySuccess(
+          `Product status set to ${active ? "Active" : "Inactive"}`
+        );
       })
       .catch(() => {
         setIsLoading(false);
@@ -138,11 +142,17 @@ function MyProductFromOrder(props) {
       });
   };
 
-  const toggleInStock = async (storeId, productId, variantId, inStock, price) => {
+  const toggleInStock = async (
+    storeId,
+    productId,
+    variantId,
+    inStock,
+    price
+  ) => {
     let payload = { productId, variantId, inStock, price };
     setIsLoading(true);
     await apiService
-      .post('b2b',"/store-product/edit-stock-price", payload, {
+      .post("b2b", "/store-product/edit-stock-price", payload, {
         params: {
           "x-store-id": storeId,
         },
@@ -153,17 +163,23 @@ function MyProductFromOrder(props) {
         getProductList();
         notifySuccess("Product status changes");
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
         notifyError("Something went wrong!!");
       });
   };
 
-  const updateSellerPrice = async (storeId, productId, variantId, inStock, price) => {
+  const updateSellerPrice = async (
+    storeId,
+    productId,
+    variantId,
+    inStock,
+    price
+  ) => {
     let payload = { productId, variantId, inStock, price };
     setIsLoading(true);
     await apiService
-      .post('b2b',"/store-product/edit-stock-price", payload, {
+      .post("b2b", "/store-product/edit-stock-price", payload, {
         params: {
           "x-store-id": storeId,
         },
@@ -173,9 +189,8 @@ function MyProductFromOrder(props) {
         closeModal();
         getProductList();
         notifySuccess("Seller price updated");
-        // setUpdate(!update);
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
         notifyError("Something went wrong!!");
       });
@@ -192,25 +207,25 @@ function MyProductFromOrder(props) {
   const [productStockPrice, setProductStockPrice] = useState(null);
 
   const variantisPresent = (variantId) => {
-    if(property.user.myOrder !=null){
+    if (property.user.myOrder != null) {
       let myOrder = property.user.myOrder.orderItems;
-      let flag = _.find(myOrder, { variantId })
-      if (flag)
-        return "hidden"
-      else
-        return "";
+      let flag = _.find(myOrder, { variantId });
+      if (flag) return "hidden";
+      else return "";
     } else {
       return "";
     }
-    
-  }
+  };
 
   const dispatch = useDispatch();
   const history = useHistory();
 
   return (
     <>
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
 
@@ -218,7 +233,9 @@ function MyProductFromOrder(props) {
         <Grid item md={12} sm={12} xs={12} className="pt-1">
           <Grid container spacing={3} className="mt-4">
             <Grid item md={12} sm={12} xs={12} className="">
-              <h2 className="text-gray-500 dark:text-white text-lg">{"My Products Edit"}</h2>
+              <h2 className="text-gray-500 dark:text-white text-lg">
+                {"My Products Edit"}
+              </h2>
             </Grid>
           </Grid>
           <Grid container spacing={3} className="pt-4">
@@ -231,15 +248,18 @@ function MyProductFromOrder(props) {
             <Grid item md={4} sm={4} xs={12} className="">
               <Label>
                 <span>Filters</span>
-                <Select className="mt-1" value={filter} onChange={(e) => setFilter(e.target.value)} name="filter">
+                <Select
+                  className="mt-1"
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                  name="filter"
+                >
                   <option value="">All Products</option>
                   <option value="?is-active=true">Active Products</option>
                   <option value="?is-active=false">Inactive Products</option>
                 </Select>
               </Label>
             </Grid>
-
-            
           </Grid>
           <Grid container spacing={3} className="mt-4">
             <Grid item md={12} sm={12} xs={12}></Grid>
@@ -249,7 +269,7 @@ function MyProductFromOrder(props) {
               <TableHeader>
                 <tr>
                   <TableCell>Image</TableCell>
-                  
+
                   <TableCell>Variant ID</TableCell>
                   <TableCell>Name</TableCell>
                   <TableCell>MRP</TableCell>
@@ -260,77 +280,82 @@ function MyProductFromOrder(props) {
                 </tr>
               </TableHeader>
               <TableBody>
-                {storeProducts.map(
-                  (
-                    prod,
-                    i
-                  ) => (
-                      <TableRow key={i} className={`${prod.background} ` + variantisPresent(prod.variantId)} >
-                        <TableCell>
-                          <Avatar
-                            className="hidden mr-3 md:block bg-gray-50 p-1"
-                            src={
-                              prod.image
-                                ? prod.image
-                                : "https://5.imimg.com/data5/SELLER/Default/2021/5/GH/WC/ZY/127199812/fresh-mango-fruits-500x500.jpg"
-                            }
-                            alt=""
-                          />
-                        </TableCell>
-                        {/* <TableCell>{prod.productId}</TableCell>
+                {storeProducts.map((prod, i) => (
+                  <TableRow
+                    key={i}
+                    className={
+                      `${prod.background} ` + variantisPresent(prod.variantId)
+                    }
+                  >
+                    <TableCell>
+                      <Avatar
+                        className="hidden mr-3 md:block bg-gray-50 p-1"
+                        src={
+                          prod.image
+                            ? prod.image
+                            : "https://5.imimg.com/data5/SELLER/Default/2021/5/GH/WC/ZY/127199812/fresh-mango-fruits-500x500.jpg"
+                        }
+                        alt=""
+                      />
+                    </TableCell>
+                    {/* <TableCell>{prod.productId}</TableCell>
                       <TableCell>{prod.productName}</TableCell> */}
-                        <TableCell>{prod.variantId}</TableCell>
-                        <TableCell>{prod.name}</TableCell>
-                        <TableCell>{prod.mrp}</TableCell>
-                        <TableCell>{prod.sellerPrice}</TableCell>
-                        <TableCell>
-                          <div className="flex flex-row ">
-                            <Input
-                              className="border mr-1 text-sm focus:outline-none block bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                              label=" Seller Price"
-                              name="sellerPrice"
-                              type="Number"
-                              value={prod.qty ? prod.qty : 0}
-                              style={{ width: "4rem" }}
-                              onChange={(e) => {
-                                let p = storeProducts;
-                                p[i].qty = parseInt(e.target.value);
-                                setCount(count + 1);
-                                setStoreProducts(p);
-                              }}
-                            />
-                          </div>
-                        </TableCell>
-                        <TableCell>{prod.sellerPrice * (prod.qty ? prod.qty : 0)}</TableCell>
-                        <TableCell>
-                          <Button type="submit" disabled={!prod.qty || prod.add} onClick={() => {
+                    <TableCell>{prod.variantId}</TableCell>
+                    <TableCell>{prod.name}</TableCell>
+                    <TableCell>{prod.mrp}</TableCell>
+                    <TableCell>{prod.sellerPrice}</TableCell>
+                    <TableCell>
+                      <div className="flex flex-row ">
+                        <Input
+                          className="border mr-1 text-sm focus:outline-none block bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                          label=" Seller Price"
+                          name="sellerPrice"
+                          type="Number"
+                          value={prod.qty ? prod.qty : 0}
+                          style={{ width: "4rem" }}
+                          onChange={(e) => {
                             let p = storeProducts;
-                            p[i].add = p[i].add ? !p[i].add : true;
+                            p[i].qty = parseInt(e.target.value);
                             setCount(count + 1);
                             setStoreProducts(p);
+                          }}
+                        />
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      {prod.sellerPrice * (prod.qty ? prod.qty : 0)}
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        type="submit"
+                        disabled={!prod.qty || prod.add}
+                        onClick={() => {
+                          let p = storeProducts;
+                          p[i].add = p[i].add ? !p[i].add : true;
+                          setCount(count + 1);
+                          setStoreProducts(p);
 
-                            // let orderItems = property.user.myOrder.orderItems;
-                            let orderItems = property.user.myOrder;
-                            orderItems.orderItems.push({
-                              id: prod.productId,
-                              productName: prod.productName,
-                              variantName: prod.name,
-                              variantId: prod.variantId,
-                              productId: prod.productId,
-                              quantity: prod.qty ? prod.qty : 0,
-                              unitPrice: prod.sellerPrice
-                            })
-                            dispatch({
-                              type: "MY_ORDER_LIST_UPDATE_ADD",
-                              payload: orderItems,
-                            });
-                          }}>
-                            Add
-                        </Button>
-                        </TableCell>
-                      </TableRow>
-                    )
-                )}
+                          let orderItems = property.user.myOrder;
+                          orderItems.orderItems.push({
+                            id: prod.productId,
+                            productName: prod.productName,
+                            variantName: prod.name,
+                            variantId: prod.variantId,
+                            productId: prod.productId,
+                            quantity: prod.qty ? prod.qty : 0,
+                            unitPrice: prod.sellerPrice,
+                          });
+                          dispatch({
+                            type: "MY_ORDER_LIST_UPDATE_ADD",
+                            payload: orderItems,
+                          });
+                        }}
+                      >
+                        Add
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
