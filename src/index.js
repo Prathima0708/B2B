@@ -15,23 +15,17 @@ import { Windmill } from "@windmill/react-ui";
 import myTheme from "./assets/theme/myTheme";
 import store from "./Redux/store";
 
-// import * as serviceWorker from "./serviceWorker";
-
-// if (process.env.NODE_ENV !== "production") {
-//   const axe = require("react-axe");
-//   axe(React, ReactDOM, 1000);
-// }
 /**TO avoid data loss on refresh */
 function saveToLocalStorage(state) {
   try {
-    const serializedState = JSON.stringify(state)
-    localStorage.setItem('state', serializedState)
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem("state", serializedState);
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 }
 
-store.subscribe(() => saveToLocalStorage(store.getState()))
+store.subscribe(() => saveToLocalStorage(store.getState()));
 
 ReactDOM.render(
   <Provider store={store}>

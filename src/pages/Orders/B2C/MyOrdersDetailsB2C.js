@@ -154,11 +154,7 @@ function MyOrdersDetailsB2C(props) {
                 {driver &&
                   driver.map((users, index) => {
                     return (
-                      <TableRow
-                        key={index}
-                        className="cursor-pointer"
-                        onClick={async () => {}}
-                      >
+                      <TableRow key={index} className="cursor-pointer">
                         <TableCell className="font-semibold uppercase text-xs">
                           {users.user_id}
                         </TableCell>
@@ -255,11 +251,7 @@ function MyOrdersDetailsB2C(props) {
                 {storeUsers &&
                   storeUsers.map((users, index) => {
                     return (
-                      <TableRow
-                        key={index}
-                        className="cursor-pointer"
-                        onClick={async () => {}}
-                      >
+                      <TableRow key={index} className="cursor-pointer">
                         <TableCell className="font-semibold uppercase text-xs">
                           {users.user_id}
                         </TableCell>
@@ -363,7 +355,7 @@ function MyOrdersDetailsB2C(props) {
               </Select>
             </Grid>
             <Grid xs={6} className="pt-1 pl-1">
-              <Button type="submit" className="w-full h-12" onClick={() => {}}>
+              <Button type="submit" className="w-full h-12">
                 <FiPlus className="me-1" /> Message Customer
               </Button>
             </Grid>

@@ -12,7 +12,7 @@ import routes from "../routes";
 
 const Page404 = lazy(() => import("../pages/404"));
 
-const Layout = (props) => {
+const Layout = () => {
   const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
 
   const [storeList, setStoreList] = useState([]);

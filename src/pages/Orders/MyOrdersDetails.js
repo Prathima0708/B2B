@@ -6,7 +6,6 @@ import {
   ASSIGN_PICKER,
   GET_STORE_USER,
   GET_WAREHOUSE_LIST_URL,
-  PICKER_STRING,
   PUT_ORDER_URL,
   ROLE_ID_DRIVER,
   ROLE_ID_PICKER,
@@ -27,19 +26,18 @@ import {
   TableHeader,
   TableRow,
 } from "@windmill/react-ui";
-import { FiArrowLeft, FiEdit, FiPlus, FiPlusSquare, FiXSquare } from "react-icons/fi";
+import { FiPlus, FiPlusSquare, FiXSquare } from "react-icons/fi";
 import React, { useEffect, useState } from "react";
 import { notifyError, notifySuccess } from "../../utils/toast";
 import { useDispatch, useSelector } from "react-redux";
 
 import Backdrop from "@mui/material/Backdrop";
-import { Badge } from "@windmill/react-ui";
+
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import PageTitle from "../../components/Typography/PageTitle";
 import apiService from "../../utils/apiService";
-import { useHistory } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 function MyOrdersDetails(props) {
   const location = useLocation();
@@ -60,7 +58,6 @@ function MyOrdersDetails(props) {
   useEffect(() => {}, [order]);
 
   useEffect(() => {
-    // let orderDetail = location.state.order;
     getDrivers();
     getWarehouseList();
     let orderDetail = property.user.myOrder;
@@ -106,7 +103,7 @@ function MyOrdersDetails(props) {
           notifyError("Something Went Wrong!!");
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -129,7 +126,7 @@ function MyOrdersDetails(props) {
           notifyError("Something Went Wrong!!");
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -148,7 +145,7 @@ function MyOrdersDetails(props) {
           setWarehouseList([]);
         }
       })
-      .catch((e) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -181,7 +178,7 @@ function MyOrdersDetails(props) {
                     onChange={(e) => setWarehouse(e.target.value)}
                     name="filter"
                   >
-                    {warehouseList.map((wr, i) => {
+                    {warehouseList.map((wr) => {
                       return <option value={wr.id}>{wr.name}</option>;
                     })}
                   </Select>
@@ -206,11 +203,19 @@ function MyOrdersDetails(props) {
                 {driver &&
                   driver.map((users, index) => {
                     return (
-                      <TableRow key={index} className="cursor-pointer" onClick={async () => {}}>
-                        <TableCell className="font-semibold uppercase text-xs">{users.user_id}</TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{users.first_name}</TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{users.last_name}</TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{users.role_name}</TableCell>
+                      <TableRow key={index} className="cursor-pointer">
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.user_id}
+                        </TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.first_name}
+                        </TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.last_name}
+                        </TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.role_name}
+                        </TableCell>
                         <TableCell>
                           <Input
                             type="radio"
@@ -229,7 +234,11 @@ function MyOrdersDetails(props) {
           </TableContainer>
         </ModalBody>
         <ModalFooter>
-          <Button className="w-full sm:w-auto" layout="outline" onClick={closeModalAssignDriverModal}>
+          <Button
+            className="w-full sm:w-auto"
+            layout="outline"
+            onClick={closeModalAssignDriverModal}
+          >
             Cancel
           </Button>
           <Button
@@ -237,7 +246,7 @@ function MyOrdersDetails(props) {
             onClick={() => {
               let orderSOBJ = [];
               let selectedOrders = [];
-              orderSOBJ.map((ord, index) => {
+              orderSOBJ.map((ord) => {
                 if (ord.selected) {
                   if (typeFlg === "vendor") {
                     selectedOrders.push({
@@ -257,20 +266,25 @@ function MyOrdersDetails(props) {
                 setIsLoading(true);
                 let payload = selectedOrders;
                 localStorage.setItem("x-member-id", selectedDriver);
-                let url = typeFlg === "vendor" ? ASSIGN_DRIVER_B2B_VENDOR : ASSIGN_DRIVER_B2B_SELLER;
+                let url =
+                  typeFlg === "vendor"
+                    ? ASSIGN_DRIVER_B2B_VENDOR
+                    : ASSIGN_DRIVER_B2B_SELLER;
                 apiService
                   .post("b2b", url, payload)
                   .then((response) => {
                     if (response.status) {
                       setIsLoading(false);
                       closeModalAssignDriverModal();
-                      notifySuccess(`Driver has been assigned to Selected Orders`);
+                      notifySuccess(
+                        `Driver has been assigned to Selected Orders`
+                      );
                     } else {
                       setIsLoading(false);
                       notifyError("Something Went Wrong!!");
                     }
                   })
-                  .catch((e) => {
+                  .catch(() => {
                     setIsLoading(false);
                   });
               }
@@ -302,11 +316,19 @@ function MyOrdersDetails(props) {
                 {storeUsers &&
                   storeUsers.map((users, index) => {
                     return (
-                      <TableRow key={index} className="cursor-pointer" onClick={async () => {}}>
-                        <TableCell className="font-semibold uppercase text-xs">{users.user_id}</TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{users.first_name}</TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{users.last_name}</TableCell>
-                        <TableCell className="font-semibold uppercase text-xs">{users.role_name}</TableCell>
+                      <TableRow key={index} className="cursor-pointer">
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.user_id}
+                        </TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.first_name}
+                        </TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.last_name}
+                        </TableCell>
+                        <TableCell className="font-semibold uppercase text-xs">
+                          {users.role_name}
+                        </TableCell>
                         <TableCell>
                           <Input
                             type="radio"
@@ -325,7 +347,11 @@ function MyOrdersDetails(props) {
           </TableContainer>
         </ModalBody>
         <ModalFooter>
-          <Button className="w-full sm:w-auto" layout="outline" onClick={closeModal}>
+          <Button
+            className="w-full sm:w-auto"
+            layout="outline"
+            onClick={closeModal}
+          >
             Cancel
           </Button>
           <Button
@@ -355,7 +381,7 @@ function MyOrdersDetails(props) {
                       notifyError("Something Went Wrong!!");
                     }
                   })
-                  .catch((e) => {
+                  .catch(() => {
                     setIsLoading(false);
                   });
               }
@@ -365,26 +391,37 @@ function MyOrdersDetails(props) {
           </Button>
         </ModalFooter>
       </Modal>
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
       <Grid container spacing={3}>
         <Grid item sm={5} xs={9} className="pt-1">
           <PageTitle>
-            <div className="mask-the-orderId">Orders : {order != null ? order.orderId : ""}</div>
+            <div className="mask-the-orderId">
+              Orders : {order != null ? order.orderId : ""}
+            </div>
           </PageTitle>
         </Grid>
-        <Grid item sm={5} xs={6} className="pt-1 pb-md-0 pb-2 ps-md-0 ps-3" style={{ marginTop: "2rem" }}>
+        <Grid
+          item
+          sm={5}
+          xs={6}
+          className="pt-1 pb-md-0 pb-2 ps-md-0 ps-3"
+          style={{ marginTop: "2rem" }}
+        >
           <Grid container spacing={3}>
             <Grid xs={6} className="pt-1">
-              <Select className="h-12" onChange={(e) => {}}>
+              <Select className="h-12">
                 <option>{"Shipped"}</option>
                 <option>{"Pick Ups"}</option>
                 <option>{"Returns"}</option>
               </Select>
             </Grid>
             <Grid xs={6} className="pt-1 pl-1">
-              <Button type="submit" className="w-full h-12" onClick={() => {}}>
+              <Button type="submit" className="w-full h-12">
                 <FiPlus className="me-1" /> Message Customer
               </Button>
             </Grid>
@@ -428,7 +465,9 @@ function MyOrdersDetails(props) {
                               {ord.productName} <br />({ord.variantName})
                             </div>
                           </TableCell>
-                          <TableCell className="font-semibold uppercase text-xs">{ord.quantity}</TableCell>
+                          <TableCell className="font-semibold uppercase text-xs">
+                            {ord.quantity}
+                          </TableCell>
                           <TableCell className="font-semibold uppercase text-xs">
                             <div className="flex flex-row ">
                               <Input
@@ -436,18 +475,28 @@ function MyOrdersDetails(props) {
                                 label=" Seller Price"
                                 name="sellerPrice"
                                 type="Number"
-                                value={ord.deliverableQuantity ? ord.deliverableQuantity : null}
+                                value={
+                                  ord.deliverableQuantity
+                                    ? ord.deliverableQuantity
+                                    : null
+                                }
                                 style={{ width: "8rem" }}
                                 onChange={(e) => {
-                                  updateDeliverableQuantity(index, e.target.value);
+                                  updateDeliverableQuantity(
+                                    index,
+                                    e.target.value
+                                  );
                                 }}
                               />
                             </div>
                           </TableCell>
-                          <TableCell className="font-semibold uppercase text-xs">{ord.unitPrice}</TableCell>
+                          <TableCell className="font-semibold uppercase text-xs">
+                            {ord.unitPrice}
+                          </TableCell>
                           <TableCell className="font-semibold uppercase text-xs">
                             {ord.unitPrice *
-                              (ord.deliverableQuantity && ord.deliverableQuantity != null
+                              (ord.deliverableQuantity &&
+                              ord.deliverableQuantity != null
                                 ? ord.deliverableQuantity
                                 : 0)}
                           </TableCell>
@@ -455,7 +504,9 @@ function MyOrdersDetails(props) {
                             <FiXSquare
                               onClick={() => {
                                 var orderObj = order;
-                                orderObj.orderItems[index].deliverableQuantity = 0;
+                                orderObj.orderItems[
+                                  index
+                                ].deliverableQuantity = 0;
                                 setOrder(orderObj);
                                 setCount(count + 1);
                               }}
@@ -478,7 +529,12 @@ function MyOrdersDetails(props) {
                 onClick={() => {
                   setAssignDriverModalOpen(true);
                 }}
-                disabled={order!=null && (order.orderStatus === 'COMPLETED' || order.orderStatus === 'REJECTED' || order.orderStatus === 'CANCELLED')}
+                disabled={
+                  order != null &&
+                  (order.orderStatus === "COMPLETED" ||
+                    order.orderStatus === "REJECTED" ||
+                    order.orderStatus === "CANCELLED")
+                }
               >
                 Assign Driver
               </Button>
@@ -491,7 +547,12 @@ function MyOrdersDetails(props) {
                 onClick={() => {
                   setIsModalOpen(true);
                 }}
-                disabled={order!=null && (order.orderStatus === 'COMPLETED' || order.orderStatus === 'REJECTED' || order.orderStatus === 'CANCELLED')}
+                disabled={
+                  order != null &&
+                  (order.orderStatus === "COMPLETED" ||
+                    order.orderStatus === "REJECTED" ||
+                    order.orderStatus === "CANCELLED")
+                }
               >
                 Assign Picker
               </Button>
@@ -503,7 +564,7 @@ function MyOrdersDetails(props) {
                 onClick={() => {
                   let payload = {};
                   let itemsToAddOrUpdate = [];
-                  order.orderItems.map((ord, i) => {
+                  order.orderItems.map((ord) => {
                     itemsToAddOrUpdate.push({
                       productId: ord.productId,
                       variantId: ord.variantId,
@@ -526,7 +587,9 @@ function MyOrdersDetails(props) {
                         });
                         setIsLoading(false);
                         notifySuccess(
-                          "Order " + (order != null ? order.orderId : "") + "Has been updated successfully!!."
+                          "Order " +
+                            (order != null ? order.orderId : "") +
+                            "Has been updated successfully!!."
                         );
                       } else {
                         setIsLoading(false);

@@ -242,13 +242,7 @@ function DeliveryExecutive() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Drawer
-        open={showDrawer}
-        onClose={() => {}}
-        parent={null}
-        level={null}
-        placement={"right"}
-      >
+      <Drawer open={showDrawer} parent={null} level={null} placement={"right"}>
         <div className="flex p-6 flex-col w-full h-full justify-between dark:bg-gray-800 dark:text-gray-300">
           <div className="w-full relative  bg-white dark:bg-gray-800 dark:text-gray-300">
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6 bg-white dark:bg-gray-800 dark:text-gray-300">

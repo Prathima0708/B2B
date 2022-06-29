@@ -1,16 +1,17 @@
 import "./rolesPermissions.css";
 
-import { BsToggleOff, BsToggleOn } from "react-icons/bs";
 import React, { useState } from "react";
 import { TableBody, TableCell, TableRow } from "@windmill/react-ui";
-import hasPermission, { PAGE_PERMISSION_LIST } from "../../components/login/hasPermission";
+import hasPermission, {
+  PAGE_PERMISSION_LIST,
+} from "../../components/login/hasPermission";
 
 import EditDeleteButton from "../../components/table/EditDeleteButton";
-import LabelArea from "../../components/form/LabelArea";
+
 import MainDrawer from "../../components/drawer/MainDrawer";
 import MainModal from "../../components/modal/MainModal";
 import PermissionsDrawer from "../../components/drawer/PermissionsDrawer";
-import ShowHideButton from "../../components/table/ShowHideButton";
+
 import Switch from "@mui/material/Switch";
 import apiService from "../../utils/apiService";
 import useToggleDrawer from "../../hooks/useToggleDrawer";
@@ -36,13 +37,14 @@ const PermissionsTable = (props) => {
         categoryHeader.style.display === "revert" ? "fadeIn 2s" : "fadeOut 2s";
       const nodeList = document.querySelectorAll("#category-by-id" + id);
       for (let i = 0; i < nodeList.length; i++) {
-        nodeList[i].style.display = nodeList[i].style.display === "revert" ? "none" : "revert";
-        nodeList[i].style.animation = nodeList[i].style.display === "revert" ? "fadeIn 2s" : "fadeOut 2s";
+        nodeList[i].style.display =
+          nodeList[i].style.display === "revert" ? "none" : "revert";
+        nodeList[i].style.animation =
+          nodeList[i].style.display === "revert" ? "fadeIn 2s" : "fadeOut 2s";
       }
     }
   };
   const updatePermissionStatus = (permission) => {
-
     apiService
       .patch("user_service", `/permissions/${permission.id}/status`)
       .then(() => props.onUpdate((prevData) => !prevData))
@@ -54,7 +56,11 @@ const PermissionsTable = (props) => {
       <MainModal id={serviceId} />
       <MainDrawer>
         {serviceId ? (
-          <PermissionsDrawer id={serviceId} permissionsData={permissions} onUpdate={props.onUpdate} />
+          <PermissionsDrawer
+            id={serviceId}
+            permissionsData={permissions}
+            onUpdate={props.onUpdate}
+          />
         ) : (
           <PermissionsDrawer onUpdate={props.onUpdate} />
         )}
@@ -70,7 +76,9 @@ const PermissionsTable = (props) => {
                 }}
               >
                 <TableCell>
-                  <span className="text-xs uppercase font-semibold">{permission.id}</span>
+                  <span className="text-xs uppercase font-semibold">
+                    {permission.id}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center">
@@ -82,27 +90,37 @@ const PermissionsTable = (props) => {
                 <TableCell>
                   <div className="flex items-center">
                     <div>
-                      <h2 className="text-sm font-medium">{permission.service_name}</h2>
+                      <h2 className="text-sm font-medium">
+                        {permission.service_name}
+                      </h2>
                     </div>
                   </div>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center">
                     <div>
-                      <h2 className="text-sm font-medium">{permission.request_type}</h2>
+                      <h2 className="text-sm font-medium">
+                        {permission.request_type}
+                      </h2>
                     </div>
                   </div>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center">
                     <div>
-                      <h2 className="text-sm font-medium">{permission.end_point}</h2>
+                      <h2 className="text-sm font-medium">
+                        {permission.end_point}
+                      </h2>
                     </div>
                   </div>
                 </TableCell>
                 <TableCell>
                   <Switch
-                    disabled={hasPermission(PAGE_PERMISSION_LIST, "toggleStatus") ? false : true}
+                    disabled={
+                      hasPermission(PAGE_PERMISSION_LIST, "toggleStatus")
+                        ? false
+                        : true
+                    }
                     key={permission.id}
                     checked={permission.is_active}
                     onClick={() => updatePermissionStatus(permission)}

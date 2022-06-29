@@ -70,6 +70,10 @@ const UserDetails = () => {
   const [submitLoader, setSubmitLoader] = useState(false);
   const [roleUpdateLoader, setRoleUpdateLoader] = useState(false);
   const { id } = useParams();
+
+  const DisabledCondition = hasPermission(PAGE_USER_DETAILS, "updateRole")
+    ? false
+    : true;
   useEffect(async () => {
     await apiService
       .get("user_service", `/admin/users/${id}`)
@@ -370,11 +374,7 @@ const UserDetails = () => {
                       <Select
                         className="mt-1 cursor-pointer"
                         value={roleId}
-                        disabled={
-                          hasPermission(PAGE_USER_DETAILS, "updateRole")
-                            ? false
-                            : true
-                        }
+                        disabled={DisabledCondition}
                         onChange={(e) => {
                           setRoleId(e.target.value);
                         }}

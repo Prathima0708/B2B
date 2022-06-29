@@ -296,11 +296,7 @@ function MyOrders(props) {
                     {driver &&
                       driver.map((users, index) => {
                         return (
-                          <TableRow
-                            key={index}
-                            className="cursor-pointer"
-                            onClick={async () => {}}
-                          >
+                          <TableRow key={index} className="cursor-pointer">
                             <TableCell className="font-semibold uppercase text-xs">
                               {users.user_id}
                             </TableCell>
@@ -420,11 +416,7 @@ function MyOrders(props) {
                     {storeUsers &&
                       storeUsers.map((users, index) => {
                         return (
-                          <TableRow
-                            key={index}
-                            className="cursor-pointer"
-                            onClick={async () => {}}
-                          >
+                          <TableRow key={index} className="cursor-pointer">
                             <TableCell className="font-semibold uppercase text-xs">
                               {users.user_id}
                             </TableCell>
@@ -469,7 +461,7 @@ function MyOrders(props) {
             onClick={() => {
               let orderSOBJ = orders;
               let selectedOrders = [];
-              orderSOBJ.map((ord, index) => {
+              orderSOBJ.map((ord) => {
                 if (ord.selected)
                   selectedOrders.push({
                     orderId: parseInt(ord.orderId),
@@ -494,7 +486,7 @@ function MyOrders(props) {
                       notifyError("Something Went Wrong!!");
                     }
                   })
-                  .catch((e) => {
+                  .catch(() => {
                     setIsLoading(false);
                   });
               }
