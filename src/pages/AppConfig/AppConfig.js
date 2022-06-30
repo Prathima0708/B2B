@@ -43,7 +43,7 @@ import locale from "react-json-editor-ajrm/locale/en";
 
 function AppConfig() {
   // Declare a new state variable, which we'll call "count"
-  const [count, setCount] = useState(0);
+
   const [showDrawer, setShowDrawer] = useState(false);
   const [keys, setKeys] = useState(null);
   const [dataType, setDataType] = useState("TEXT");

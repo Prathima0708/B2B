@@ -17,7 +17,6 @@ import apiService from "../../utils/apiService";
 import useToggleDrawer from "../../hooks/useToggleDrawer";
 
 const PermissionsTable = (props) => {
-  const [showHide, setShowHide] = useState(props.permissions);
   const [checkedItems, setCheckedItems] = useState({});
   const { serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
   const handleShow = (event) => {

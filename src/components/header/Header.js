@@ -24,7 +24,7 @@ import { gatewayServiceBaseUrl } from "../../utils/backendUrls";
 
 const Header = (props) => {
   const { toggleSidebar } = useContext(SidebarContext);
-  const { state, dispatch } = useContext(AdminContext);
+  const { state } = useContext(AdminContext);
   const { adminInfo } = state;
   const { mode, toggleMode } = useContext(WindmillContext);
   const [profileOpen, setProfileOpen] = useState(false);

@@ -20,7 +20,7 @@ import sidebar from "../../routes/sidebar";
 
 const SidebarContent = (props) => {
   const { mode } = useContext(WindmillContext);
-  const { dispatch } = useContext(AdminContext);
+
   const [myStoreFlg, setMyStoreFlg] = useState(false);
   const [permissionFlg, setPermissionFlg] = useState(false);
 

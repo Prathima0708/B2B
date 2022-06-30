@@ -15,7 +15,7 @@ const PushNotification = () => {
   const [users, setUsers] = useState([]);
   const [usersSelected, setUsersSelected] = useState([]);
   const [submitLoader, setSubmitLoader] = useState(false);
-  const [update, setUpdate] = useState(false);
+
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [iconFormData, setIconFormData] = useState({

@@ -1,8 +1,4 @@
-import React, { useState } from "react";
-
 const CountryCode = () => {
-  const [countryCodes, setCountryCodes] = useState();
-
   return (
     <>
       <option key="IN" value="+91">

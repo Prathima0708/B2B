@@ -60,7 +60,6 @@ function DeliveryExecutive() {
   const [pincode, setPincode] = useState("");
   const [state, setState] = useState("");
 
-  const [cityIdSearch, setCityIdSearch] = useState(null);
   const [sellerId, setSellerId] = useState(0);
 
   const [edit_driver, setEdit_driver] = useState(null);

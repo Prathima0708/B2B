@@ -70,7 +70,7 @@ const AddProduct = () => {
           await apiService.get("b2b", `/products/${id}`).then((data) => {
             const { result } = data.data;
             setProductName(result.name);
-            setBrand((prev) => result.brand?.id);
+            setBrand(() => result.brand?.id);
             setTimeout(() => {
               setCount(new Date());
             }, 1000);

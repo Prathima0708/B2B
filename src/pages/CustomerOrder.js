@@ -18,8 +18,6 @@ import CustomerOrderTable from "../components/customer/CustomerOrderTable";
 import { orders } from "../util/orders";
 
 const CustomerOrder = () => {
-  const { id } = useParams();
-
   const data = orders;
   const loading = false;
   const error = false;

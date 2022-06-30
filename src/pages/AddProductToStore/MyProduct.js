@@ -36,7 +36,7 @@ import useWindowDimensions from "../../hooks/useWindowDimensions";
 function MyProduct(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [flg, setFlg] = useState(1);
+
   const [filter, setFilter] = useState("");
   const [update, setUpdate] = useState(false);
   const [storeProducts, setStoreProducts] = useState([]);

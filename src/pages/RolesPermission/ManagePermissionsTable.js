@@ -6,7 +6,12 @@ import hasPermission, {
 
 import Switch from "@mui/material/Switch";
 
-const ManagePermissionsTable = ({ permissions, setAllowed, filterText, setFilterText }) => {
+const ManagePermissionsTable = ({
+  permissions,
+  setAllowed,
+  filterText,
+  setFilterText,
+}) => {
   const [searchInput, setSearchInput] = useState("");
 
   const [filteredPermissions, setFilteredPermission] = useState(permissions);
@@ -28,7 +33,9 @@ const ManagePermissionsTable = ({ permissions, setAllowed, filterText, setFilter
           .filter((post) => {
             if (searchInput === "") {
               return post;
-            } else if (post.end_point.toLowerCase().includes(searchInput.toLowerCase())) {
+            } else if (
+              post.end_point.toLowerCase().includes(searchInput.toLowerCase())
+            ) {
               return post;
             }
           })
@@ -37,33 +44,43 @@ const ManagePermissionsTable = ({ permissions, setAllowed, filterText, setFilter
               <>
                 <TableRow key={permission.id}>
                   <TableCell>
-                    <span className="text-xs uppercase font-semibold">{permission.id}</span>
+                    <span className="text-xs uppercase font-semibold">
+                      {permission.id}
+                    </span>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center">
                       <div>
-                        <h2 className="text-sm font-medium">{permission.name}</h2>
+                        <h2 className="text-sm font-medium">
+                          {permission.name}
+                        </h2>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center">
                       <div>
-                        <h2 className="text-sm font-medium">{permission.request_type}</h2>
+                        <h2 className="text-sm font-medium">
+                          {permission.request_type}
+                        </h2>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center">
                       <div>
-                        <h2 className="text-sm font-medium">{permission.service_name}</h2>
+                        <h2 className="text-sm font-medium">
+                          {permission.service_name}
+                        </h2>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center">
                       <div>
-                        <h2 className="text-sm font-medium">{permission.end_point}</h2>
+                        <h2 className="text-sm font-medium">
+                          {permission.end_point}
+                        </h2>
                       </div>
                     </div>
                   </TableCell>
@@ -80,7 +97,12 @@ const ManagePermissionsTable = ({ permissions, setAllowed, filterText, setFilter
                       {/* <input className="toggle-button" type="checkbox" value={showHide} onClick={handleShow} /> */}
                       <Switch
                         disabled={
-                          hasPermission(PAGE_ROLE_PERMISSION_MANAGEMENT, "setRolePermissions") ? false : true
+                          hasPermission(
+                            PAGE_ROLE_PERMISSION_MANAGEMENT,
+                            "setRolePermissions"
+                          )
+                            ? false
+                            : true
                         }
                         key={permission.id}
                         checked={permission.isAllowed}

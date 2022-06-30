@@ -28,7 +28,7 @@ function MyProductFromOrderB2C(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [count, setCount] = useState(0);
   const [data, setData] = useState([]);
-  const [flg, setFlg] = useState(1);
+
   const [filter, setFilter] = useState("");
   const [update, setUpdate] = useState(false);
   const [storeProducts, setStoreProducts] = useState([]);

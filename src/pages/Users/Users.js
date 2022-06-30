@@ -34,7 +34,7 @@ import { useHistory } from "react-router-dom";
 
 function UsersRole() {
   // Declare a new state variable, which we'll call "count"
-  const [count, setCount] = useState(0);
+
   const [userList, setUserList] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [currentPageSize, setCurrentPageSize] = useState(15);

@@ -306,7 +306,6 @@ function Zone() {
   const [editFlg, seteditFlg] = useState(false);
   const [editId, seteditId] = useState(null);
   const [mapLayers, setMapLayers] = useState([]);
-  const [mapLayer, setMapLayer] = useState([]);
 
   const openModal = (flg, id) => {
     seteditFlg(flg);
@@ -334,7 +333,7 @@ function Zone() {
     apiService
       .post("b2b", ADD_ZONE_TO_LIST_URL, payload)
       .then((response) => {
-        let res = _.get(response, "data.polygons", {});
+        // let res = _.get(response, "data.polygons", {});
         notifySuccess("Zone Added");
         setIsLoading(false);
         getZoneList();
@@ -380,8 +379,6 @@ function Zone() {
   const createZone = () => {
     editId != null ? updateZone() : addZone();
   };
-
-  const mapRef = useRef();
 
   const getPolygon = (pts, status) => {
     var i;
@@ -546,7 +543,6 @@ function Zone() {
 
   const currentZones = JSON.stringify(zones);
   const prevZone = usePrevious(zones);
-  const isZoneStateChanged = currentZones === JSON.stringify(prevZone);
 
   let getAutoComplete = () => {
     return (

@@ -1,12 +1,17 @@
 import Axios from "axios";
 
 export const SERVER_HOST = getBaseUrl();
-export const SERVER_HOST_LINK = "https://test-payment.baqaala.com/b2b/orders/supplier/doc"
-export const SERVER_HOST_LINK2 = "https://test-payment.baqaala.com/b2b/orders/seller/doc"
+export const SERVER_HOST_LINK =
+  "https://test-payment.baqaala.com/b2b/orders/supplier/doc";
+export const SERVER_HOST_LINK2 =
+  "https://test-payment.baqaala.com/b2b/orders/seller/doc";
 export const IMAGE_URL_SERVER_HOST = null;
 
 function getBaseUrl() {
-  if (process.env.REACT_APP_NODE_ENV !== undefined && process.env.REACT_APP_NODE_ENV === "local") {
+  if (
+    process.env.REACT_APP_NODE_ENV !== undefined &&
+    process.env.REACT_APP_NODE_ENV === "local"
+  ) {
     return {
       b2b: "https://itsok.support/api/v1",
       user_service: "https://itsok.support:3001/api/v1",
@@ -90,4 +95,5 @@ export const apiServiceAuth = {
   },
 };
 
-export const defaultImage = "https://cdn.pixabay.com/photo/2017/11/10/05/24/add-2935429_960_720.png";
+export const defaultImage =
+  "https://cdn.pixabay.com/photo/2017/11/10/05/24/add-2935429_960_720.png";
