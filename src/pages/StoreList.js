@@ -119,7 +119,7 @@ function StoreList() {
   const GET_STORE_LIST = `/admin/all-stores`;
   const history = useHistory();
   const [update, setUpdate] = useState(true);
-  const storeTypeOptions = ["ALL", "SUPPLIER", "SELLER"];
+
   const [storeType, setStoreType] = useState(
     process.env.REACT_APP_PRODUCT_ENV === "B2C" ? "SELLER" : "ALL"
   );

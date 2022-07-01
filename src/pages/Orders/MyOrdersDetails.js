@@ -41,7 +41,7 @@ import { useHistory, useLocation } from "react-router-dom";
 
 function MyOrdersDetails(props) {
   const location = useLocation();
-  const dispatch = useDispatch();
+
   const [count, setCount] = useState(0);
   const [order, setOrder] = useState(null);
   const history = useHistory();
